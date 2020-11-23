@@ -1,17 +1,8 @@
-//
-//  NavViewController.swift
-//  Stickerboard
-//
-//  Created by Andrew Sun on 11/21/20.
-//
-
-import Foundation
 import UIKit
 
 class NavViewController : UINavigationController {
     override func viewDidLoad() {
         print("viewDidLoad")
-
         self.setViewControllers([MainViewController()], animated: false)
     }
 
