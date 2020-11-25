@@ -17,7 +17,7 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
         // self.nextKeyboardButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right:  8)
         // self.nextKeyboardButton.sizeToFit()
         // self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        // self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)),  for: //.allTouchEvents)
+        // self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
         // self.inputView!.addSubview(self.nextKeyboardButton)
 
         self.stickerView = TouchableTransparentView()

@@ -45,11 +45,10 @@ class StickerCell : UICollectionViewCell {
         self.imageView.image = image
     }
 
-    func setOverlay(animate: Bool) {
-        if animate {
+    func setOverlay(animated: Bool) {
+        if animated {
             UIView.animate(withDuration: 0.25, animations: {
-                self.overlayTopConstraint.constant = -self.overlayView.intrinsicContentSize.height
-                self.layoutIfNeeded()
+                self.setOverlay(animated: false)
             })
         } else {
             self.overlayTopConstraint.constant = -self.overlayView.intrinsicContentSize.height
@@ -57,11 +56,10 @@ class StickerCell : UICollectionViewCell {
         }
     }
 
-    func resetOverlay(animate: Bool) {
-        if animate {
+    func resetOverlay(animated: Bool) {
+        if animated {
             UIView.animate(withDuration: 0.25, animations: {
-                self.overlayTopConstraint.constant = 0
-                self.layoutIfNeeded()
+                self.resetOverlay(animated: false)
             })
         } else {
             self.overlayTopConstraint.constant = 0
