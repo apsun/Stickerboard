@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49200F0725702D5F00DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */; };
+		49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F122570348600DCFB73 /* UIColor+Accent.swift */; };
 		494051B7256A265E00F39865 /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051B6256A265E00F39865 /* NavViewController.swift */; };
 		494051BB256A384D00F39865 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051BA256A384D00F39865 /* main.swift */; };
 		49522A5D25698252007BBEDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49522A5C25698252007BBEDC /* MainViewController.swift */; };
@@ -49,6 +51,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
+		49200F122570348600DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		494051B6256A265E00F39865 /* NavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		494051BA256A384D00F39865 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		49522A5C25698252007BBEDC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -121,14 +125,15 @@
 			children = (
 				49FADD8E25662E5E00493644 /* Stickerboard.entitlements */,
 				49FADD6925662AEB00493644 /* Info.plist */,
+				494051BA256A384D00F39865 /* main.swift */,
 				49FADD5B25662AEA00493644 /* AppDelegate.swift */,
+				49522A5C25698252007BBEDC /* MainViewController.swift */,
+				494051B6256A265E00F39865 /* NavViewController.swift */,
+				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
 				49DD645A256B577D00E73195 /* StickerCell.swift */,
 				49DD645B256B577D00E73195 /* StickerCollectionViewController.swift */,
 				49DD645C256B577D00E73195 /* TouchableTransparentView.swift */,
-				49522A5C25698252007BBEDC /* MainViewController.swift */,
-				494051BA256A384D00F39865 /* main.swift */,
-				494051B6256A265E00F39865 /* NavViewController.swift */,
-				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
+				49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */,
 				49FADD6425662AEB00493644 /* Assets.xcassets */,
 			);
 			path = Stickerboard;
@@ -142,6 +147,7 @@
 				49DD6409256AC02800E73195 /* StickerCell.swift */,
 				49DD6403256AB89700E73195 /* StickerCollectionViewController.swift */,
 				49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */,
+				49200F122570348600DCFB73 /* UIColor+Accent.swift */,
 				49DD642D256B090D00E73195 /* Assets.xcassets */,
 			);
 			path = Keyboard;
@@ -254,6 +260,7 @@
 				49DD645F256B577D00E73195 /* TouchableTransparentView.swift in Sources */,
 				49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */,
 				49DD645E256B577D00E73195 /* StickerCollectionViewController.swift in Sources */,
+				49200F0725702D5F00DCFB73 /* UIColor+Accent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +271,7 @@
 				49DD6439256B1B1800E73195 /* StickerCell.swift in Sources */,
 				49DD6436256B1B1200E73195 /* StickerCollectionViewController.swift in Sources */,
 				49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */,
+				49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */,
 				49FADD7725662B0100493644 /* KeyboardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

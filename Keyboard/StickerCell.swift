@@ -20,8 +20,8 @@ class StickerCell : UICollectionViewCell {
         ])
 
         self.addSubview(self.overlayView)
-        self.overlayView.backgroundColor = .systemIndigo
-        self.overlayView.textColor = .white
+        self.overlayView.backgroundColor = .accent
+        self.overlayView.textColor = .accentedLabel
         self.overlayView.textAlignment = .center
         self.overlayView.text = "Copied!"
         self.overlayView.translatesAutoresizingMaskIntoConstraints = false
