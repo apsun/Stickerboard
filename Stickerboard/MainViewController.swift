@@ -4,6 +4,7 @@ class MainViewController : UIViewController, StickerCollectionViewDelegate {
     var testTextField: UITextField!
     var stickerView: TouchableTransparentView!
     var stickerCollectionViewController: StickerCollectionViewController!
+    var importButton: UIButton!
 
 
     override func loadView() {
@@ -47,6 +48,25 @@ class MainViewController : UIViewController, StickerCollectionViewDelegate {
                 constant: 8
             )
         ])
+
+        self.importButton = UIButton(type: .system)
+        self.importButton.setTitle("Import stickers", for: .normal)
+        self.importButton.addTarget(self, action: #selector(importStickersButtonClicked), for: .touchUpInside)
+        self.importButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.importButton)
+        NSLayoutConstraint.activate([
+            self.importButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8),
+            self.importButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
+            self.importButton.topAnchor.constraint(
+                equalTo: self.testTextField.bottomAnchor,
+                constant: 8
+            )
+        ])
+    }
+
+    @objc
+    func importStickersButtonClicked() {
+        try! StickerManager(fileManager: FileManager.default).importStickers()
     }
 
     func stickerCollectionView(

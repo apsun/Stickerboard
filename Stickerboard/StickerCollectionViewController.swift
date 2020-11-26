@@ -15,37 +15,8 @@ class StickerCollectionViewController
     private var lastSelectedStickerIndex: IndexPath?
     private var overlayAutoHideWork: DispatchWorkItem?
     private let reuseIdentifier = "StickerCell"
-    private let stickers = [
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-        UIImage(named: "TestSticker1")!,
-    ]
+    private let stickerManager: StickerManager
+    private let stickers: [UIImage]
 
     init() {
         let layout = UICollectionViewCompositionalLayout(sectionProvider: { (
@@ -77,6 +48,13 @@ class StickerCollectionViewController
             section.contentInsets = insets
             return section
         })
+        self.stickerManager = StickerManager(fileManager: FileManager.default)
+        let stickerURLs = try! self.stickerManager.loadStickers()
+        var stickers = [UIImage]()
+        for stickerURL in stickerURLs {
+            stickers.append(UIImage(contentsOfFile: stickerURL.path)!)
+        }
+        self.stickers = stickers
         super.init(collectionViewLayout: layout)
     }
 
