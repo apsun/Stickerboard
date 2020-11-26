@@ -7,6 +7,7 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
 
     override func loadView() {
         super.loadView()
+
         // let globe = UIImage(systemName: "globe")!
         // self.nextKeyboardButton = UIButton(type: .system)
         // self.nextKeyboardButton.setImage(globe, for: .normal)
@@ -18,13 +19,20 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
         // self.nextKeyboardButton.sizeToFit()
         // self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         // self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        // self.inputView!.addSubview(self.nextKeyboardButton)
+        // self.view.addSubview(self.nextKeyboardButton)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Unless we explicitly set a height for the keyboard view, it will
+        // randomly change sizes for no apparent reason.
+        self.view.heightAnchor.constraint(equalToConstant: 216).isActive = true
 
         self.stickerView = TouchableTransparentView()
         self.view.addSubview(self.stickerView)
         self.stickerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.stickerView.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.stickerView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             self.stickerView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
         ])
@@ -49,14 +57,11 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
         didSelect sticker: UIImage
     ) {
         UIPasteboard.general.image = sticker
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+
+        // Hack to make the next keyboard button go to the previously selected
+        // keyboard instead of the next one (iOS seems go to the next one only
+        // if you didn't input anything with the keyboard)
+        self.textDocumentProxy.insertText("")
     }
     
     override func textWillChange(_ textInput: UITextInput?) {

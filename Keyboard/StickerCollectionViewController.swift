@@ -48,27 +48,35 @@ class StickerCollectionViewController
     ]
 
     init() {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.25),
-            heightDimension: .fractionalHeight(1.0)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+        let layout = UICollectionViewCompositionalLayout(sectionProvider: { (
+            sectionIndex: Int,
+            layoutEnvironment: NSCollectionLayoutEnvironment
+        ) -> NSCollectionLayoutSection? in
+            let width = layoutEnvironment.container.effectiveContentSize.width
+            let columns = max(Int(width / 96), 1)
+            let insets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
 
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(0.25)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
-            count: 4
-        )
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0 / CGFloat(columns)),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = insets
 
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalWidth(1.0 / CGFloat(columns))
+            )
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitem: item,
+                count: columns
+            )
 
-        let layout = UICollectionViewCompositionalLayout(section: section)
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = insets
+            return section
+        })
         super.init(collectionViewLayout: layout)
     }
 
@@ -79,12 +87,6 @@ class StickerCollectionViewController
 
     required init?(coder: NSCoder) {
         abort()
-    }
-
-    override var collectionViewLayout: UICollectionViewFlowLayout {
-        get {
-            return super.collectionViewLayout as! UICollectionViewFlowLayout
-        }
     }
 
     override func viewDidLoad() {

@@ -36,6 +36,7 @@ class MainViewController : UIViewController, StickerCollectionViewDelegate {
         self.stickerCollectionViewController.didMove(toParent: self)
 
         self.testTextField = UITextField()
+        self.testTextField.allowsEditingTextAttributes = true
         self.testTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.testTextField)
         NSLayoutConstraint.activate([
