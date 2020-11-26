@@ -4,6 +4,7 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
     var nextKeyboardButton: UIButton!
     var stickerView: UIView!
     var stickerCollectionViewController: StickerCollectionViewController!
+    var needFullAccessView: UILabel!
 
     override func loadView() {
         super.loadView()
@@ -28,6 +29,24 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
         // Unless we explicitly set a height for the keyboard view, it will
         // randomly change sizes for no apparent reason.
         self.view.heightAnchor.constraint(equalToConstant: 216).isActive = true
+
+        if !self.hasFullAccess {
+            self.needFullAccessView = UILabel()
+            self.view.addSubview(self.needFullAccessView)
+            self.needFullAccessView.numberOfLines = 0
+            self.needFullAccessView.lineBreakMode = .byClipping
+            self.needFullAccessView.adjustsFontSizeToFitWidth = true
+            self.needFullAccessView.text = "Please enable full access in the iOS keyboard settings in order to use this app\n\n→ Settings\n→ Stickerboard\n→ Keyboards\n→ Allow Full Access"
+            self.needFullAccessView.textAlignment = .center
+            self.needFullAccessView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                self.needFullAccessView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
+                self.needFullAccessView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20),
+                self.needFullAccessView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+                self.needFullAccessView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            ])
+            return
+        }
 
         self.stickerView = TouchableTransparentView()
         self.view.addSubview(self.stickerView)
