@@ -36,14 +36,26 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
             self.needFullAccessView.numberOfLines = 0
             self.needFullAccessView.lineBreakMode = .byClipping
             self.needFullAccessView.adjustsFontSizeToFitWidth = true
-            self.needFullAccessView.text = "Please enable full access in the iOS keyboard settings in order to use this app\n\n→ Settings\n→ Stickerboard\n→ Keyboards\n→ Allow Full Access"
+            self.needFullAccessView.text = """
+                Please enable full access in the iOS keyboard settings in order to use this app
+
+                → Settings
+                → General
+                → Keyboards
+                → Stickerboard
+                → Allow Full Access
+                """
             self.needFullAccessView.textAlignment = .center
             self.needFullAccessView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                self.needFullAccessView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
-                self.needFullAccessView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20),
-                self.needFullAccessView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-                self.needFullAccessView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+                self.needFullAccessView.topAnchor.constraint(
+                    equalTo: self.view.topAnchor, constant: 20),
+                self.needFullAccessView.bottomAnchor.constraint(
+                    equalTo: self.view.bottomAnchor, constant: -20),
+                self.needFullAccessView.leadingAnchor.constraint(
+                    equalTo: self.view.leadingAnchor, constant: 20),
+                self.needFullAccessView.trailingAnchor.constraint(
+                    equalTo: self.view.trailingAnchor, constant: -20),
             ])
             return
         }
