@@ -53,7 +53,7 @@ class StickerCollectionViewController
             layoutEnvironment: NSCollectionLayoutEnvironment
         ) -> NSCollectionLayoutSection? in
             let width = layoutEnvironment.container.effectiveContentSize.width
-            let columns = max(Int(width / 96), 1)
+            let columns = max(Int(width / 88), 1)
             let insets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
 
             let itemSize = NSCollectionLayoutSize(
