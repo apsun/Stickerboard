@@ -1,11 +1,10 @@
 import UIKit
 
-class MainViewController : UIViewController, StickerCollectionViewDelegate {
-    var testTextField: UITextField!
+class MainViewController : UIViewController, StickerPickerViewDelegate {
     var stickerView: TouchableTransparentView!
-    var stickerCollectionViewController: StickerCollectionViewController!
+    var stickerPickerViewController: StickerPickerViewController!
+    var testTextField: UITextField!
     var importButton: UIButton!
-
 
     override func loadView() {
         print("loadView")
@@ -22,27 +21,27 @@ class MainViewController : UIViewController, StickerCollectionViewDelegate {
             self.stickerView.heightAnchor.constraint(equalToConstant: 400),
         ])
 
-        self.stickerCollectionViewController = StickerCollectionViewController(delegate: self)
-        self.addChild(self.stickerCollectionViewController)
-        self.stickerView.addSubview(self.stickerCollectionViewController.view)
-        self.stickerCollectionViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        self.stickerPickerViewController = StickerPickerViewController(delegate: self)
+        self.addChild(self.stickerPickerViewController)
+        self.stickerView.addSubview(self.stickerPickerViewController.view)
+        self.stickerPickerViewController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.stickerCollectionViewController.view.widthAnchor.constraint(
+            self.stickerPickerViewController.view.widthAnchor.constraint(
                 equalTo: self.stickerView.widthAnchor
             ),
-            self.stickerCollectionViewController.view.heightAnchor.constraint(
+            self.stickerPickerViewController.view.heightAnchor.constraint(
                 equalTo: self.stickerView.heightAnchor
             ),
         ])
-        self.stickerCollectionViewController.didMove(toParent: self)
+        self.stickerPickerViewController.didMove(toParent: self)
 
         self.testTextField = UITextField()
         self.testTextField.allowsEditingTextAttributes = true
         self.testTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.testTextField)
         NSLayoutConstraint.activate([
-            self.testTextField.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8),
-            self.testTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
+            self.testTextField.leftAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leftAnchor),
+            self.testTextField.rightAnchor.constraint(equalTo: self.view.layoutMarginsGuide.rightAnchor),
             self.testTextField.topAnchor.constraint(
                 equalTo: self.stickerView.bottomAnchor,
                 constant: 8
@@ -66,14 +65,17 @@ class MainViewController : UIViewController, StickerCollectionViewDelegate {
 
     @objc
     func importStickersButtonClicked() {
-        try! StickerDirectoryManager.main.importFromDocuments()
+        try! StickerFileManager.main.importFromDocuments()
+        let packs = try! StickerFileManager.main.stickerPacks()
+        self.stickerPickerViewController.stickerPack = packs[0]
     }
 
-    func stickerCollectionView(
-        _ sender: StickerCollectionViewController,
-        didSelect stickerURL: URL
+    func stickerPickerView(
+        _ sender: StickerPickerViewController,
+        didSelect stickerFile: StickerFile,
+        inPack stickerPack: StickerPack
     ) {
-        UIPasteboard.general.image = UIImage(contentsOfFile: stickerURL.path)
+        UIPasteboard.general.image = UIImage(contentsOfFile: stickerFile.url.path)
     }
 
     override func viewDidLoad() {
