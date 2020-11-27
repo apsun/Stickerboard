@@ -95,16 +95,17 @@ class StickerCollectionViewController
     ) {
         let cell = cell as! StickerCell
         let imageURL = self.stickerURLs[indexPath.item]
-        cell.setImage(url: imageURL, image: nil)
-        self.stickerLoader.load(
+        let params = StickerImageParams(
             imageURL: imageURL,
             pointSize: cell.bounds.size,
-            scale: UIScreen.main.scale,
+            scale: UIScreen.main.scale
+        )
+
+        cell.beginSetImage(params: params)
+        self.stickerLoader.loadAsync(
+            params: params,
             callback: { (image: UIImage) in
-                // Ensure cell hasn't been recycled while we were loading
-                if cell.imageURL == imageURL {
-                    cell.setImage(url: imageURL, image: image)
-                }
+                cell.commitSetImage(params: params, image: image)
             }
         )
 
@@ -122,7 +123,28 @@ class StickerCollectionViewController
         for indexPath in indexPaths {
             let imageURL = self.stickerURLs[indexPath.item]
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
-            self.stickerLoader.load(imageURL: imageURL, pointSize: size, scale: UIScreen.main.scale)
+            let params = StickerImageParams(
+                imageURL: imageURL,
+                pointSize: size,
+                scale: UIScreen.main.scale
+            )
+            self.stickerLoader.loadAsync(params: params)
+        }
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cancelPrefetchingForItemsAt indexPaths: [IndexPath]
+    ) {
+        for indexPath in indexPaths {
+            let imageURL = self.stickerURLs[indexPath.item]
+            let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
+            let params = StickerImageParams(
+                imageURL: imageURL,
+                pointSize: size,
+                scale: UIScreen.main.scale
+            )
+            self.stickerLoader.cancelLoad(params: params)
         }
     }
 

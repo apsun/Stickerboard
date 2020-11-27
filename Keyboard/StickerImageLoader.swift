@@ -8,7 +8,7 @@ extension CGSize: Hashable {
     }
 }
 
-struct StickerImageParams: Hashable {
+struct StickerImageParams: Hashable, CustomDebugStringConvertible {
     let imageURL: URL
     let pointSize: CGSize
     let scale: CGFloat
@@ -24,12 +24,19 @@ struct StickerImageParams: Hashable {
         hasher.combine(self.pointSize)
         hasher.combine(self.scale)
     }
+
+    var debugDescription: String {
+        return "\(self.imageURL.relativePath) @ \(self.pointSize) \(self.scale)x"
+    }
 }
 
 class StickerImageLoader {
-    private let queue = OperationQueue()
+    private let decodeQueue = DispatchQueue(
+        label: "com.crossbowffs.stickerboard.decodequeue",
+        qos: .userInitiated
+    )
     private var cache = Cache<StickerImageParams, UIImage>()
-    private var callbacks = [StickerImageParams: (UIImage) -> Void]()
+    private var callbacks = [StickerImageParams: [(UIImage) -> Void]]()
 
     /**
      * Loads the specified image, downsampling it to the given size for use
@@ -37,24 +44,39 @@ class StickerImageLoader {
      * the given size is already in the cache; otherwise, asynchronously loads
      * the image and calls the callback once the image is ready.
      */
-    func load(
-        imageURL: URL,
-        pointSize: CGSize,
-        scale: CGFloat,
+    func loadAsync(
+        params: StickerImageParams,
         callback: ((UIImage) -> Void)? = nil
     ) {
-        let params = StickerImageParams(imageURL: imageURL, pointSize: pointSize, scale: scale)
-
         if let image = self.cache[params] {
             callback?(image)
             return
         }
 
-        // TODO: Asyncify this
-        let image = StickerImageLoader.loadSync(params: params)
+        if callback != nil {
+            var callbacks = self.callbacks[params, default: []]
+            callbacks.append(callback!)
+            self.callbacks[params] = callbacks
+        }
 
-        self.cache[params] = image
-        callback?(image)
+        self.decodeQueue.async {
+            let image = StickerImageLoader.loadSync(params: params)
+            DispatchQueue.main.async {
+                self.cache[params] = image
+                if let callbacks = self.callbacks.removeValue(forKey: params) {
+                    for callback in callbacks {
+                        callback(image)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Cancels any asynchronous loads in progress for the specified image.
+     */
+    func cancelLoad(params: StickerImageParams) {
+        // TODO
     }
 
     /**
