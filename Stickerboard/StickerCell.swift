@@ -1,11 +1,13 @@
 import UIKit
 
 class StickerCell : UICollectionViewCell {
+    var imageURL: URL?
     var imageView: UIImageView
     var overlayView: UILabel
     var overlayTopConstraint: NSLayoutConstraint!
 
     override init(frame: CGRect) {
+        self.imageURL = nil
         self.imageView = UIImageView()
         self.overlayView = UILabel()
         super.init(frame: frame)
@@ -41,8 +43,9 @@ class StickerCell : UICollectionViewCell {
         abort()
     }
 
-    func setImage(image: UIImage) {
-        self.imageView.image = image
+    func setImage(url: URL?, image: UIImage?) {
+        self.imageURL = url
+        self.imageView.image = image // TODO: placeholder image?
     }
 
     func setOverlay(animated: Bool) {

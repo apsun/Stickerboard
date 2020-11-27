@@ -5,10 +5,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = documentDir.appendingPathComponent("README.txt")
-        let content = "Copy your files to this directory."
-        try! content.write(to: filePath, atomically: true, encoding: .utf8)
+        try! StickerDirectoryManager.main.ensureReadmeFileExists()
         return true
     }
 }

@@ -66,14 +66,14 @@ class MainViewController : UIViewController, StickerCollectionViewDelegate {
 
     @objc
     func importStickersButtonClicked() {
-        try! StickerManager(fileManager: FileManager.default).importStickers()
+        try! StickerDirectoryManager.main.importFromDocuments()
     }
 
     func stickerCollectionView(
         _ sender: StickerCollectionViewController,
-        didSelect sticker: UIImage
+        didSelect stickerURL: URL
     ) {
-        UIPasteboard.general.image = sticker
+        UIPasteboard.general.image = UIImage(contentsOfFile: stickerURL.path)
     }
 
     override func viewDidLoad() {

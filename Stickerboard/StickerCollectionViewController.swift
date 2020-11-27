@@ -3,22 +3,25 @@ import UIKit
 protocol StickerCollectionViewDelegate : class {
     func stickerCollectionView(
         _ sender: StickerCollectionViewController,
-        didSelect sticker: UIImage
+        didSelect stickerURL: URL
     )
 }
 
 class StickerCollectionViewController
     : UICollectionViewController
     , UICollectionViewDelegateFlowLayout
+    , UICollectionViewDataSourcePrefetching
 {
-    weak var delegate: StickerCollectionViewDelegate?
+    private static let reuseIdentifier = "StickerCell"
+    private let stickerURLs: [URL]
+    private let stickerLoader: StickerImageLoader
     private var lastSelectedStickerIndex: IndexPath?
-    private var overlayAutoHideWork: DispatchWorkItem?
-    private let reuseIdentifier = "StickerCell"
-    private let stickerManager: StickerManager
-    private let stickers: [UIImage]
+    private var overlayAutoHideTask: DispatchWorkItem?
+    private weak var delegate: StickerCollectionViewDelegate?
 
     init() {
+        self.stickerURLs = try! StickerDirectoryManager.main.importedStickerURLs()
+        self.stickerLoader = StickerImageLoader()
         let layout = UICollectionViewCompositionalLayout(sectionProvider: { (
             sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment
@@ -48,13 +51,6 @@ class StickerCollectionViewController
             section.contentInsets = insets
             return section
         })
-        self.stickerManager = StickerManager(fileManager: FileManager.default)
-        let stickerURLs = try! self.stickerManager.loadStickers()
-        var stickers = [UIImage]()
-        for stickerURL in stickerURLs {
-            stickers.append(UIImage(contentsOfFile: stickerURL.path)!)
-        }
-        self.stickers = stickers
         super.init(collectionViewLayout: layout)
     }
 
@@ -70,7 +66,7 @@ class StickerCollectionViewController
     override func viewDidLoad() {
         self.collectionView.register(
             StickerCell.self,
-            forCellWithReuseIdentifier: self.reuseIdentifier
+            forCellWithReuseIdentifier: StickerCollectionViewController.reuseIdentifier
         )
         self.collectionView.backgroundColor = .clear
     }
@@ -79,7 +75,7 @@ class StickerCollectionViewController
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return self.stickers.count
+        return self.stickerURLs.count
     }
 
     override func collectionView(
@@ -87,7 +83,7 @@ class StickerCollectionViewController
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         return collectionView.dequeueReusableCell(
-            withReuseIdentifier: self.reuseIdentifier,
+            withReuseIdentifier: StickerCollectionViewController.reuseIdentifier,
             for: indexPath
         )
     }
@@ -98,7 +94,20 @@ class StickerCollectionViewController
         forItemAt indexPath: IndexPath
     ) {
         let cell = cell as! StickerCell
-        cell.setImage(image: self.stickers[indexPath.item])
+        let imageURL = self.stickerURLs[indexPath.item]
+        cell.setImage(url: imageURL, image: nil)
+        self.stickerLoader.load(
+            imageURL: imageURL,
+            pointSize: cell.bounds.size,
+            scale: UIScreen.main.scale,
+            callback: { (image: UIImage) in
+                // Ensure cell hasn't been recycled while we were loading
+                if cell.imageURL == imageURL {
+                    cell.setImage(url: imageURL, image: image)
+                }
+            }
+        )
+
         if self.lastSelectedStickerIndex == indexPath {
             cell.setOverlay(animated: false)
         } else {
@@ -106,26 +115,37 @@ class StickerCollectionViewController
         }
     }
 
+    func collectionView(
+        _ collectionView: UICollectionView,
+        prefetchItemsAt indexPaths: [IndexPath]
+    ) {
+        for indexPath in indexPaths {
+            let imageURL = self.stickerURLs[indexPath.item]
+            let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
+            self.stickerLoader.load(imageURL: imageURL, pointSize: size, scale: UIScreen.main.scale)
+        }
+    }
+
     override func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        self.overlayAutoHideWork?.cancel()
-        self.overlayAutoHideWork = DispatchWorkItem(block: {
+        self.overlayAutoHideTask?.cancel()
+        self.overlayAutoHideTask = DispatchWorkItem(block: {
             self.collectionView.deselectItem(at: indexPath, animated: true)
             self.collectionView(self.collectionView, didDeselectItemAt: indexPath)
         })
         DispatchQueue.main.asyncAfter(
             deadline: DispatchTime.now() + 3,
-            execute: self.overlayAutoHideWork!
+            execute: self.overlayAutoHideTask!
         )
 
         let cell = self.collectionView.cellForItem(at: indexPath) as! StickerCell
         cell.setOverlay(animated: true)
         self.lastSelectedStickerIndex = indexPath
 
-        let image = self.stickers[indexPath.item]
-        self.delegate?.stickerCollectionView(self, didSelect: image)
+        let url = self.stickerURLs[indexPath.item]
+        self.delegate?.stickerCollectionView(self, didSelect: url)
     }
 
     override func collectionView(

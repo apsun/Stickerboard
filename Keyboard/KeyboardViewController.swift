@@ -85,9 +85,9 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
 
     func stickerCollectionView(
         _ sender: StickerCollectionViewController,
-        didSelect sticker: UIImage
+        didSelect stickerURL: URL
     ) {
-        UIPasteboard.general.image = sticker
+        UIPasteboard.general.image = UIImage(contentsOfFile: stickerURL.path)
 
         // Hack to make the next keyboard button go to the previously selected
         // keyboard instead of the next one (iOS seems go to the next one only
