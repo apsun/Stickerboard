@@ -5,6 +5,8 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
     var stickerView: UIView!
     var stickerCollectionViewController: StickerCollectionViewController!
     var needFullAccessView: UILabel!
+    var heightConstraint: NSLayoutConstraint?
+    var widthConstraint: NSLayoutConstraint?
 
     override func loadView() {
         super.loadView()
@@ -26,9 +28,7 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Unless we explicitly set a height for the keyboard view, it will
-        // randomly change sizes for no apparent reason.
-        self.view.heightAnchor.constraint(equalToConstant: 216).isActive = true
+        self.view.translatesAutoresizingMaskIntoConstraints = false
 
         if !self.hasFullAccess {
             self.needFullAccessView = UILabel()
@@ -81,6 +81,29 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
             ),
         ])
         self.stickerCollectionViewController.didMove(toParent: self)
+    }
+
+    override func updateViewConstraints() {
+        // As seen in: https://stackoverflow.com/questions/39694039
+        // Basically, it seems that the parent view resizes its height to fit
+        // the keyboard contents, which means that constraining our own height
+        // to equal the parent height will cause a chicken and egg problem.
+        // Thus, we need to set an explicit keyboard height ourselves.
+        //
+        // Since we're disabling autoresizing mask constraints, we need to also
+        // set the width to equal the parent, which we won't know in viewDidLoad.
+        // Hence we're adding the constraints here, where the superview is known.
+        if self.heightConstraint == nil {
+            self.heightConstraint = self.view.heightAnchor.constraint(equalToConstant: 261)
+            self.heightConstraint!.isActive = true
+        }
+        if self.widthConstraint == nil {
+            self.widthConstraint = self.view.widthAnchor.constraint(
+                equalTo: self.view.superview!.widthAnchor
+            )
+            self.widthConstraint!.isActive = true
+        }
+        super.updateViewConstraints()
     }
 
     func stickerCollectionView(
