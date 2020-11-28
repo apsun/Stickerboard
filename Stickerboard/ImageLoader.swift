@@ -51,16 +51,30 @@ class ImageLoader {
         params: ImageLoaderParams,
         callback: ((UIImage) -> Void)? = nil
     ) {
+        // If the image is already in our cache, just immediately invoke
+        // the callback and return.
+        //
+        // TODO: Maybe this should be invoked asynchronously on the main
+        // event loop?
         if let image = self.cache[params] {
             callback?(image)
             return
         }
 
-        if callback != nil {
-            var callbacks = self.callbacks[params, default: []]
-            callbacks.append(callback!)
-            self.callbacks[params] = callbacks
+        // If someone already submitted a request for this image, just
+        // piggyback off their request instead of making a new one.
+        if var callbacks = self.callbacks[params] {
+            if let callback = callback {
+                callbacks.append(callback)
+            }
+            return
         }
+
+        var callbacks = [(UIImage) -> Void]()
+        if let callback = callback {
+            callbacks.append(callback)
+        }
+        self.callbacks[params] = callbacks
 
         self.decodeQueue.async {
             let image = ImageLoader.loadSync(params: params)
