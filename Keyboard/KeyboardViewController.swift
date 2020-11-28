@@ -1,9 +1,9 @@
 import UIKit
 
-class KeyboardViewController: UIInputViewController, StickerCollectionViewDelegate {
+class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
     var nextKeyboardButton: UIButton!
     var stickerView: UIView!
-    var stickerCollectionViewController: StickerCollectionViewController!
+    var stickerPickerViewController: StickerPickerViewController!
     var needFullAccessView: UILabel!
     var heightConstraint: NSLayoutConstraint?
     var widthConstraint: NSLayoutConstraint?
@@ -57,14 +57,15 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
-        self.stickerCollectionViewController = StickerCollectionViewController(delegate: self)
-        self.addChild(self.stickerCollectionViewController)
-        self.stickerView.addSubview(self.stickerCollectionViewController.view)
-        self.stickerCollectionViewController.view
+        self.stickerPickerViewController = StickerPickerViewController(delegate: self)
+        self.addChild(self.stickerPickerViewController)
+        self.stickerView.addSubview(self.stickerPickerViewController.view)
+        self.stickerPickerViewController.view
             .autoLayout()
             .fill(self.stickerView.safeAreaLayoutGuide)
             .activate()
-        self.stickerCollectionViewController.didMove(toParent: self)
+        self.stickerPickerViewController.didMove(toParent: self)
+        self.stickerPickerViewController.stickerPack = try! StickerFileManager.main.singleStickerPack()
     }
 
     override func updateViewConstraints() {
@@ -90,11 +91,12 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
         super.updateViewConstraints()
     }
 
-    func stickerCollectionView(
-        _ sender: StickerCollectionViewController,
-        didSelect stickerURL: URL
+    func stickerPickerView(
+        _ sender: StickerPickerViewController,
+        didSelect stickerFile: StickerFile,
+        inPack stickerPack: StickerPack
     ) {
-        UIPasteboard.general.image = UIImage(contentsOfFile: stickerURL.path)
+        UIPasteboard.general.image = UIImage(contentsOfFile: stickerFile.url.path)
 
         // Hack to make the next keyboard button go to the previously selected
         // keyboard instead of the next one (iOS seems go to the next one only

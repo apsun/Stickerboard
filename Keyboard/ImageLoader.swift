@@ -1,6 +1,9 @@
-import UIKit
 import Foundation
+import UIKit
 
+/**
+ * Adds a Hashable implementation for CGSize.
+ */
 extension CGSize: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.width)
@@ -8,16 +11,13 @@ extension CGSize: Hashable {
     }
 }
 
-struct StickerImageParams: Hashable, CustomDebugStringConvertible {
+/**
+ * Represents the desired image configuration to be loaded.
+ */
+struct ImageLoaderParams: Hashable, CustomDebugStringConvertible {
     let imageURL: URL
     let pointSize: CGSize
     let scale: CGFloat
-
-    init(imageURL: URL, pointSize: CGSize, scale: CGFloat) {
-        self.imageURL = imageURL
-        self.pointSize = pointSize
-        self.scale = scale
-    }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.imageURL.path)
@@ -30,13 +30,16 @@ struct StickerImageParams: Hashable, CustomDebugStringConvertible {
     }
 }
 
-class StickerImageLoader {
+/**
+ * Asynchronously loads, resizes, and caches images from disk.
+ */
+class ImageLoader {
     private let decodeQueue = DispatchQueue(
         label: "com.crossbowffs.stickerboard.decodequeue",
         qos: .userInitiated
     )
-    private var cache = Cache<StickerImageParams, UIImage>()
-    private var callbacks = [StickerImageParams: [(UIImage) -> Void]]()
+    private let cache = Cache<ImageLoaderParams, UIImage>()
+    private var callbacks = [ImageLoaderParams: [(UIImage) -> Void]]()
 
     /**
      * Loads the specified image, downsampling it to the given size for use
@@ -45,7 +48,7 @@ class StickerImageLoader {
      * the image and calls the callback once the image is ready.
      */
     func loadAsync(
-        params: StickerImageParams,
+        params: ImageLoaderParams,
         callback: ((UIImage) -> Void)? = nil
     ) {
         if let image = self.cache[params] {
@@ -60,7 +63,7 @@ class StickerImageLoader {
         }
 
         self.decodeQueue.async {
-            let image = StickerImageLoader.loadSync(params: params)
+            let image = ImageLoader.loadSync(params: params)
             DispatchQueue.main.async {
                 self.cache[params] = image
                 if let callbacks = self.callbacks.removeValue(forKey: params) {
@@ -75,7 +78,7 @@ class StickerImageLoader {
     /**
      * Cancels any asynchronous loads in progress for the specified image.
      */
-    func cancelLoad(params: StickerImageParams) {
+    func cancelLoad(params: ImageLoaderParams) {
         // TODO
     }
 
@@ -85,7 +88,7 @@ class StickerImageLoader {
      *
      * https://developer.apple.com/videos/play/wwdc2018/219/
      */
-    private static func loadSync(params: StickerImageParams) -> UIImage {
+    private static func loadSync(params: ImageLoaderParams) -> UIImage {
         let imageSourceOptions = [
             kCGImageSourceShouldCache: false
         ] as CFDictionary
@@ -97,7 +100,10 @@ class StickerImageLoader {
             kCGImageSourceCreateThumbnailWithTransform: true,
             kCGImageSourceThumbnailMaxPixelSize: maxDimensionPixels
         ] as CFDictionary
-        let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+        guard let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            print("CGImageSourceCreateThumbnailAtIndex failed!")
+            return UIImage(contentsOfFile: params.imageURL.path)!
+        }
         return UIImage(cgImage: image)
     }
 }
