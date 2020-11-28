@@ -100,7 +100,10 @@ class ImageLoader {
             kCGImageSourceCreateThumbnailWithTransform: true,
             kCGImageSourceThumbnailMaxPixelSize: maxDimensionPixels
         ] as CFDictionary
-        let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+        guard let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            print("CGImageSourceCreateThumbnailAtIndex failed!")
+            return UIImage(contentsOfFile: params.imageURL.path)!
+        }
         return UIImage(cgImage: image)
     }
 }

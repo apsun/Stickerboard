@@ -19,6 +19,8 @@
 		494051BB256A384D00F39865 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051BA256A384D00F39865 /* main.swift */; };
 		49522A5D25698252007BBEDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49522A5C25698252007BBEDC /* MainViewController.swift */; };
 		4964E98725717E3B002AFDFE /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E98625717E3B002AFDFE /* StickerModel.swift */; };
+		4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
+		4964E9AF25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9AE25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
 		49DD642E256B090D00E73195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49DD642D256B090D00E73195 /* Assets.xcassets */; };
 		49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */; };
 		49DD6436256B1B1200E73195 /* StickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6403256AB89700E73195 /* StickerCollectionViewController.swift */; };
@@ -70,6 +72,8 @@
 		494051BA256A384D00F39865 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		49522A5C25698252007BBEDC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4964E98625717E3B002AFDFE /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
+		4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
+		4964E9AE25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
 		49DD6403256AB89700E73195 /* StickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewController.swift; sourceTree = "<group>"; };
 		49DD6409256AC02800E73195 /* StickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCell.swift; sourceTree = "<group>"; };
 		49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTransparentView.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 				49200F2B2570B02E00DCFB73 /* ImageLoader.swift */,
 				49DD645C256B577D00E73195 /* TouchableTransparentView.swift */,
 				49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */,
+				4964E9AE25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift */,
 				49FADD6425662AEB00493644 /* Assets.xcassets */,
 			);
 			path = Stickerboard;
@@ -168,6 +173,7 @@
 				49200F472570CBCB00DCFB73 /* StickerImageLoader.swift */,
 				49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */,
 				49200F122570348600DCFB73 /* UIColor+Accent.swift */,
+				4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */,
 				49DD642D256B090D00E73195 /* Assets.xcassets */,
 			);
 			path = Keyboard;
@@ -278,6 +284,7 @@
 				49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */,
 				49200F3C2570C80E00DCFB73 /* Cache.swift in Sources */,
 				494051B7256A265E00F39865 /* NavViewController.swift in Sources */,
+				4964E9AF25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */,
 				49DD645F256B577D00E73195 /* TouchableTransparentView.swift in Sources */,
 				4964E98725717E3B002AFDFE /* StickerModel.swift in Sources */,
 				49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */,
@@ -296,6 +303,7 @@
 				49200F482570CBCB00DCFB73 /* StickerImageLoader.swift in Sources */,
 				49DD6436256B1B1200E73195 /* StickerCollectionViewController.swift in Sources */,
 				49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */,
+				4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */,
 				49200F1F257066D400DCFB73 /* StickerDirectoryManager.swift in Sources */,
 				49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */,
 				49FADD7725662B0100493644 /* KeyboardViewController.swift in Sources */,

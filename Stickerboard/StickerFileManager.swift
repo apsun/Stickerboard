@@ -214,4 +214,19 @@ class StickerFileManager {
 
         return ret
     }
+
+    /**
+     * Similar to stickerPacks(), but forces all of the stickers into a
+     * single sticker pack as if they were in the same directory.
+     *
+     * TODO: For testing purposes only, to be removed
+     */
+    func singleStickerPack() throws -> StickerPack {
+        let urls = try self.recursiveFilesInDirectory(self.stickerDirectoryURL())
+        var stickers = [StickerFile]()
+        for url in urls {
+            stickers.append(StickerFile(name: url.lastPathComponent, url: url))
+        }
+        return StickerPack(path: "", files: stickers)
+    }
 }

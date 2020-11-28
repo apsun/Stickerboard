@@ -14,60 +14,49 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
 
         self.stickerView = TouchableTransparentView()
         self.view.addSubview(self.stickerView)
+        self.stickerView.backgroundColor = .red
         self.stickerView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.stickerView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            self.stickerView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
-            self.stickerView.heightAnchor.constraint(equalToConstant: 400),
-        ])
+        self.stickerView
+            .autoLayout()
+            .fillX(self.view.safeAreaLayoutGuide)
+            .top(self.view.safeAreaLayoutGuide.topAnchor)
+            .height(261)
+            .activate()
 
         self.stickerPickerViewController = StickerPickerViewController(delegate: self)
         self.addChild(self.stickerPickerViewController)
         self.stickerView.addSubview(self.stickerPickerViewController.view)
-        self.stickerPickerViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.stickerPickerViewController.view.widthAnchor.constraint(
-                equalTo: self.stickerView.widthAnchor
-            ),
-            self.stickerPickerViewController.view.heightAnchor.constraint(
-                equalTo: self.stickerView.heightAnchor
-            ),
-        ])
+        self.stickerPickerViewController.view
+            .autoLayout()
+            .fill(self.stickerView.safeAreaLayoutGuide)
+            .activate()
         self.stickerPickerViewController.didMove(toParent: self)
 
         self.testTextField = UITextField()
         self.testTextField.allowsEditingTextAttributes = true
-        self.testTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.testTextField)
-        NSLayoutConstraint.activate([
-            self.testTextField.leftAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leftAnchor),
-            self.testTextField.rightAnchor.constraint(equalTo: self.view.layoutMarginsGuide.rightAnchor),
-            self.testTextField.topAnchor.constraint(
-                equalTo: self.stickerView.bottomAnchor,
-                constant: 8
-            )
-        ])
+        self.testTextField
+            .autoLayout()
+            .fillX(self.view.layoutMarginsGuide)
+            .below(self.stickerPickerViewController.view)
+            .activate()
 
         self.importButton = UIButton(type: .system)
         self.importButton.setTitle("Import stickers", for: .normal)
         self.importButton.addTarget(self, action: #selector(importStickersButtonClicked), for: .touchUpInside)
-        self.importButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.importButton)
-        NSLayoutConstraint.activate([
-            self.importButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8),
-            self.importButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
-            self.importButton.topAnchor.constraint(
-                equalTo: self.testTextField.bottomAnchor,
-                constant: 8
-            )
-        ])
+        self.importButton
+            .autoLayout()
+            .fillX(self.view.layoutMarginsGuide)
+            .below(self.testTextField)
+            .activate()
     }
 
     @objc
     func importStickersButtonClicked() {
         try! StickerFileManager.main.importFromDocuments()
-        let packs = try! StickerFileManager.main.stickerPacks()
-        self.stickerPickerViewController.stickerPack = packs[0]
+        let pack = try! StickerFileManager.main.singleStickerPack()
+        self.stickerPickerViewController.stickerPack = pack
     }
 
     func stickerPickerView(

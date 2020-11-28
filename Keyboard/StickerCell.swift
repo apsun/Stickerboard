@@ -12,28 +12,21 @@ class StickerCell : UICollectionViewCell {
         super.init(frame: frame)
 
         self.addSubview(self.imageView)
-        self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            self.imageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.imageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-        ])
+        self.imageView.autoLayout().fill(self.contentView.safeAreaLayoutGuide).activate()
 
         self.addSubview(self.overlayView)
         self.overlayView.backgroundColor = .accent
         self.overlayView.textColor = .accentedLabel
         self.overlayView.textAlignment = .center
         self.overlayView.text = "Copied!"
-        self.overlayView.translatesAutoresizingMaskIntoConstraints = false
         self.overlayTopConstraint = self.overlayView.topAnchor.constraint(
             equalTo: self.contentView.bottomAnchor
         )
-        NSLayoutConstraint.activate([
-            self.overlayView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.overlayView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-            self.overlayTopConstraint
-        ])
+        self.overlayView
+            .autoLayout()
+            .fillX(self.contentView.safeAreaLayoutGuide)
+            .constraint(self.overlayTopConstraint)
+            .activate()
 
         self.clipsToBounds = true
     }

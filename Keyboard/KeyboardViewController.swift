@@ -46,40 +46,24 @@ class KeyboardViewController: UIInputViewController, StickerCollectionViewDelega
                 → Allow Full Access
                 """
             self.needFullAccessView.textAlignment = .center
-            self.needFullAccessView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                self.needFullAccessView.topAnchor.constraint(
-                    equalTo: self.view.topAnchor, constant: 20),
-                self.needFullAccessView.bottomAnchor.constraint(
-                    equalTo: self.view.bottomAnchor, constant: -20),
-                self.needFullAccessView.leadingAnchor.constraint(
-                    equalTo: self.view.leadingAnchor, constant: 20),
-                self.needFullAccessView.trailingAnchor.constraint(
-                    equalTo: self.view.trailingAnchor, constant: -20),
-            ])
+            self.needFullAccessView.autoLayout().fill(self.view.safeAreaLayoutGuide).activate()
             return
         }
 
         self.stickerView = TouchableTransparentView()
         self.view.addSubview(self.stickerView)
-        self.stickerView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.stickerView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
-            self.stickerView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
-        ])
+        self.stickerView
+            .autoLayout()
+            .fill(self.view.safeAreaLayoutGuide)
+            .activate()
 
         self.stickerCollectionViewController = StickerCollectionViewController(delegate: self)
         self.addChild(self.stickerCollectionViewController)
         self.stickerView.addSubview(self.stickerCollectionViewController.view)
-        self.stickerCollectionViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.stickerCollectionViewController.view.widthAnchor.constraint(
-                equalTo: self.stickerView.widthAnchor
-            ),
-            self.stickerCollectionViewController.view.heightAnchor.constraint(
-                equalTo: self.stickerView.heightAnchor
-            ),
-        ])
+        self.stickerCollectionViewController.view
+            .autoLayout()
+            .fill(self.stickerView.safeAreaLayoutGuide)
+            .activate()
         self.stickerCollectionViewController.didMove(toParent: self)
     }
 
