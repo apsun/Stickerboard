@@ -1,10 +1,23 @@
 import UIKit
 
-class MainViewController : UIViewController, StickerPickerViewDelegate {
+class MainViewController
+    : UIViewController
+    , StickerPickerViewDelegate
+    , UIPageViewControllerDelegate
+{
     var stickerView: TouchableTransparentView!
-    var stickerPickerViewController: StickerPickerViewController!
+    var stickerTabViewController: UIPageViewController!
     var testTextField: UITextField!
     var importButton: UIButton!
+    var stickerTabDataSource: StickerPageViewControllerDataSource!
+
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        willTransitionTo pendingViewControllers: [UIViewController]
+    ) {
+        let viewController = pendingViewControllers[0] as! StickerPickerViewController
+        print(viewController.stickerPack.name)
+    }
 
     override func loadView() {
         print("loadView")
@@ -21,14 +34,20 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
             .height(261)
             .activate()
 
-        self.stickerPickerViewController = StickerPickerViewController(delegate: self)
-        self.addChild(self.stickerPickerViewController)
-        self.stickerView.addSubview(self.stickerPickerViewController.view)
-        self.stickerPickerViewController.view
+        self.stickerTabViewController = UIPageViewController(
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal
+        )
+        self.addChild(self.stickerTabViewController)
+        self.stickerView.addSubview(self.stickerTabViewController.view)
+        self.stickerTabViewController.view
             .autoLayout()
             .fill(self.stickerView.safeAreaLayoutGuide)
             .activate()
-        self.stickerPickerViewController.didMove(toParent: self)
+        self.stickerTabViewController.didMove(toParent: self)
+        let appearance = UIPageControl.appearance()
+        appearance.pageIndicatorTintColor = UIColor.systemFill
+        appearance.currentPageIndicatorTintColor = UIColor.accent
 
         self.testTextField = UITextField()
         self.testTextField.allowsEditingTextAttributes = true
@@ -36,7 +55,7 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
         self.testTextField
             .autoLayout()
             .fillX(self.view.layoutMarginsGuide)
-            .below(self.stickerPickerViewController.view)
+            .below(self.stickerTabViewController.view)
             .activate()
 
         self.importButton = UIButton(type: .system)
@@ -48,13 +67,35 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
             .fillX(self.view.layoutMarginsGuide)
             .below(self.testTextField)
             .activate()
+
+        let stickerPacks = try! StickerFileManager.main.stickerPacks()
+        self.stickerTabDataSource = StickerPageViewControllerDataSource(
+            stickerPacks: stickerPacks,
+            stickerDelegate: self
+        )
+        self.stickerTabViewController.delegate = self
+        self.stickerTabViewController.dataSource = self.stickerTabDataSource
+        self.stickerTabViewController.setViewControllers(
+            [self.stickerTabDataSource.initialViewController()],
+            direction: .forward,
+            animated: false
+        )
     }
 
     @objc
     func importStickersButtonClicked() {
         try! StickerFileManager.main.importFromDocuments()
-        let pack = try! StickerFileManager.main.singleStickerPack()
-        self.stickerPickerViewController.stickerPack = pack
+        let stickerPacks = try! StickerFileManager.main.stickerPacks()
+        self.stickerTabDataSource = StickerPageViewControllerDataSource(
+            stickerPacks: stickerPacks,
+            stickerDelegate: self
+        )
+        self.stickerTabViewController.dataSource = self.stickerTabDataSource
+        self.stickerTabViewController.setViewControllers(
+            [self.stickerTabDataSource.initialViewController()],
+            direction: .reverse,
+            animated: true
+        )
     }
 
     func stickerPickerView(

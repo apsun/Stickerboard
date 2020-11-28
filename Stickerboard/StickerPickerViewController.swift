@@ -93,17 +93,11 @@ class StickerPickerViewController
     private var lastSelectedStickerIndex: IndexPath?
     private var overlayAutoHideTask: DispatchWorkItem?
     weak var delegate: StickerPickerViewDelegate?
-    
-    var stickerPack: StickerPack? {
-        didSet {
-            if let index = self.lastSelectedStickerIndex {
-                self.collectionView(self.collectionView, didDeselectItemAt: index)
-            }
-            self.collectionView.reloadData()
-        }
-    }
+    let stickerPack: StickerPack
 
-    init() {
+    init(stickerPack: StickerPack) {
+        self.stickerPack = stickerPack
+
         let layout = UICollectionViewCompositionalLayout { (
             sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment
@@ -136,11 +130,6 @@ class StickerPickerViewController
         super.init(collectionViewLayout: layout)
     }
 
-    convenience init(delegate: StickerPickerViewDelegate) {
-        self.init()
-        self.delegate = delegate
-    }
-
     required init?(coder: NSCoder) {
         abort()
     }
@@ -157,7 +146,7 @@ class StickerPickerViewController
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return self.stickerPack?.files.count ?? 0
+        return self.stickerPack.files.count
     }
 
     override func collectionView(
@@ -176,7 +165,7 @@ class StickerPickerViewController
         forItemAt indexPath: IndexPath
     ) {
         let cell = cell as! StickerPickerCell
-        let imageURL = self.stickerPack!.files[indexPath.item].url
+        let imageURL = self.stickerPack.files[indexPath.item].url
         let params = ImageLoaderParams(
             imageURL: imageURL,
             pointSize: cell.bounds.size,
@@ -203,7 +192,7 @@ class StickerPickerViewController
         prefetchItemsAt indexPaths: [IndexPath]
     ) {
         for indexPath in indexPaths {
-            let imageURL = self.stickerPack!.files[indexPath.item].url
+            let imageURL = self.stickerPack.files[indexPath.item].url
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
             let params = ImageLoaderParams(
                 imageURL: imageURL,
@@ -219,7 +208,7 @@ class StickerPickerViewController
         cancelPrefetchingForItemsAt indexPaths: [IndexPath]
     ) {
         for indexPath in indexPaths {
-            let imageURL = self.stickerPack!.files[indexPath.item].url
+            let imageURL = self.stickerPack.files[indexPath.item].url
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
             let params = ImageLoaderParams(
                 imageURL: imageURL,
@@ -248,7 +237,7 @@ class StickerPickerViewController
         cell.showOverlay(animated: true)
         self.lastSelectedStickerIndex = indexPath
 
-        let pack = self.stickerPack!
+        let pack = self.stickerPack
         let file = pack.files[indexPath.item]
         self.delegate?.stickerPickerView(self, didSelect: file, inPack: pack)
     }

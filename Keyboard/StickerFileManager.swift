@@ -195,21 +195,23 @@ class StickerFileManager {
      */
     func stickerPacks() throws -> [StickerPack] {
         let files = try self.recursiveStickerFilesInDirectory(self.stickerDirectoryURL())
-        var pathMap = [String: [StickerFile]]()
+        var filesByDir = [URL: [StickerFile]]()
         for file in files {
-            var packPath = file.url.deletingLastPathComponent().relativePath
-            if packPath == "." {
-                packPath = ""
-            }
-            var pack = pathMap[packPath, default: []]
+            let packURL = file.url.deletingLastPathComponent()
+            var pack = filesByDir[packURL, default: []]
             pack.append(file)
-            pathMap[packPath] = pack
+            filesByDir[packURL] = pack
         }
 
         var ret = [StickerPack]()
-        for path in pathMap.keys.sorted(by: <) {
-            let files = pathMap[path]!.sorted { $0.name < $1.name }
-            ret.append(StickerPack(path: path, files: files))
+        for url in filesByDir.keys.sorted(by: { $0.relativePath < $1.relativePath }) {
+            let files = filesByDir[url]!.sorted { $0.name < $1.name }
+            var path = url.relativePath
+            if path == "." {
+                path = ""
+            }
+            let pack = StickerPack(path: path, url: url, files: files)
+            ret.append(pack)
         }
         return ret
     }
@@ -223,6 +225,6 @@ class StickerFileManager {
     func singleStickerPack() throws -> StickerPack {
         let packs = try self.stickerPacks()
         let files = packs.flatMap { $0.files }
-        return StickerPack(path: "", files: files)
+        return StickerPack(path: packs[0].path, url: packs[0].url, files: files)
     }
 }

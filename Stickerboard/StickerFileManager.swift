@@ -195,34 +195,24 @@ class StickerFileManager {
      */
     func stickerPacks() throws -> [StickerPack] {
         let files = try self.recursiveStickerFilesInDirectory(self.stickerDirectoryURL())
-        var pathMap = [String: [StickerFile]]()
+        var filesByDir = [URL: [StickerFile]]()
         for file in files {
-            var packPath = file.url.deletingLastPathComponent().relativePath
-            if packPath == "." {
-                packPath = ""
-            }
-            var pack = pathMap[packPath, default: []]
+            let packURL = file.url.deletingLastPathComponent()
+            var pack = filesByDir[packURL, default: []]
             pack.append(file)
-            pathMap[packPath] = pack
+            filesByDir[packURL] = pack
         }
 
         var ret = [StickerPack]()
-        for path in pathMap.keys.sorted(by: <) {
-            let files = pathMap[path]!.sorted { $0.name < $1.name }
-            ret.append(StickerPack(path: path, files: files))
+        for url in filesByDir.keys.sorted(by: { $0.relativePath < $1.relativePath }) {
+            let files = filesByDir[url]!.sorted { $0.name < $1.name }
+            var name = url.lastPathComponent
+            if name == "." {
+                name = "Stickers"
+            }
+            let pack = StickerPack(name: name, url: url, files: files)
+            ret.append(pack)
         }
         return ret
-    }
-
-    /**
-     * Similar to stickerPacks(), but forces all of the stickers into a
-     * single sticker pack as if they were in the same directory.
-     *
-     * TODO: For testing purposes only, to be removed
-     */
-    func singleStickerPack() throws -> StickerPack {
-        let packs = try self.stickerPacks()
-        let files = packs.flatMap { $0.files }
-        return StickerPack(path: "", files: files)
     }
 }

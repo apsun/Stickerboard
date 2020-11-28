@@ -41,6 +41,11 @@ struct StickerPack: CustomDebugStringConvertible {
     let path: String
 
     /**
+     * The filesystem URL of the sticker pack.
+     */
+    let url: URL
+
+    /**
      * The list of sticker files in this pack.
      */
     let files: [StickerFile]

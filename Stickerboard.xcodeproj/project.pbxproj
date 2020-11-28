@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		490707B12572C36B005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707B02572C36B005AACD8 /* StickerPageViewControllerDataSource.swift */; };
 		49200F0725702D5F00DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */; };
 		49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F122570348600DCFB73 /* UIColor+Accent.swift */; };
 		49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F182570503100DCFB73 /* StickerFileManager.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		490707B02572C36B005AACD8 /* StickerPageViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPageViewControllerDataSource.swift; sourceTree = "<group>"; };
 		49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49200F122570348600DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49200F182570503100DCFB73 /* StickerFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerFileManager.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
 				49522A5C25698252007BBEDC /* MainViewController.swift */,
 				494051B6256A265E00F39865 /* NavViewController.swift */,
+				490707B02572C36B005AACD8 /* StickerPageViewControllerDataSource.swift */,
 				49DD645B256B577D00E73195 /* StickerPickerViewController.swift */,
 				49200F3B2570C80E00DCFB73 /* Cache.swift */,
 				4964E98625717E3B002AFDFE /* StickerModel.swift */,
@@ -279,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49522A5D25698252007BBEDC /* MainViewController.swift in Sources */,
+				490707B12572C36B005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */,
 				494051BB256A384D00F39865 /* main.swift in Sources */,
 				49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */,
 				49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */,
