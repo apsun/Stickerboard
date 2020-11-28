@@ -7,16 +7,22 @@ class MainViewController
 {
     var stickerView: TouchableTransparentView!
     var stickerTabViewController: UIPageViewController!
+    var stickerPackNameLabel: UILabel!
     var testTextField: UITextField!
     var importButton: UIButton!
     var stickerTabDataSource: StickerPageViewControllerDataSource!
 
     func pageViewController(
         _ pageViewController: UIPageViewController,
-        willTransitionTo pendingViewControllers: [UIViewController]
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool
     ) {
-        let viewController = pendingViewControllers[0] as! StickerPickerViewController
-        print(viewController.stickerPack.name)
+        if !completed {
+            return
+        }
+        let viewController = pageViewController.viewControllers![0] as! StickerPickerViewController
+        self.stickerPackNameLabel.text = viewController.stickerPack.name
     }
 
     override func loadView() {
@@ -49,13 +55,21 @@ class MainViewController
         appearance.pageIndicatorTintColor = UIColor.systemFill
         appearance.currentPageIndicatorTintColor = UIColor.accent
 
+        self.stickerPackNameLabel = UILabel()
+        self.view.addSubview(self.stickerPackNameLabel)
+        self.stickerPackNameLabel
+            .autoLayout()
+            .fillX(self.view.layoutMarginsGuide)
+            .below(self.stickerTabViewController.view)
+            .activate()
+
         self.testTextField = UITextField()
         self.testTextField.allowsEditingTextAttributes = true
         self.view.addSubview(self.testTextField)
         self.testTextField
             .autoLayout()
             .fillX(self.view.layoutMarginsGuide)
-            .below(self.stickerTabViewController.view)
+            .below(self.stickerPackNameLabel)
             .activate()
 
         self.importButton = UIButton(type: .system)

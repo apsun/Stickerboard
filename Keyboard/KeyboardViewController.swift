@@ -57,15 +57,16 @@ class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
-        self.stickerPickerViewController = StickerPickerViewController(delegate: self)
+        let stickerPack = try! StickerFileManager.main.singleStickerPack()
+        self.stickerPickerViewController = StickerPickerViewController(stickerPack: stickerPack)
         self.addChild(self.stickerPickerViewController)
+        self.stickerPickerViewController.delegate = self
         self.stickerView.addSubview(self.stickerPickerViewController.view)
         self.stickerPickerViewController.view
             .autoLayout()
             .fill(self.stickerView.safeAreaLayoutGuide)
             .activate()
         self.stickerPickerViewController.didMove(toParent: self)
-        self.stickerPickerViewController.stickerPack = try! StickerFileManager.main.singleStickerPack()
     }
 
     override func updateViewConstraints() {

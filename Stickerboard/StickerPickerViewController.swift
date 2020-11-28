@@ -8,37 +8,18 @@ protocol StickerPickerViewDelegate : class {
     )
 }
 
-fileprivate class StickerPickerCell : UICollectionViewCell {
-    static let reuseIdentifier = "StickerPickerCell"
+fileprivate class StickerPickerCell: UICollectionViewCell {
+    static let reuseIdentifier = NSStringFromClass(StickerPickerCell.self)
 
     let imageView: UIImageView
-    let overlayView: UILabel
-    var overlayTopConstraint: NSLayoutConstraint!
     var imageParams: ImageLoaderParams?
 
     override init(frame: CGRect) {
         self.imageView = UIImageView()
-        self.overlayView = UILabel()
         super.init(frame: frame)
 
         self.addSubview(self.imageView)
         self.imageView.autoLayout().fill(self.contentView.safeAreaLayoutGuide).activate()
-
-        self.addSubview(self.overlayView)
-        self.overlayView.backgroundColor = .accent
-        self.overlayView.textColor = .accentedLabel
-        self.overlayView.textAlignment = .center
-        self.overlayView.text = "Copied!"
-        self.overlayTopConstraint = self.overlayView.topAnchor.constraint(
-            equalTo: self.contentView.bottomAnchor
-        )
-        self.overlayView
-            .autoLayout()
-            .fillX(self.contentView.safeAreaLayoutGuide)
-            .constraint(self.overlayTopConstraint)
-            .activate()
-
-        self.clipsToBounds = true
     }
 
     required init?(coder: NSCoder) {
@@ -60,28 +41,6 @@ fileprivate class StickerPickerCell : UICollectionViewCell {
             self.imageView.image = image
         }
     }
-
-    func showOverlay(animated: Bool) {
-        if animated {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.showOverlay(animated: false)
-            })
-        } else {
-            self.overlayTopConstraint.constant = -self.overlayView.intrinsicContentSize.height
-            self.layoutIfNeeded()
-        }
-    }
-
-    func hideOverlay(animated: Bool) {
-        if animated {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.hideOverlay(animated: false)
-            })
-        } else {
-            self.overlayTopConstraint.constant = 0
-            self.layoutIfNeeded()
-        }
-    }
 }
 
 class StickerPickerViewController
@@ -90,8 +49,6 @@ class StickerPickerViewController
     , UICollectionViewDataSourcePrefetching
 {
     private let imageLoader = ImageLoader()
-    private var lastSelectedStickerIndex: IndexPath?
-    private var overlayAutoHideTask: DispatchWorkItem?
     weak var delegate: StickerPickerViewDelegate?
     let stickerPack: StickerPack
 
@@ -179,12 +136,6 @@ class StickerPickerViewController
                 cell.commitSetImage(params: params, image: image)
             }
         )
-
-        if self.lastSelectedStickerIndex == indexPath {
-            cell.showOverlay(animated: false)
-        } else {
-            cell.hideOverlay(animated: false)
-        }
     }
 
     func collectionView(
@@ -223,31 +174,8 @@ class StickerPickerViewController
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        self.overlayAutoHideTask?.cancel()
-        self.overlayAutoHideTask = DispatchWorkItem {
-            self.collectionView.deselectItem(at: indexPath, animated: true)
-            self.collectionView(self.collectionView, didDeselectItemAt: indexPath)
-        }
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + 3,
-            execute: self.overlayAutoHideTask!
-        )
-
-        let cell = self.collectionView.cellForItem(at: indexPath) as! StickerPickerCell
-        cell.showOverlay(animated: true)
-        self.lastSelectedStickerIndex = indexPath
-
         let pack = self.stickerPack
         let file = pack.files[indexPath.item]
         self.delegate?.stickerPickerView(self, didSelect: file, inPack: pack)
-    }
-
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        didDeselectItemAt indexPath: IndexPath
-    ) {
-        let cell = self.collectionView.cellForItem(at: indexPath) as? StickerPickerCell
-        cell?.hideOverlay(animated: true)
-        self.lastSelectedStickerIndex = nil
     }
 }
