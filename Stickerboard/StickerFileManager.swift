@@ -221,7 +221,8 @@ class StickerFileManager {
      * TODO: For testing purposes only, to be removed
      */
     func singleStickerPack() throws -> StickerPack {
-        let files = try self.recursiveStickerFilesInDirectory(self.stickerDirectoryURL())
-        return StickerPack(path: "", files: files.sorted { $0.name < $1.name })
+        let packs = try self.stickerPacks()
+        let files = packs.flatMap { $0.files }
+        return StickerPack(path: "", files: files)
     }
 }
