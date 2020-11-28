@@ -9,12 +9,12 @@ import UniformTypeIdentifiers
  */
 class StickerFileManager {
     private static let groupIdentifier = "group.com.crossbowffs.stickerboard.stickers"
-    private static let stickerMIMETypes = [
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/bmp",
-        "image/webp"
+    private static let stickerUTITypes: Set<UTType> = [
+        UTType.jpeg,
+        UTType.png,
+        UTType.gif,
+        UTType.bmp,
+        UTType.webP
     ]
 
     /**
@@ -113,17 +113,17 @@ class StickerFileManager {
     }
 
     /**
-     * Returns a list of all files in the given directory. If withTypes
+     * Returns a list of all sticker files in the given directory. If withTypes
      * is specified, only files with the given MIME types will be returned.
      */
-    private func recursiveFilesInDirectory(
-        _ dirURL: URL,
-        withTypes: [String]? = nil
-    ) throws -> [URL] {
-        var resourceKeys = [URLResourceKey.isRegularFileKey]
-        if withTypes != nil {
-            resourceKeys.append(URLResourceKey.contentTypeKey)
-        }
+    private func recursiveStickerFilesInDirectory(
+        _ dirURL: URL
+    ) throws -> [StickerFile] {
+        let resourceKeys = [
+            URLResourceKey.isRegularFileKey,
+            URLResourceKey.contentTypeKey,
+            URLResourceKey.nameKey
+        ]
 
         let dirEnumerator = self.fileManager.enumerator(
             at: dirURL,
@@ -135,24 +135,26 @@ class StickerFileManager {
             }
         )!
 
-        var fileURLs = [URL]()
+        var stickerFiles = [StickerFile]()
         for case let fileURL as URL in dirEnumerator {
             let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
-            if resourceValues.isRegularFile != true {
+            guard
+                let isRegularFile = resourceValues.isRegularFile,
+                let utiType = resourceValues.contentType,
+                let name = resourceValues.name
+                else { continue }
+
+            if !isRegularFile {
                 continue
             }
 
-            if withTypes != nil {
-                let mimeType = resourceValues.contentType?.preferredMIMEType
-                if mimeType == nil || !withTypes!.contains(mimeType!) {
-                    continue
-                }
+            if !StickerFileManager.stickerUTITypes.contains(utiType) {
+                continue
             }
 
-            fileURLs.append(fileURL)
+            stickerFiles.append(StickerFile(name: name, url: fileURL, utiType: utiType))
         }
-
-        return fileURLs
+        return stickerFiles
     }
 
     /**
@@ -174,16 +176,16 @@ class StickerFileManager {
      * app group container to make them visible to the keyboard extension.
      */
     func importFromDocuments() throws {
-        let srcURLs = try self.recursiveFilesInDirectory(
-            self.documentDirectoryURL(),
-            withTypes: StickerFileManager.stickerMIMETypes
-        )
+        let files = try self.recursiveStickerFilesInDirectory(self.documentDirectoryURL())
         let tempDirURL = try self.temporaryDirectoryURL()
-        for srcURL in srcURLs {
-            print("Copying sticker \(srcURL.relativePath)")
-            let destURL = tempDirURL.appendingPathComponent(srcURL.relativePath, isDirectory: false)
+        for file in files {
+            print("Copying sticker \(file.url.relativePath)")
+            let destURL = tempDirURL.appendingPathComponent(
+                file.url.relativePath,
+                isDirectory: false
+            )
             try self.ensureParentDirectoryExists(destURL)
-            try self.copySticker(src: srcURL, dest: destURL)
+            try self.copySticker(src: file.url, dest: destURL)
         }
         try self.commitStickerDirectory(tempDirURL: tempDirURL)
     }
@@ -192,17 +194,15 @@ class StickerFileManager {
      * Returns all of the stickers in the shared app group container.
      */
     func stickerPacks() throws -> [StickerPack] {
-        let urls = try self.recursiveFilesInDirectory(self.stickerDirectoryURL())
-
+        let files = try self.recursiveStickerFilesInDirectory(self.stickerDirectoryURL())
         var pathMap = [String: [StickerFile]]()
-        for url in urls {
-            var packPath = url.deletingLastPathComponent().relativePath
+        for file in files {
+            var packPath = file.url.deletingLastPathComponent().relativePath
             if packPath == "." {
                 packPath = ""
             }
-
             var pack = pathMap[packPath, default: []]
-            pack.append(StickerFile(name: url.lastPathComponent, url: url))
+            pack.append(file)
             pathMap[packPath] = pack
         }
 
@@ -211,7 +211,6 @@ class StickerFileManager {
             let files = pathMap[path]!.sorted { $0.name < $1.name }
             ret.append(StickerPack(path: path, files: files))
         }
-
         return ret
     }
 
@@ -222,11 +221,7 @@ class StickerFileManager {
      * TODO: For testing purposes only, to be removed
      */
     func singleStickerPack() throws -> StickerPack {
-        let urls = try self.recursiveFilesInDirectory(self.stickerDirectoryURL())
-        var stickers = [StickerFile]()
-        for url in urls {
-            stickers.append(StickerFile(name: url.lastPathComponent, url: url))
-        }
-        return StickerPack(path: "", files: stickers)
+        let files = try self.recursiveStickerFilesInDirectory(self.stickerDirectoryURL())
+        return StickerPack(path: "", files: files.sorted { $0.name < $1.name })
     }
 }

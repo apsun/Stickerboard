@@ -14,7 +14,6 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
 
         self.stickerView = TouchableTransparentView()
         self.view.addSubview(self.stickerView)
-        self.stickerView.backgroundColor = .red
         self.stickerView.translatesAutoresizingMaskIntoConstraints = false
         self.stickerView
             .autoLayout()
@@ -64,7 +63,8 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
         didSelect stickerFile: StickerFile,
         inPack stickerPack: StickerPack
     ) {
-        UIPasteboard.general.image = UIImage(contentsOfFile: stickerFile.url.path)
+        let data = try! Data(contentsOf: stickerFile.url)
+        UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
     }
 
     override func viewDidLoad() {

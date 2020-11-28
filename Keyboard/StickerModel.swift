@@ -1,4 +1,5 @@
 import Foundation
+import UniformTypeIdentifiers
 
 /**
  * Represents a single sticker image on disk.
@@ -15,10 +16,16 @@ struct StickerFile: CustomDebugStringConvertible {
      */
     let url: URL
 
+    /**
+     * The file type of the sticker image.
+     */
+    let utiType: UTType
+
     var debugDescription: String {
         return "Sticker("
             + "name=\(self.name.debugDescription)"
             + ", urlPath=\(self.url.relativePath.debugDescription)"
+            + ", utiType=\(self.utiType.debugDescription)"
             + ")"
     }
 }

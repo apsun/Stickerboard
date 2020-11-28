@@ -96,7 +96,8 @@ class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
         didSelect stickerFile: StickerFile,
         inPack stickerPack: StickerPack
     ) {
-        UIPasteboard.general.image = UIImage(contentsOfFile: stickerFile.url.path)
+        let data = try! Data(contentsOf: stickerFile.url)
+        UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
 
         // Hack to make the next keyboard button go to the previously selected
         // keyboard instead of the next one (iOS seems go to the next one only
