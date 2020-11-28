@@ -10,6 +10,15 @@ protocol StickerPickerViewDelegate : class {
 
 fileprivate class StickerPickerCell: UICollectionViewCell {
     static let reuseIdentifier = NSStringFromClass(StickerPickerCell.self)
+    private static let loadingImage: UIImage? = nil
+    private static let errorImage = UIImage(
+        systemName: "exclamationmark.triangle.fill",
+        withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 36,
+            weight: .regular,
+            scale: .unspecified
+        )
+    )
 
     let imageView: UIImageView
     var imageParams: ImageLoaderParams?
@@ -19,6 +28,7 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         super.init(frame: frame)
 
         self.addSubview(self.imageView)
+        self.imageView.clipsToBounds = true
         self.imageView.autoLayout().fill(self.contentView.safeAreaLayoutGuide).activate()
     }
 
@@ -26,19 +36,21 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         abort()
     }
 
-    func setImage(params: ImageLoaderParams, image: UIImage) {
-        self.imageParams = params
-        self.imageView.image = image
-    }
-
     func beginSetImage(params: ImageLoaderParams) {
         self.imageParams = params
-        self.imageView.image = nil
+        self.imageView.contentMode = .center
+        self.imageView.image = StickerPickerCell.loadingImage
     }
 
-    func commitSetImage(params: ImageLoaderParams, image: UIImage) {
-        if params == self.imageParams {
+    func commitSetImage(params: ImageLoaderParams, image: UIImage?) {
+        guard params == self.imageParams else { return }
+
+        if let image = image {
+            self.imageView.contentMode = .scaleAspectFill
             self.imageView.image = image
+        } else {
+            self.imageView.contentMode = .center
+            self.imageView.image = StickerPickerCell.errorImage
         }
     }
 }
@@ -130,12 +142,9 @@ class StickerPickerViewController
         )
 
         cell.beginSetImage(params: params)
-        self.imageLoader.loadAsync(
-            params: params,
-            callback: { (image: UIImage) in
-                cell.commitSetImage(params: params, image: image)
-            }
-        )
+        self.imageLoader.loadAsync(params: params) { image in
+            cell.commitSetImage(params: params, image: image)
+        }
     }
 
     func collectionView(

@@ -34,12 +34,14 @@ struct ImageLoaderParams: Hashable, CustomDebugStringConvertible {
  * Asynchronously loads, resizes, and caches images from disk.
  */
 class ImageLoader {
+    typealias Callback = (UIImage?) -> Void
     private let decodeQueue = DispatchQueue(
         label: "com.crossbowffs.stickerboard.decodequeue",
         qos: .userInitiated
     )
+
     private let cache = Cache<ImageLoaderParams, UIImage>()
-    private var callbacks = [ImageLoaderParams: [(UIImage) -> Void]]()
+    private var callbacks = [ImageLoaderParams: [Callback]]()
 
     /**
      * Loads the specified image, downsampling it to the given size for use
@@ -49,7 +51,7 @@ class ImageLoader {
      */
     func loadAsync(
         params: ImageLoaderParams,
-        callback: ((UIImage) -> Void)? = nil
+        callback: Callback? = nil
     ) {
         // If the image is already in our cache, just immediately invoke
         // the callback and return.
@@ -70,7 +72,7 @@ class ImageLoader {
             return
         }
 
-        var callbacks = [(UIImage) -> Void]()
+        var callbacks = [Callback]()
         if let callback = callback {
             callbacks.append(callback)
         }
@@ -79,7 +81,9 @@ class ImageLoader {
         self.decodeQueue.async {
             let image = ImageLoader.loadSync(params: params)
             DispatchQueue.main.async {
-                self.cache[params] = image
+                if let image = image {
+                    self.cache[params] = image
+                }
                 if let callbacks = self.callbacks.removeValue(forKey: params) {
                     for callback in callbacks {
                         callback(image)
@@ -102,11 +106,18 @@ class ImageLoader {
      *
      * https://developer.apple.com/videos/play/wwdc2018/219/
      */
-    private static func loadSync(params: ImageLoaderParams) -> UIImage {
+    private static func loadSync(params: ImageLoaderParams) -> UIImage? {
         let imageSourceOptions = [
             kCGImageSourceShouldCache: false
         ] as CFDictionary
-        let imageSource = CGImageSourceCreateWithURL(params.imageURL as CFURL, imageSourceOptions)!
+        guard let imageSource = CGImageSourceCreateWithURL(
+            params.imageURL as CFURL,
+            imageSourceOptions
+        ) else {
+            print("CGImageSourceCreateWithURL failed!")
+            return nil
+        }
+
         let maxDimensionPixels = max(params.pointSize.width, params.pointSize.height) * params.scale
         let downsampleOptions = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
@@ -114,10 +125,15 @@ class ImageLoader {
             kCGImageSourceCreateThumbnailWithTransform: true,
             kCGImageSourceThumbnailMaxPixelSize: maxDimensionPixels
         ] as CFDictionary
-        guard let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+        guard let image = CGImageSourceCreateThumbnailAtIndex(
+            imageSource,
+            0,
+            downsampleOptions
+        ) else {
             print("CGImageSourceCreateThumbnailAtIndex failed!")
-            return UIImage(contentsOfFile: params.imageURL.path)!
+            return nil
         }
+
         return UIImage(cgImage: image)
     }
 }
