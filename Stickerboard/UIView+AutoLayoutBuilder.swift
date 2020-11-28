@@ -1,5 +1,8 @@
 import UIKit
 
+/**
+ * Builder object to help generate auto layout constraints.
+ */
 class AutoLayoutBuilder {
     private var constraints: [NSLayoutConstraint] = []
     private let view: UIView
@@ -8,35 +11,59 @@ class AutoLayoutBuilder {
         self.view = view
     }
 
+    /**
+     * Adds an arbitrary pre-generated constraint to the view.
+     */
     func constraint(_ constraint: NSLayoutConstraint) -> AutoLayoutBuilder {
         self.constraints.append(constraint)
         return self
     }
 
+    /**
+     * Anchors the leading edge of this view to the given point.
+     */
     func left(_ left: NSLayoutXAxisAnchor) -> AutoLayoutBuilder {
         return self.constraint(self.view.leadingAnchor.constraint(equalTo: left))
     }
 
+    /**
+     * Anchors the top edge of this view to the given point.
+     */
     func top(_ top: NSLayoutYAxisAnchor) -> AutoLayoutBuilder {
         return self.constraint(self.view.topAnchor.constraint(equalTo: top))
     }
 
+    /**
+     * Anchors the trailing edge of this view to the given point.
+     */
     func right(_ right: NSLayoutXAxisAnchor) -> AutoLayoutBuilder {
         return self.constraint(self.view.trailingAnchor.constraint(equalTo: right))
     }
 
+    /**
+     * Anchors the bottom edge of this view to the given point.
+     */
     func bottom(_ bottom: NSLayoutYAxisAnchor) -> AutoLayoutBuilder {
         return self.constraint(self.view.bottomAnchor.constraint(equalTo: bottom))
     }
 
+    /**
+     * Sets a fixed width for this view.
+     */
     func width(_ constant: CGFloat) -> AutoLayoutBuilder {
         return self.constraint(self.view.widthAnchor.constraint(equalToConstant: constant))
     }
 
+    /**
+     * Sets a fixed height for this view.
+     */
     func height(_ constant: CGFloat) -> AutoLayoutBuilder {
         return self.constraint(self.view.heightAnchor.constraint(equalToConstant: constant))
     }
 
+    /**
+     * Anchors the top edge of this view below the specified view.
+     */
     func below(_ view: UIView) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.topAnchor.constraint(
@@ -46,6 +73,9 @@ class AutoLayoutBuilder {
         )
     }
 
+    /**
+     * Anchors the leading edge of this view after the specified view.
+     */
     func after(_ view: UIView) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.leadingAnchor.constraint(
@@ -55,24 +85,46 @@ class AutoLayoutBuilder {
         )
     }
 
+    /**
+     * Anchors the leading and trailing edges of this view to the corresponding
+     * anchor points in the layout guide.
+     */
     func fillX(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
         return self.left(guide.leadingAnchor).right(guide.trailingAnchor)
     }
 
+    /**
+     * Anchors the top and bottom edges of this view to the corresponding
+     * anchor points in the layout guide.
+     */
     func fillY(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
         return self.top(guide.topAnchor).bottom(guide.bottomAnchor)
     }
 
+    /**
+     * Anchors all edges of this view to the corresponding anchor points in
+     * the layout guide.
+     */
     func fill(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
         return self.fillX(guide).fillY(guide)
     }
 
+    /**
+     * Call this to activate all constraints created by this builder.
+     */
     func activate() {
         NSLayoutConstraint.activate(self.constraints)
     }
 }
 
+/**
+ * Adds a convenience method to create an auto layout builder for the current view.
+ */
 extension UIView {
+    /**
+     * Disables autoresizing mask constraints for this view, then returns an auto
+     * layout builder object.
+     */
     func autoLayout() -> AutoLayoutBuilder {
         self.translatesAutoresizingMaskIntoConstraints = false
         return AutoLayoutBuilder(self)

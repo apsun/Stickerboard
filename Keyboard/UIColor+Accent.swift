@@ -1,5 +1,8 @@
 import UIKit
 
+/**
+ * Adds accent colors and related UI element colors to the global UIColor constants.
+ */
 extension UIColor {
     /**
      * Returns whether this color is considered "dark". May return nil if the color is
@@ -29,10 +32,10 @@ extension UIColor {
         // We're using the "provider" closure as basically a hacky way to be notified
         // that the system theme may have changed. We ignore the input trait collection
         // and instead initialize our own based on the actual background color.
-        return UIColor(dynamicProvider: { (_: UITraitCollection) -> UIColor in
+        return UIColor { _ in
             let traits = UITraitCollection(userInterfaceStyle: color.userInterfaceStyle())
             return self.resolvedColor(with: traits)
-        })
+        }
     }
 
     /**

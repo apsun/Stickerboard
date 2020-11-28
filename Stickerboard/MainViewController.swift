@@ -14,7 +14,6 @@ class MainViewController : UIViewController, StickerPickerViewDelegate {
 
         self.stickerView = TouchableTransparentView()
         self.view.addSubview(self.stickerView)
-        self.stickerView.translatesAutoresizingMaskIntoConstraints = false
         self.stickerView
             .autoLayout()
             .fillX(self.view.safeAreaLayoutGuide)
