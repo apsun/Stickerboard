@@ -4,14 +4,14 @@ class KeyboardViewController
     : UIInputViewController
     , StickerPickerViewDelegate
 {
-    var touchableView: TouchableTransparentView!
-    var nextKeyboardButton: UIButton!
-    var bannerContainer: BannerContainerViewController!
-    var stickerTabViewController: UIPageViewController!
-    var stickerTabDataSource: StickerPageViewControllerDataSource?
-    var needFullAccessView: UILabel!
-    var heightConstraint: NSLayoutConstraint?
-    var widthConstraint: NSLayoutConstraint?
+    private var touchableView: TouchableTransparentView!
+    private var nextKeyboardButton: UIButton!
+    private var bannerContainer: BannerContainerViewController!
+    private var stickerTabViewController: UIPageViewController!
+    private var stickerTabDataSource: StickerPageViewControllerDataSource?
+    private var needFullAccessView: UILabel!
+    private var heightConstraint: NSLayoutConstraint?
+    private var widthConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +20,14 @@ class KeyboardViewController
 
         if !self.hasFullAccess {
             self.needFullAccessView = UILabel()
-            self.view.addSubview(self.needFullAccessView)
+            self.needFullAccessView
+                .autoLayoutInView(self.view)
+                .fill(self.view.safeAreaLayoutGuide)
+                .activate()
             self.needFullAccessView.numberOfLines = 0
             self.needFullAccessView.lineBreakMode = .byClipping
             self.needFullAccessView.adjustsFontSizeToFitWidth = true
+            self.needFullAccessView.textAlignment = .center
             self.needFullAccessView.text = """
                 Please enable full access in the iOS keyboard settings in order to use this app
 
@@ -33,15 +37,12 @@ class KeyboardViewController
                 → Stickerboard
                 → Allow Full Access
                 """
-            self.needFullAccessView.textAlignment = .center
-            self.needFullAccessView.autoLayout().fill(self.view.safeAreaLayoutGuide).activate()
             return
         }
 
         self.touchableView = TouchableTransparentView()
-        self.view.addSubview(self.touchableView)
         self.touchableView
-            .autoLayout()
+            .autoLayoutInView(self.view)
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
@@ -55,27 +56,25 @@ class KeyboardViewController
 
         self.bannerContainer = BannerContainerViewController()
         self.addChild(self.bannerContainer)
-        self.touchableView.addSubview(self.bannerContainer.view)
-        self.bannerContainer.didMove(toParent: self)
-        self.bannerContainer.setContentViewController(self.stickerTabViewController)
         self.bannerContainer.view
-            .autoLayout()
+            .autoLayoutInView(self.touchableView)
             .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
+        self.bannerContainer.didMove(toParent: self)
+        self.bannerContainer.setContentViewController(self.stickerTabViewController)
 
         self.nextKeyboardButton = UIButton(type: .system)
+        self.nextKeyboardButton
+            .autoLayoutInView(self.bannerContainer.view)
+            .left(self.bannerContainer.view.safeAreaLayoutGuide.leadingAnchor)
+            .bottom(self.bannerContainer.view.safeAreaLayoutGuide.bottomAnchor)
+            .activate()
         self.nextKeyboardButton.setImage(UIImage(systemName: "globe")!, for: .normal)
         self.nextKeyboardButton.tintColor = .label
         self.nextKeyboardButton.backgroundColor = .systemFill
         self.nextKeyboardButton.layer.cornerRadius = 5
         self.nextKeyboardButton.layer.masksToBounds = false
         self.nextKeyboardButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right:  8)
-        self.bannerContainer.view.addSubview(self.nextKeyboardButton)
-        self.nextKeyboardButton
-           .autoLayout()
-           .left(self.bannerContainer.view.safeAreaLayoutGuide.leadingAnchor)
-           .bottom(self.bannerContainer.view.safeAreaLayoutGuide.bottomAnchor)
-           .activate()
         self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
 
         let stickerPacks = try! StickerFileManager.main.stickerPacks()

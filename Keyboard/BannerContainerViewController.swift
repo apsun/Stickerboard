@@ -36,36 +36,33 @@ class BannerContainerViewController: UIViewController {
         // color container for the banner. This allows us to use spring animations
         // that overshoot the target position without leaving a gap.
         self.bannerBackgroundView = UIView()
-        self.bannerBackgroundView.isUserInteractionEnabled = false
-        self.bannerBackgroundView.backgroundColor = .accent
-        self.view.addSubview(bannerBackgroundView)
         self.bannerBackgroundView
-            .autoLayout()
+            .autoLayoutInView(self.view)
             .fillX(self.view.safeAreaLayoutGuide)
             .height(640)  // ought to be enough for anybody ;-)
             .activate()
+        self.bannerBackgroundView.isUserInteractionEnabled = false
+        self.bannerBackgroundView.backgroundColor = .accent
 
         // The padding view is used to add some insets to the label. It's anchored
         // at the bottom of the background view.
         self.bannerPaddingView = UIView()
-        self.bannerPaddingView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        self.bannerBackgroundView.addSubview(self.bannerPaddingView)
         self.bannerPaddingView
-            .autoLayout()
+            .autoLayoutInView(self.bannerBackgroundView)
             .fillX(self.bannerBackgroundView.safeAreaLayoutGuide)
             .bottom(self.bannerBackgroundView.safeAreaLayoutGuide.bottomAnchor)
             .activate()
+        self.bannerPaddingView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
         // This is the banner text view. It fills the padding view (minus the insets).
         self.bannerLabel = UILabel()
+        self.bannerLabel
+            .autoLayoutInView(self.bannerPaddingView)
+            .fill(self.bannerPaddingView.layoutMarginsGuide)
+            .activate()
         self.bannerLabel.textColor = .accentedLabel
         self.bannerLabel.lineBreakMode = .byTruncatingMiddle
         self.bannerLabel.textAlignment = .center
-        self.bannerPaddingView.addSubview(self.bannerLabel)
-        self.bannerLabel
-            .autoLayout()
-            .fill(self.bannerPaddingView.layoutMarginsGuide)
-            .activate()
 
         // Create the banner position constraints. We don't use the constant:
         // form because we want to adapt to screen/text size changes automatically.
@@ -92,15 +89,11 @@ class BannerContainerViewController: UIViewController {
         self.contentViewController = viewController
         if let innerViewController = viewController {
             self.addChild(innerViewController)
-            self.view.insertSubview(
-                innerViewController.view,
-                belowSubview: self.bannerBackgroundView
-            )
-            innerViewController.didMove(toParent: self)
             innerViewController.view
-                .autoLayout()
+                .autoLayoutInView(self.view, below: self.bannerBackgroundView)
                 .fill(self.view.safeAreaLayoutGuide)
                 .activate()
+            innerViewController.didMove(toParent: self)
         }
     }
 

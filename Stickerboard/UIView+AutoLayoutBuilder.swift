@@ -125,8 +125,27 @@ extension UIView {
      * Disables autoresizing mask constraints for this view, then returns an auto
      * layout builder object.
      */
-    func autoLayout() -> AutoLayoutBuilder {
+    private func autoLayout() -> AutoLayoutBuilder {
         self.translatesAutoresizingMaskIntoConstraints = false
         return AutoLayoutBuilder(self)
+    }
+
+    /**
+     * Adds this view to the given parent view, disables autoresizing mask
+     * constraints for this view, then returns an auto layout builder object.
+     */
+    func autoLayoutInView(_ view: UIView) -> AutoLayoutBuilder {
+        view.addSubview(self)
+        return self.autoLayout()
+    }
+
+    /**
+     * Adds this view to the given parent view behind the specified sibling view,
+     * disables autoresizing mask constraints for this view, then returns an auto
+     * layout builder object.
+     */
+    func autoLayoutInView(_ view: UIView, below: UIView) -> AutoLayoutBuilder {
+        view.insertSubview(self, belowSubview: below)
+        return self.autoLayout()
     }
 }

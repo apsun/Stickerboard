@@ -16,16 +16,18 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         withConfiguration: UIImage.SymbolConfiguration(pointSize: 36)
     )
 
-    let imageView: UIImageView
-    var imageParams: ImageLoaderParams?
+    private var imageView: UIImageView!
+    private var imageParams: ImageLoaderParams?
 
     override init(frame: CGRect) {
-        self.imageView = UIImageView()
         super.init(frame: frame)
 
-        self.addSubview(self.imageView)
+        self.imageView = UIImageView()
+        self.imageView
+            .autoLayoutInView(self)
+            .fill(self.contentView.safeAreaLayoutGuide)
+            .activate()
         self.imageView.clipsToBounds = true
-        self.imageView.autoLayout().fill(self.contentView.safeAreaLayoutGuide).activate()
     }
 
     required init?(coder: NSCoder) {

@@ -4,12 +4,12 @@ class MainViewController
     : UIViewController
     , StickerPickerViewDelegate
 {
-    var touchableView: TouchableTransparentView!
-    var stickerTabViewController: UIPageViewController!
-    var testTextField: UITextField!
-    var importButton: UIButton!
-    var stickerTabDataSource: StickerPageViewControllerDataSource?
-    var bannerContainer: BannerContainerViewController!
+    private var touchableView: TouchableTransparentView!
+    private var stickerTabViewController: UIPageViewController!
+    private var testTextField: UITextField!
+    private var importButton: UIButton!
+    private var stickerTabDataSource: StickerPageViewControllerDataSource?
+    private var bannerContainer: BannerContainerViewController!
 
     override func loadView() {
         print("loadView")
@@ -24,9 +24,8 @@ class MainViewController
         self.title = "Stickerboard"
 
         self.touchableView = TouchableTransparentView()
-        self.view.addSubview(self.touchableView)
         self.touchableView
-            .autoLayout()
+            .autoLayoutInView(self.view)
             .fillX(self.view.safeAreaLayoutGuide)
             .top(self.view.safeAreaLayoutGuide.topAnchor)
             .height(261)
@@ -42,33 +41,30 @@ class MainViewController
 
         self.bannerContainer = BannerContainerViewController()
         self.addChild(self.bannerContainer)
-        self.touchableView.addSubview(self.bannerContainer.view)
-        self.bannerContainer.didMove(toParent: self)
-        self.bannerContainer.setContentViewController(self.stickerTabViewController)
         self.bannerContainer.view
-            .autoLayout()
+            .autoLayoutInView(self.touchableView)
             .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
+        self.bannerContainer.didMove(toParent: self)
+        self.bannerContainer.setContentViewController(self.stickerTabViewController)
 
         self.testTextField = UITextField()
-        self.testTextField.borderStyle = .roundedRect
-        self.testTextField.allowsEditingTextAttributes = true
-        self.view.addSubview(self.testTextField)
         self.testTextField
-            .autoLayout()
+            .autoLayoutInView(self.view)
             .fillX(self.view.layoutMarginsGuide)
             .below(self.bannerContainer.view)
             .activate()
+        self.testTextField.borderStyle = .roundedRect
+        self.testTextField.allowsEditingTextAttributes = true
 
         self.importButton = UIButton(type: .system)
-        self.importButton.setTitle("Import stickers", for: .normal)
-        self.importButton.addTarget(self, action: #selector(importStickersButtonClicked), for: .touchUpInside)
-        self.view.addSubview(self.importButton)
         self.importButton
-            .autoLayout()
+            .autoLayoutInView(self.view)
             .fillX(self.view.layoutMarginsGuide)
             .below(self.testTextField)
             .activate()
+        self.importButton.setTitle("Import stickers", for: .normal)
+        self.importButton.addTarget(self, action: #selector(importStickersButtonClicked), for: .touchUpInside)
 
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
         if stickerPacks.isEmpty {
