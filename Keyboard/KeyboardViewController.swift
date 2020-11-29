@@ -8,7 +8,7 @@ class KeyboardViewController
     var nextKeyboardButton: UIButton!
     var bannerContainer: BannerContainerViewController!
     var stickerTabViewController: UIPageViewController!
-    var stickerTabDataSource: StickerPageViewControllerDataSource!
+    var stickerTabDataSource: StickerPageViewControllerDataSource?
     var needFullAccessView: UILabel!
     var heightConstraint: NSLayoutConstraint?
     var widthConstraint: NSLayoutConstraint?
@@ -17,19 +17,6 @@ class KeyboardViewController
         super.viewDidLoad()
 
         self.view.translatesAutoresizingMaskIntoConstraints = false
-
-        // let globe = UIImage(systemName: "globe")!
-        // self.nextKeyboardButton = UIButton(type: .system)
-        // self.nextKeyboardButton.setImage(globe, for: .normal)
-        // self.nextKeyboardButton.tintColor = .label
-        // self.nextKeyboardButton.backgroundColor = .systemFill
-        // self.nextKeyboardButton.layer.cornerRadius = 5
-        // self.nextKeyboardButton.layer.masksToBounds = false
-        // self.nextKeyboardButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right:  8)
-        // self.nextKeyboardButton.sizeToFit()
-        // self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        // self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        // self.view.addSubview(self.nextKeyboardButton)
 
         if !self.hasFullAccess {
             self.needFullAccessView = UILabel()
@@ -76,17 +63,38 @@ class KeyboardViewController
             .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
 
+        self.nextKeyboardButton = UIButton(type: .system)
+        self.nextKeyboardButton.setImage(UIImage(systemName: "globe")!, for: .normal)
+        self.nextKeyboardButton.tintColor = .label
+        self.nextKeyboardButton.backgroundColor = .systemFill
+        self.nextKeyboardButton.layer.cornerRadius = 5
+        self.nextKeyboardButton.layer.masksToBounds = false
+        self.nextKeyboardButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right:  8)
+        self.bannerContainer.view.addSubview(self.nextKeyboardButton)
+        self.nextKeyboardButton
+           .autoLayout()
+           .left(self.bannerContainer.view.safeAreaLayoutGuide.leadingAnchor)
+           .bottom(self.bannerContainer.view.safeAreaLayoutGuide.bottomAnchor)
+           .activate()
+        self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
-        self.stickerTabDataSource = StickerPageViewControllerDataSource(
-            stickerPacks: stickerPacks,
-            stickerDelegate: self
-        )
-        self.stickerTabViewController.dataSource = self.stickerTabDataSource
-        self.stickerTabViewController.setViewControllers(
-            [self.stickerTabDataSource.initialViewController()],
-            direction: .forward,
-            animated: false
-        )
+        if stickerPacks.isEmpty {
+            self.stickerTabDataSource = nil
+            self.stickerTabViewController.dataSource = nil
+        } else {
+            let dataSource = StickerPageViewControllerDataSource(
+                stickerPacks: stickerPacks,
+                stickerDelegate: self
+            )
+            self.stickerTabDataSource = dataSource
+            self.stickerTabViewController.dataSource = dataSource
+            self.stickerTabViewController.setViewControllers(
+                [dataSource.initialViewController()],
+                direction: .forward,
+                animated: false
+            )
+        }
     }
 
     override func updateViewConstraints() {

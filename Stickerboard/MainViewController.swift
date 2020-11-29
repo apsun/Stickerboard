@@ -8,7 +8,7 @@ class MainViewController
     var stickerTabViewController: UIPageViewController!
     var testTextField: UITextField!
     var importButton: UIButton!
-    var stickerTabDataSource: StickerPageViewControllerDataSource!
+    var stickerTabDataSource: StickerPageViewControllerDataSource?
     var bannerContainer: BannerContainerViewController!
 
     override func loadView() {
@@ -71,16 +71,22 @@ class MainViewController
             .activate()
 
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
-        self.stickerTabDataSource = StickerPageViewControllerDataSource(
-            stickerPacks: stickerPacks,
-            stickerDelegate: self
-        )
-        self.stickerTabViewController.dataSource = self.stickerTabDataSource
-        self.stickerTabViewController.setViewControllers(
-            [self.stickerTabDataSource.initialViewController()],
-            direction: .forward,
-            animated: false
-        )
+        if stickerPacks.isEmpty {
+            self.stickerTabDataSource = nil
+            self.stickerTabViewController.dataSource = nil
+        } else {
+            let dataSource = StickerPageViewControllerDataSource(
+                stickerPacks: stickerPacks,
+                stickerDelegate: self
+            )
+            self.stickerTabDataSource = dataSource
+            self.stickerTabViewController.dataSource = dataSource
+            self.stickerTabViewController.setViewControllers(
+                [dataSource.initialViewController()],
+                direction: .forward,
+                animated: false
+            )
+        }
     }
 
     @objc
@@ -96,16 +102,22 @@ class MainViewController
         }
         self.bannerContainer.showBanner(text: "Successfully imported stickers")
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
-        self.stickerTabDataSource = StickerPageViewControllerDataSource(
-            stickerPacks: stickerPacks,
-            stickerDelegate: self
-        )
-        self.stickerTabViewController.dataSource = self.stickerTabDataSource
-        self.stickerTabViewController.setViewControllers(
-            [self.stickerTabDataSource.initialViewController()],
-            direction: .reverse,
-            animated: true
-        )
+        if stickerPacks.isEmpty {
+            self.stickerTabDataSource = nil
+            self.stickerTabViewController.dataSource = nil
+        } else {
+            let dataSource = StickerPageViewControllerDataSource(
+                stickerPacks: stickerPacks,
+                stickerDelegate: self
+            )
+            self.stickerTabDataSource = dataSource
+            self.stickerTabViewController.dataSource = dataSource
+            self.stickerTabViewController.setViewControllers(
+                [dataSource.initialViewController()],
+                direction: .forward,
+                animated: false
+            )
+        }
     }
 
     func stickerPickerView(

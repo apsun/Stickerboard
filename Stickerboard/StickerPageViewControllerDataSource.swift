@@ -8,6 +8,7 @@ class StickerPageViewControllerDataSource
     private weak var stickerDelegate: StickerPickerViewDelegate?
 
     init(stickerPacks: [StickerPack], stickerDelegate: StickerPickerViewDelegate) {
+        assert(!stickerPacks.isEmpty)
         self.stickerPacks = stickerPacks
         self.stickerDelegate = stickerDelegate
     }
@@ -34,8 +35,11 @@ class StickerPageViewControllerDataSource
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        let viewController = pageViewController.viewControllers![0]
-        return self.indexOf(viewController: viewController)
+        let viewControllers = pageViewController.viewControllers!
+        if viewControllers.count != 1 {
+            return -1
+        }
+        return self.indexOf(viewController: viewControllers[0])
     }
 
     func pageViewController(
