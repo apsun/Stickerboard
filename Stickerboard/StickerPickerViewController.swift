@@ -1,6 +1,6 @@
 import UIKit
 
-protocol StickerPickerViewDelegate : class {
+protocol StickerPickerViewDelegate: class {
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,

@@ -36,9 +36,10 @@ struct StickerFile: CustomDebugStringConvertible {
 struct StickerPack: CustomDebugStringConvertible {
     /**
      * The name of the sticker pack, without the leading path components.
-     * Not usable as a filesystem path, for display purposes only.
+     * Not usable as a filesystem path, for display purposes only. This will
+     * be nil if the pack was created from the top-level directory.
      */
-    let name: String
+    let name: String?
 
     /**
      * The filesystem URL of the sticker pack.
@@ -52,7 +53,7 @@ struct StickerPack: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return "StickerPack("
-            + "name=\(self.name.debugDescription)"
+            + "name=\(self.name?.debugDescription ?? "(root)")"
             + ", urlPath=\(self.url.relativePath.debugDescription)"
             + ", files=\(self.files.debugDescription)"
             + ")"

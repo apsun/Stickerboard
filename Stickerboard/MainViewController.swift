@@ -4,7 +4,7 @@ class MainViewController
     : UIViewController
     , StickerPickerViewDelegate
 {
-    var stickerView: TouchableTransparentView!
+    var touchableView: TouchableTransparentView!
     var stickerTabViewController: UIPageViewController!
     var testTextField: UITextField!
     var importButton: UIButton!
@@ -15,11 +15,17 @@ class MainViewController
         print("loadView")
 
         self.view = UIView()
-        self.view.backgroundColor = .systemBackground
+    }
 
-        self.stickerView = TouchableTransparentView()
-        self.view.addSubview(self.stickerView)
-        self.stickerView
+    override func viewDidLoad() {
+        print("viewDidLoad")
+
+        self.view.backgroundColor = .systemBackground
+        self.title = "Stickerboard"
+
+        self.touchableView = TouchableTransparentView()
+        self.view.addSubview(self.touchableView)
+        self.touchableView
             .autoLayout()
             .fillX(self.view.safeAreaLayoutGuide)
             .top(self.view.safeAreaLayoutGuide.topAnchor)
@@ -36,15 +42,16 @@ class MainViewController
 
         self.bannerContainer = BannerContainerViewController()
         self.addChild(self.bannerContainer)
-        self.stickerView.addSubview(self.bannerContainer.view)
+        self.touchableView.addSubview(self.bannerContainer.view)
         self.bannerContainer.didMove(toParent: self)
         self.bannerContainer.setContentViewController(self.stickerTabViewController)
         self.bannerContainer.view
             .autoLayout()
-            .fill(self.stickerView.safeAreaLayoutGuide)
+            .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
 
         self.testTextField = UITextField()
+        self.testTextField.borderStyle = .roundedRect
         self.testTextField.allowsEditingTextAttributes = true
         self.view.addSubview(self.testTextField)
         self.testTextField
@@ -81,7 +88,10 @@ class MainViewController
         do {
             try StickerFileManager.main.importFromDocuments()
         } catch {
-            self.bannerContainer.showBanner(text: "Failed to import stickers")
+            self.bannerContainer.showBanner(
+                text: "Failed to import stickers",
+                style: .error
+            )
             return
         }
         self.bannerContainer.showBanner(text: "Successfully imported stickers")
@@ -103,16 +113,18 @@ class MainViewController
         didSelect stickerFile: StickerFile,
         inPack stickerPack: StickerPack
     ) {
-        let data = try! Data(contentsOf: stickerFile.url)
+        let data: Data
+        do {
+            data = try Data(contentsOf: stickerFile.url)
+        } catch {
+            self.bannerContainer.showBanner(
+                text: "Failed to load '\(stickerFile.name)'",
+                style: .error
+            )
+            return
+        }
         UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
         self.bannerContainer.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
-    }
-
-    override func viewDidLoad() {
-        print("viewDidLoad")
-
-        self.title = "Stickerboard"
-        self.testTextField.borderStyle = .roundedRect
     }
 
     override func viewWillAppear(_ animated: Bool) {

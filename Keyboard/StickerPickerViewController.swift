@@ -1,6 +1,6 @@
 import UIKit
 
-protocol StickerPickerViewDelegate : class {
+protocol StickerPickerViewDelegate: class {
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,
@@ -58,11 +58,13 @@ class StickerPickerViewController
 {
     private let imageLoader = ImageLoader()
     weak var delegate: StickerPickerViewDelegate?
-    let stickerPack: StickerPack
+    var stickerPack: StickerPack? {
+        didSet {
+            self.collectionView.reloadData()
+        }
+    }
 
-    init(stickerPack: StickerPack) {
-        self.stickerPack = stickerPack
-
+    init() {
         let layout = UICollectionViewCompositionalLayout { (
             sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment
@@ -111,7 +113,7 @@ class StickerPickerViewController
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return self.stickerPack.files.count
+        return self.stickerPack?.files.count ?? 0
     }
 
     override func collectionView(
@@ -130,7 +132,7 @@ class StickerPickerViewController
         forItemAt indexPath: IndexPath
     ) {
         let cell = cell as! StickerPickerCell
-        let imageURL = self.stickerPack.files[indexPath.item].url
+        let imageURL = self.stickerPack!.files[indexPath.item].url
         let params = ImageLoaderParams(
             imageURL: imageURL,
             pointSize: cell.bounds.size,
@@ -148,7 +150,7 @@ class StickerPickerViewController
         prefetchItemsAt indexPaths: [IndexPath]
     ) {
         for indexPath in indexPaths {
-            let imageURL = self.stickerPack.files[indexPath.item].url
+            let imageURL = self.stickerPack!.files[indexPath.item].url
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
             let params = ImageLoaderParams(
                 imageURL: imageURL,
@@ -164,7 +166,7 @@ class StickerPickerViewController
         cancelPrefetchingForItemsAt indexPaths: [IndexPath]
     ) {
         for indexPath in indexPaths {
-            let imageURL = self.stickerPack.files[indexPath.item].url
+            let imageURL = self.stickerPack!.files[indexPath.item].url
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
             let params = ImageLoaderParams(
                 imageURL: imageURL,
@@ -179,7 +181,7 @@ class StickerPickerViewController
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        let pack = self.stickerPack
+        let pack = self.stickerPack!
         let file = pack.files[indexPath.item]
         self.delegate?.stickerPickerView(self, didSelect: file, inPack: pack)
     }

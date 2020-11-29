@@ -1,15 +1,22 @@
 import UIKit
 
-class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
+class KeyboardViewController
+    : UIInputViewController
+    , StickerPickerViewDelegate
+{
+    var touchableView: TouchableTransparentView!
     var nextKeyboardButton: UIButton!
-    var stickerView: UIView!
-    var stickerPickerViewController: StickerPickerViewController!
+    var bannerContainer: BannerContainerViewController!
+    var stickerTabViewController: UIPageViewController!
+    var stickerTabDataSource: StickerPageViewControllerDataSource!
     var needFullAccessView: UILabel!
     var heightConstraint: NSLayoutConstraint?
     var widthConstraint: NSLayoutConstraint?
 
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.view.translatesAutoresizingMaskIntoConstraints = false
 
         // let globe = UIImage(systemName: "globe")!
         // self.nextKeyboardButton = UIButton(type: .system)
@@ -23,12 +30,6 @@ class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
         // self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         // self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
         // self.view.addSubview(self.nextKeyboardButton)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.view.translatesAutoresizingMaskIntoConstraints = false
 
         if !self.hasFullAccess {
             self.needFullAccessView = UILabel()
@@ -50,23 +51,42 @@ class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
             return
         }
 
-        self.stickerView = TouchableTransparentView()
-        self.view.addSubview(self.stickerView)
-        self.stickerView
+        self.touchableView = TouchableTransparentView()
+        self.view.addSubview(self.touchableView)
+        self.touchableView
             .autoLayout()
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
-        let stickerPack = try! StickerFileManager.main.stickerPacks()[0]
-        self.stickerPickerViewController = StickerPickerViewController(stickerPack: stickerPack)
-        self.addChild(self.stickerPickerViewController)
-        self.stickerPickerViewController.delegate = self
-        self.stickerView.addSubview(self.stickerPickerViewController.view)
-        self.stickerPickerViewController.view
+        self.stickerTabViewController = UIPageViewController(
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal
+        )
+        let appearance = UIPageControl.appearance()
+        appearance.pageIndicatorTintColor = UIColor.systemFill
+        appearance.currentPageIndicatorTintColor = UIColor.accent
+
+        self.bannerContainer = BannerContainerViewController()
+        self.addChild(self.bannerContainer)
+        self.touchableView.addSubview(self.bannerContainer.view)
+        self.bannerContainer.didMove(toParent: self)
+        self.bannerContainer.setContentViewController(self.stickerTabViewController)
+        self.bannerContainer.view
             .autoLayout()
-            .fill(self.stickerView.safeAreaLayoutGuide)
+            .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
-        self.stickerPickerViewController.didMove(toParent: self)
+
+        let stickerPacks = try! StickerFileManager.main.stickerPacks()
+        self.stickerTabDataSource = StickerPageViewControllerDataSource(
+            stickerPacks: stickerPacks,
+            stickerDelegate: self
+        )
+        self.stickerTabViewController.dataSource = self.stickerTabDataSource
+        self.stickerTabViewController.setViewControllers(
+            [self.stickerTabDataSource.initialViewController()],
+            direction: .forward,
+            animated: false
+        )
     }
 
     override func updateViewConstraints() {
@@ -97,20 +117,22 @@ class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
         didSelect stickerFile: StickerFile,
         inPack stickerPack: StickerPack
     ) {
-        let data = try! Data(contentsOf: stickerFile.url)
-        UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
-
         // Hack to make the next keyboard button go to the previously selected
         // keyboard instead of the next one (iOS seems go to the next one only
         // if you didn't input anything with the keyboard)
         self.textDocumentProxy.insertText("")
-    }
-    
-    override func textWillChange(_ textInput: UITextInput?) {
-        // The app is about to change the document's contents. Perform any preparation here.
-    }
-    
-    override func textDidChange(_ textInput: UITextInput?) {
-        // The app has just changed the document's contents, the document context has been updated.
+
+        let data: Data
+        do {
+            data = try Data(contentsOf: stickerFile.url)
+        } catch {
+            self.bannerContainer.showBanner(
+                text: "Failed to load '\(stickerFile.name)'",
+                style: .error
+            )
+            return
+        }
+        UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
+        self.bannerContainer.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
     }
 }

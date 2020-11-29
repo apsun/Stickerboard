@@ -1,6 +1,6 @@
 import UIKit
 
-class NavViewController : UINavigationController {
+class NavViewController: UINavigationController {
     override func viewDidLoad() {
         print("viewDidLoad")
         self.setViewControllers([MainViewController()], animated: false)

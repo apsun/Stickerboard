@@ -141,7 +141,7 @@ class StickerFileManager {
             guard
                 let isRegularFile = resourceValues.isRegularFile,
                 let utiType = resourceValues.contentType,
-                let name = resourceValues.name
+                let fileName = resourceValues.name
                 else { continue }
 
             if !isRegularFile {
@@ -152,7 +152,8 @@ class StickerFileManager {
                 continue
             }
 
-            stickerFiles.append(StickerFile(name: name, url: fileURL, utiType: utiType))
+            let name = fileName.prefix(upTo: fileName.lastIndex(of: ".") ?? fileName.endIndex)
+            stickerFiles.append(StickerFile(name: String(name), url: fileURL, utiType: utiType))
         }
         return stickerFiles
     }
@@ -206,9 +207,9 @@ class StickerFileManager {
         var ret = [StickerPack]()
         for url in filesByDir.keys.sorted(by: { $0.relativePath < $1.relativePath }) {
             let files = filesByDir[url]!.sorted { $0.name < $1.name }
-            var name = url.lastPathComponent
+            var name: String? = url.lastPathComponent
             if name == "." {
-                name = "Stickers"
+                name = nil
             }
             let pack = StickerPack(name: name, url: url, files: files)
             ret.append(pack)
