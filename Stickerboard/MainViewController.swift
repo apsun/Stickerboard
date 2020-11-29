@@ -113,6 +113,9 @@ class MainViewController
         didSelect stickerFile: StickerFile,
         inPack stickerPack: StickerPack
     ) {
+        let feedbackGenerator = UISelectionFeedbackGenerator()
+        feedbackGenerator.selectionChanged()
+
         let data: Data
         do {
             data = try Data(contentsOf: stickerFile.url)

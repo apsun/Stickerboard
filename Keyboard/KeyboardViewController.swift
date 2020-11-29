@@ -117,6 +117,9 @@ class KeyboardViewController
         didSelect stickerFile: StickerFile,
         inPack stickerPack: StickerPack
     ) {
+        let feedbackGenerator = UISelectionFeedbackGenerator()
+        feedbackGenerator.selectionChanged()
+
         // Hack to make the next keyboard button go to the previously selected
         // keyboard instead of the next one (iOS seems go to the next one only
         // if you didn't input anything with the keyboard)
