@@ -26,6 +26,7 @@
 		4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
 		4964E9AF25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9AE25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
 		4964E9BB2572125A002AFDFE /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9BA2572125A002AFDFE /* StickerModel.swift */; };
+		496E594F257435DA00F641AF /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E594E257435DA00F641AF /* KeyboardButton.swift */; };
 		49DD642E256B090D00E73195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49DD642D256B090D00E73195 /* Assets.xcassets */; };
 		49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */; };
 		49DD6436256B1B1200E73195 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6403256AB89700E73195 /* StickerPickerViewController.swift */; };
@@ -83,6 +84,7 @@
 		4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
 		4964E9AE25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
 		4964E9BA2572125A002AFDFE /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
+		496E594E257435DA00F641AF /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		49DD6403256AB89700E73195 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTransparentView.swift; sourceTree = "<group>"; };
 		49DD6427256AFB5900E73195 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -176,6 +178,7 @@
 				49200F222570696200DCFB73 /* Keyboard.entitlements */,
 				49FADD7825662B0100493644 /* Info.plist */,
 				49200F412570CBAB00DCFB73 /* Cache.swift */,
+				496E594E257435DA00F641AF /* KeyboardButton.swift */,
 				49FADD7625662B0100493644 /* KeyboardViewController.swift */,
 				490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */,
 				49DD6403256AB89700E73195 /* StickerPickerViewController.swift */,
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496E594F257435DA00F641AF /* KeyboardButton.swift in Sources */,
 				49200F422570CBAB00DCFB73 /* Cache.swift in Sources */,
 				49200F482570CBCB00DCFB73 /* ImageLoader.swift in Sources */,
 				49DD6436256B1B1200E73195 /* StickerPickerViewController.swift in Sources */,

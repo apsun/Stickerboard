@@ -13,7 +13,7 @@ class TouchableTransparentView: UIView {
     required init?(coder: NSCoder) {
         abort()
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         let gradientLayer = self.layer as! CAGradientLayer

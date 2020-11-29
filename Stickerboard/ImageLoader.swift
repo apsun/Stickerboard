@@ -44,6 +44,11 @@ class ImageLoader {
     private var callbacks = [ImageLoaderParams: [Callback]]()
 
     /**
+     * The global shared image loader instance.
+     */
+    static let main = ImageLoader()
+
+    /**
      * Loads the specified image, downsampling it to the given size for use
      * as a thumbnail. Calls the given callback immediately if the image of
      * the given size is already in the cache; otherwise, asynchronously loads

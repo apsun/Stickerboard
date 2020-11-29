@@ -5,17 +5,26 @@ class KeyboardViewController
     , StickerPickerViewDelegate
 {
     private var touchableView: TouchableTransparentView!
-    private var nextKeyboardButton: UIButton!
+    private var nextKeyboardButton: KeyboardButton!
     private var bannerContainer: BannerContainerViewController!
     private var stickerTabViewController: UIPageViewController!
     private var stickerTabDataSource: StickerPageViewControllerDataSource?
     private var needFullAccessView: UILabel!
-    private var heightConstraint: NSLayoutConstraint?
     private var widthConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // As seen in: https://stackoverflow.com/questions/39694039
+        // Basically, it seems that the parent view resizes its height to fit
+        // the keyboard contents, which means that constraining our own height
+        // to equal the parent height will cause a chicken and egg problem.
+        // Thus, we need to set an explicit keyboard height ourselves.
+        //
+        // Since we're disabling autoresizing mask constraints, we need to also
+        // set the width to equal the parent, which we won't know in viewDidLoad.
+        // Hence, we delay adding the constraints to viewDidAppear.
         self.view.translatesAutoresizingMaskIntoConstraints = false
 
         if !self.hasFullAccess {
@@ -63,19 +72,28 @@ class KeyboardViewController
         self.bannerContainer.didMove(toParent: self)
         self.bannerContainer.setContentViewController(self.stickerTabViewController)
 
-        self.nextKeyboardButton = UIButton(type: .system)
+        self.nextKeyboardButton = KeyboardButton(type: .system)
         self.nextKeyboardButton
             .autoLayoutInView(self.bannerContainer.view)
-            .left(self.bannerContainer.view.safeAreaLayoutGuide.leadingAnchor)
-            .bottom(self.bannerContainer.view.safeAreaLayoutGuide.bottomAnchor)
+            .left(self.bannerContainer.view.safeAreaLayoutGuide.leadingAnchor, constant: 4)
+            .bottom(self.bannerContainer.view.safeAreaLayoutGuide.bottomAnchor, constant: -4)
+            .height(32)
+            .width(64)
             .activate()
-        self.nextKeyboardButton.setImage(UIImage(systemName: "globe")!, for: .normal)
+
+        let globe = UIImage(
+            systemName: "globe",
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 16)
+        )!
+        self.nextKeyboardButton.setImage(globe, for: .normal)
         self.nextKeyboardButton.tintColor = .label
         self.nextKeyboardButton.backgroundColor = .systemFill
         self.nextKeyboardButton.layer.cornerRadius = 5
-        self.nextKeyboardButton.layer.masksToBounds = false
-        self.nextKeyboardButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right:  8)
-        self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+        self.nextKeyboardButton.addTarget(
+            self,
+            action: #selector(handleInputModeList(from:with:)),
+            for: .allTouchEvents
+        )
 
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
         if stickerPacks.isEmpty {
@@ -96,27 +114,29 @@ class KeyboardViewController
         }
     }
 
-    override func updateViewConstraints() {
-        // As seen in: https://stackoverflow.com/questions/39694039
-        // Basically, it seems that the parent view resizes its height to fit
-        // the keyboard contents, which means that constraining our own height
-        // to equal the parent height will cause a chicken and egg problem.
-        // Thus, we need to set an explicit keyboard height ourselves.
-        //
-        // Since we're disabling autoresizing mask constraints, we need to also
-        // set the width to equal the parent, which we won't know in viewDidLoad.
-        // Hence we're adding the constraints here, where the superview is known.
-        if self.heightConstraint == nil {
-            self.heightConstraint = self.view.heightAnchor.constraint(equalToConstant: 261)
-            self.heightConstraint!.isActive = true
-        }
-        if self.widthConstraint == nil {
-            self.widthConstraint = self.view.widthAnchor.constraint(
-                equalTo: self.view.superview!.widthAnchor
-            )
-            self.widthConstraint!.isActive = true
-        }
-        super.updateViewConstraints()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        let parent = self.view.superview!
+        self.widthConstraint = self.view.widthAnchor.constraint(equalTo: parent.widthAnchor)
+        self.heightConstraint = self.view.heightAnchor.constraint(equalToConstant: 261)
+
+        NSLayoutConstraint.activate([
+            self.widthConstraint!,
+            self.heightConstraint!,
+        ])
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        NSLayoutConstraint.deactivate([
+            self.widthConstraint!,
+            self.heightConstraint!,
+        ])
+
+        self.widthConstraint = nil
+        self.heightConstraint = nil
+
+        super.viewWillDisappear(animated)
     }
 
     func stickerPickerView(
