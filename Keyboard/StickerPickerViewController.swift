@@ -34,13 +34,41 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         abort()
     }
 
-    func beginSetImage(params: ImageLoaderParams) {
-        self.imageParams = params
-        self.imageView.contentMode = .center
-        self.imageView.image = StickerPickerCell.loadingImage
+    private func makeImageParams(url: URL?) -> ImageLoaderParams? {
+        guard let url = url else { return nil }
+        return ImageLoaderParams(
+            imageURL: url,
+            pointSize: self.bounds.size,
+            scale: UIScreen.main.scale
+        )
     }
 
-    func commitSetImage(params: ImageLoaderParams, image: UIImage?) {
+    private func beginSetImage(params: ImageLoaderParams?) {
+        let oldParams = self.imageParams
+        if params == oldParams {
+            return
+        }
+
+        self.imageParams = params
+        guard let params = params else {
+            self.imageView.image = nil
+            return
+        }
+
+        // If the image is the same as before (just with a different size),
+        // keep it in place while we load the new one. Otherwise, display a
+        // placeholder thumbnail.
+        if params.imageURL != oldParams?.imageURL {
+            self.imageView.image = StickerPickerCell.loadingImage
+            self.imageView.contentMode = .center
+        }
+
+        ImageLoader.main.loadAsync(params: params) { image in
+            self.commitSetImage(params: params, image: image)
+        }
+    }
+
+    private func commitSetImage(params: ImageLoaderParams, image: UIImage?) {
         guard params == self.imageParams else { return }
 
         if let image = image {
@@ -51,6 +79,18 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
             self.imageView.image = StickerPickerCell.errorImage
         }
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let params = self.makeImageParams(url: self.imageParams?.imageURL)
+        self.beginSetImage(params: params)
+    }
+
+    func setImageAsync(url: URL?) {
+        let params = self.makeImageParams(url: url)
+        self.beginSetImage(params: params)
+    }
 }
 
 class StickerPickerViewController
@@ -58,7 +98,6 @@ class StickerPickerViewController
     , UICollectionViewDelegateFlowLayout
     , UICollectionViewDataSourcePrefetching
 {
-    private let imageLoader = ImageLoader()
     weak var delegate: StickerPickerViewDelegate?
     var stickerPack: StickerPack? {
         didSet {
@@ -135,16 +174,7 @@ class StickerPickerViewController
     ) {
         let cell = cell as! StickerPickerCell
         let imageURL = self.stickerPack!.files[indexPath.item].url
-        let params = ImageLoaderParams(
-            imageURL: imageURL,
-            pointSize: cell.bounds.size,
-            scale: UIScreen.main.scale
-        )
-
-        cell.beginSetImage(params: params)
-        self.imageLoader.loadAsync(params: params) { image in
-            cell.commitSetImage(params: params, image: image)
-        }
+        cell.setImageAsync(url: imageURL)
     }
 
     func collectionView(
@@ -159,7 +189,7 @@ class StickerPickerViewController
                 pointSize: size,
                 scale: UIScreen.main.scale
             )
-            self.imageLoader.loadAsync(params: params)
+            ImageLoader.main.loadAsync(params: params)
         }
     }
 
@@ -175,7 +205,7 @@ class StickerPickerViewController
                 pointSize: size,
                 scale: UIScreen.main.scale
             )
-            self.imageLoader.cancelLoad(params: params)
+            ImageLoader.main.cancelLoad(params: params)
         }
     }
 
