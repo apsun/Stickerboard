@@ -57,7 +57,7 @@ class KeyboardViewController: UIInputViewController, StickerPickerViewDelegate {
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
-        let stickerPack = try! StickerFileManager.main.singleStickerPack()
+        let stickerPack = try! StickerFileManager.main.stickerPacks()[0]
         self.stickerPickerViewController = StickerPickerViewController(stickerPack: stickerPack)
         self.addChild(self.stickerPickerViewController)
         self.stickerPickerViewController.delegate = self

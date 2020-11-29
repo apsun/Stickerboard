@@ -6,13 +6,13 @@ import UniformTypeIdentifiers
  */
 struct StickerFile: CustomDebugStringConvertible {
     /**
-     * The name of the sticker file, with the file extension.
+     * The name of the sticker file, without the file extension.
      * Not usable as a filesystem path, for display purposes only.
      */
     let name: String
 
     /**
-     * The filesystem URL of the sticker image.
+     * The filesystem URL of the sticker image. Usable as a unique identifier.
      */
     let url: URL
 
@@ -35,10 +35,10 @@ struct StickerFile: CustomDebugStringConvertible {
  */
 struct StickerPack: CustomDebugStringConvertible {
     /**
-     * The relative path of the sticker pack, relative to the root sticker directory.
+     * The name of the sticker pack, without the leading path components.
      * Not usable as a filesystem path, for display purposes only.
      */
-    let path: String
+    let name: String
 
     /**
      * The filesystem URL of the sticker pack.
@@ -52,7 +52,8 @@ struct StickerPack: CustomDebugStringConvertible {
 
     var debugDescription: String {
         return "StickerPack("
-            + "path=\(self.path.debugDescription)"
+            + "name=\(self.name.debugDescription)"
+            + ", urlPath=\(self.url.relativePath.debugDescription)"
             + ", files=\(self.files.debugDescription)"
             + ")"
     }

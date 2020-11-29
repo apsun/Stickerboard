@@ -3,27 +3,13 @@ import UIKit
 class MainViewController
     : UIViewController
     , StickerPickerViewDelegate
-    , UIPageViewControllerDelegate
 {
     var stickerView: TouchableTransparentView!
     var stickerTabViewController: UIPageViewController!
-    var stickerPackNameLabel: UILabel!
     var testTextField: UITextField!
     var importButton: UIButton!
     var stickerTabDataSource: StickerPageViewControllerDataSource!
-
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        didFinishAnimating finished: Bool,
-        previousViewControllers: [UIViewController],
-        transitionCompleted completed: Bool
-    ) {
-        if !completed {
-            return
-        }
-        let viewController = pageViewController.viewControllers![0] as! StickerPickerViewController
-        self.stickerPackNameLabel.text = viewController.stickerPack.name
-    }
+    var bannerContainer: BannerContainerViewController!
 
     override func loadView() {
         print("loadView")
@@ -44,23 +30,18 @@ class MainViewController
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
         )
-        self.addChild(self.stickerTabViewController)
-        self.stickerView.addSubview(self.stickerTabViewController.view)
-        self.stickerTabViewController.view
-            .autoLayout()
-            .fill(self.stickerView.safeAreaLayoutGuide)
-            .activate()
-        self.stickerTabViewController.didMove(toParent: self)
         let appearance = UIPageControl.appearance()
         appearance.pageIndicatorTintColor = UIColor.systemFill
         appearance.currentPageIndicatorTintColor = UIColor.accent
 
-        self.stickerPackNameLabel = UILabel()
-        self.view.addSubview(self.stickerPackNameLabel)
-        self.stickerPackNameLabel
+        self.bannerContainer = BannerContainerViewController()
+        self.addChild(self.bannerContainer)
+        self.stickerView.addSubview(self.bannerContainer.view)
+        self.bannerContainer.didMove(toParent: self)
+        self.bannerContainer.setContentViewController(self.stickerTabViewController)
+        self.bannerContainer.view
             .autoLayout()
-            .fillX(self.view.layoutMarginsGuide)
-            .below(self.stickerTabViewController.view)
+            .fill(self.stickerView.safeAreaLayoutGuide)
             .activate()
 
         self.testTextField = UITextField()
@@ -69,7 +50,7 @@ class MainViewController
         self.testTextField
             .autoLayout()
             .fillX(self.view.layoutMarginsGuide)
-            .below(self.stickerPackNameLabel)
+            .below(self.bannerContainer.view)
             .activate()
 
         self.importButton = UIButton(type: .system)
@@ -87,7 +68,6 @@ class MainViewController
             stickerPacks: stickerPacks,
             stickerDelegate: self
         )
-        self.stickerTabViewController.delegate = self
         self.stickerTabViewController.dataSource = self.stickerTabDataSource
         self.stickerTabViewController.setViewControllers(
             [self.stickerTabDataSource.initialViewController()],
@@ -98,7 +78,13 @@ class MainViewController
 
     @objc
     func importStickersButtonClicked() {
-        try! StickerFileManager.main.importFromDocuments()
+        do {
+            try StickerFileManager.main.importFromDocuments()
+        } catch {
+            self.bannerContainer.showBanner(text: "Failed to import stickers")
+            return
+        }
+        self.bannerContainer.showBanner(text: "Successfully imported stickers")
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
         self.stickerTabDataSource = StickerPageViewControllerDataSource(
             stickerPacks: stickerPacks,
@@ -119,6 +105,7 @@ class MainViewController
     ) {
         let data = try! Data(contentsOf: stickerFile.url)
         UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
+        self.bannerContainer.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
     }
 
     override func viewDidLoad() {

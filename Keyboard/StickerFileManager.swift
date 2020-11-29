@@ -206,25 +206,13 @@ class StickerFileManager {
         var ret = [StickerPack]()
         for url in filesByDir.keys.sorted(by: { $0.relativePath < $1.relativePath }) {
             let files = filesByDir[url]!.sorted { $0.name < $1.name }
-            var path = url.relativePath
-            if path == "." {
-                path = ""
+            var name = url.lastPathComponent
+            if name == "." {
+                name = "Stickers"
             }
-            let pack = StickerPack(path: path, url: url, files: files)
+            let pack = StickerPack(name: name, url: url, files: files)
             ret.append(pack)
         }
         return ret
-    }
-
-    /**
-     * Similar to stickerPacks(), but forces all of the stickers into a
-     * single sticker pack as if they were in the same directory.
-     *
-     * TODO: For testing purposes only, to be removed
-     */
-    func singleStickerPack() throws -> StickerPack {
-        let packs = try self.stickerPacks()
-        let files = packs.flatMap { $0.files }
-        return StickerPack(path: packs[0].path, url: packs[0].url, files: files)
     }
 }

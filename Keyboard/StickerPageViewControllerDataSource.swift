@@ -14,8 +14,7 @@ class StickerPageViewControllerDataSource
 
     private func viewController(forIndex index: Int) -> UIViewController {
         let pack = self.stickerPacks[index]
-        let controller = StickerPickerViewController()
-        controller.stickerPack = pack
+        let controller = StickerPickerViewController(stickerPack: pack)
         controller.delegate = self.stickerDelegate
         return controller
     }
@@ -25,7 +24,7 @@ class StickerPageViewControllerDataSource
     }
 
     private func indexOf(viewController: UIViewController) -> Int {
-        let pack = (viewController as! StickerPickerViewController).stickerPack!
+        let pack = (viewController as! StickerPickerViewController).stickerPack
         return self.stickerPacks.firstIndex { $0.url == pack.url }!
     }
 
