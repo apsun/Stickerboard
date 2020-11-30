@@ -1,66 +1,34 @@
 import UIKit
 
+/**
+ * Creates StickerPickerViewController instances from StickerPack objects.
+ */
 class StickerPageViewControllerDataSource
     : NSObject
-    , UIPageViewControllerDataSource
+    , ArrayPageViewControllerDataSource
 {
     private let stickerPacks: [StickerPack]
-    private weak var stickerDelegate: StickerPickerViewDelegate?
+    private weak var stickerPickerDelegate: StickerPickerViewDelegate?
 
-    init(stickerPacks: [StickerPack], stickerDelegate: StickerPickerViewDelegate) {
-        assert(!stickerPacks.isEmpty)
+    init(stickerPacks: [StickerPack], stickerPickerDelegate: StickerPickerViewDelegate) {
         self.stickerPacks = stickerPacks
-        self.stickerDelegate = stickerDelegate
+        self.stickerPickerDelegate = stickerPickerDelegate
     }
 
-    private func viewController(forIndex index: Int) -> UIViewController {
+    func create(index: Int) -> UIViewController {
         let pack = self.stickerPacks[index]
         let controller = StickerPickerViewController()
         controller.stickerPack = pack
-        controller.delegate = self.stickerDelegate
+        controller.delegate = self.stickerPickerDelegate
         return controller
     }
 
-    func initialViewController() -> UIViewController {
-        return viewController(forIndex: 0)
-    }
-
-    private func indexOf(viewController: UIViewController) -> Int {
+    func indexOf(viewController: UIViewController) -> Int {
         let pack = (viewController as! StickerPickerViewController).stickerPack!
         return self.stickerPacks.firstIndex { $0.url == pack.url }!
     }
 
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+    func count() -> Int {
         return self.stickerPacks.count
-    }
-
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        let viewControllers = pageViewController.viewControllers!
-        if viewControllers.count != 1 {
-            return -1
-        }
-        return self.indexOf(viewController: viewControllers[0])
-    }
-
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        viewControllerBefore viewController: UIViewController
-    ) -> UIViewController? {
-        let packIndex = self.indexOf(viewController: viewController)
-        if packIndex == 0 {
-            return nil
-        }
-        return self.viewController(forIndex: packIndex - 1)
-    }
-
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        viewControllerAfter viewController: UIViewController
-    ) -> UIViewController? {
-        let packIndex = self.indexOf(viewController: viewController)
-        if packIndex == self.stickerPacks.count - 1 {
-            return nil
-        }
-        return self.viewController(forIndex: packIndex + 1)
     }
 }

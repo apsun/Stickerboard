@@ -1,5 +1,8 @@
 import UIKit
 
+/**
+ * Provides a callback for when the user selects a sticker.
+ */
 protocol StickerPickerViewDelegate: class {
     func stickerPickerView(
         _ sender: StickerPickerViewController,
@@ -8,6 +11,9 @@ protocol StickerPickerViewDelegate: class {
     )
 }
 
+/**
+ * A cell containing an image view.
+ */
 fileprivate class StickerPickerCell: UICollectionViewCell {
     static let reuseIdentifier = NSStringFromClass(StickerPickerCell.self)
     private static let loadingImage: UIImage? = nil
@@ -34,6 +40,10 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         abort()
     }
 
+    /**
+     * Returns a parameters object for the image loader given the specified
+     * URL and the current size of the cell.
+     */
     private func makeImageParams(url: URL?) -> ImageLoaderParams? {
         guard let url = url else { return nil }
         return ImageLoaderParams(
@@ -43,6 +53,9 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         )
     }
 
+    /**
+     * Configures the cell to load and eventually display the specified image.
+     */
     private func beginSetImage(params: ImageLoaderParams?) {
         let oldParams = self.imageParams
         if params == oldParams {
@@ -68,6 +81,10 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         }
     }
 
+    /**
+     * Called when an image has successfully loaded/failed to load. Updates
+     * the cell with the image (or displays an error thumbnail if the load failed).
+     */
     private func commitSetImage(params: ImageLoaderParams, image: UIImage?) {
         guard params == self.imageParams else { return }
 
@@ -80,6 +97,10 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         }
     }
 
+    /**
+     * Called when the size of the image changes; triggers a request to load
+     * a new version of the current image with the appropriate size.
+     */
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -87,18 +108,32 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         self.beginSetImage(params: params)
     }
 
+    /**
+     * Asynchronously loads the specified image in this cell.
+     */
     func setImageAsync(url: URL?) {
         let params = self.makeImageParams(url: url)
         self.beginSetImage(params: params)
     }
 }
 
+/**
+ * Displays a vertically scrolling list of sticker images that the user
+ * can select.
+ */
 class StickerPickerViewController
     : UICollectionViewController
     , UICollectionViewDelegateFlowLayout
     , UICollectionViewDataSourcePrefetching
 {
+    /**
+     * Callback for when a sticker is selected by the user.
+     */
     weak var delegate: StickerPickerViewDelegate?
+
+    /**
+     * The sticker pack (i.e. image list) displayed by this sticker picker.
+     */
     var stickerPack: StickerPack? {
         didSet {
             self.collectionView.reloadData()

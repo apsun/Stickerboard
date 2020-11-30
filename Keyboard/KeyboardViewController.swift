@@ -4,12 +4,13 @@ class KeyboardViewController
     : UIInputViewController
     , StickerPickerViewDelegate
 {
-    private var needFullAccessView: UILabel?
     private var touchableView: TouchableTransparentView!
     private var bannerViewController: BannerViewController!
-    private var stickerTabViewController: UIPageViewController!
-    private var stickerTabDataSource: StickerPageViewControllerDataSource?
+    private var stickerPackPageViewController: ArrayPageViewController!
+    private var stickerPackDataSource: StickerPageViewControllerDataSource?
+    private var controlView: UIView!
     private var nextKeyboardButton: KeyboardButton?
+    private var stickerPackPageControl: UIPageControl!
     private var widthConstraint: NSLayoutConstraint?
     private var heightConstraint: NSLayoutConstraint?
 
@@ -27,28 +28,6 @@ class KeyboardViewController
         // Hence, we delay adding the constraints to viewDidAppear.
         self.view.translatesAutoresizingMaskIntoConstraints = false
 
-        if !self.hasFullAccess {
-            self.needFullAccessView = UILabel()
-            self.needFullAccessView!
-                .autoLayoutInView(self.view)
-                .fill(self.view.safeAreaLayoutGuide)
-                .activate()
-            self.needFullAccessView!.numberOfLines = 0
-            self.needFullAccessView!.lineBreakMode = .byClipping
-            self.needFullAccessView!.adjustsFontSizeToFitWidth = true
-            self.needFullAccessView!.textAlignment = .center
-            self.needFullAccessView!.text = """
-                Please enable full access in the iOS keyboard settings in order to use this app
-
-                → Settings
-                → General
-                → Keyboards
-                → Stickerboard
-                → Allow Full Access
-                """
-            return
-        }
-
         self.touchableView = TouchableTransparentView()
         self.touchableView
             .autoLayoutInView(self.view)
@@ -63,16 +42,45 @@ class KeyboardViewController
             .activate()
         self.bannerViewController.didMove(toParent: self)
 
-        self.stickerTabViewController = UIPageViewController(
-            transitionStyle: .scroll,
-            navigationOrientation: .horizontal
-        )
-        self.addChild(stickerTabViewController)
-        self.stickerTabViewController.view
+        self.controlView = UIView()
+        self.controlView
             .autoLayoutInView(self.touchableView)
-            .fill(self.touchableView.safeAreaLayoutGuide)
+            .fillX(self.touchableView.safeAreaLayoutGuide)
+            .bottom(self.touchableView.safeAreaLayoutGuide.bottomAnchor)
+            .height(36)
             .activate()
-        self.stickerTabViewController.didMove(toParent: self)
+        self.controlView.directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: 4, leading: 4, bottom: 4, trailing: 4
+        )
+
+        self.stickerPackPageViewController = ArrayPageViewController()
+        self.addChild(stickerPackPageViewController)
+        self.stickerPackPageViewController.view
+            .autoLayoutInView(self.touchableView)
+            .fillX(self.touchableView.safeAreaLayoutGuide)
+            .top(self.touchableView.safeAreaLayoutGuide.topAnchor)
+            .bottom(self.controlView.topAnchor)
+            .activate()
+        self.stickerPackPageViewController.didMove(toParent: self)
+
+        if self.hasFullAccess {
+            self.stickerPackPageViewController.emptyText = """
+                It looks like you have no stickers!
+
+                To get started, add your stickers to the Stickerboard documents folder, then hit the import button.
+                """
+        } else {
+            self.stickerPackPageViewController.emptyText = """
+                Please enable full access in the iOS keyboard settings in order to use this app
+
+                → Settings
+                → General
+                → Keyboards
+                → Stickerboard
+                → Allow Full Access
+                """
+        }
+
         let appearance = UIPageControl.appearance()
         appearance.pageIndicatorTintColor = UIColor.systemFill
         appearance.currentPageIndicatorTintColor = UIColor.accent
@@ -80,10 +88,9 @@ class KeyboardViewController
         if self.needsInputModeSwitchKey {
             self.nextKeyboardButton = KeyboardButton(type: .system)
             self.nextKeyboardButton!
-                .autoLayoutInView(self.touchableView)
-                .left(self.touchableView.safeAreaLayoutGuide.leadingAnchor, constant: 4)
-                .bottom(self.touchableView.safeAreaLayoutGuide.bottomAnchor, constant: -4)
-                .height(32)
+                .autoLayoutInView(self.controlView)
+                .left(self.controlView.layoutMarginsGuide.leadingAnchor)
+                .fillY(self.controlView.layoutMarginsGuide)
                 .width(64)
                 .activate()
 
@@ -102,25 +109,34 @@ class KeyboardViewController
             )
         }
 
-        let stickerPacks = try! StickerFileManager.main.stickerPacks()
-        if stickerPacks.isEmpty {
-            self.stickerTabDataSource = nil
-            self.stickerTabViewController.dataSource = nil
-        } else {
-            let dataSource = StickerPageViewControllerDataSource(
-                stickerPacks: stickerPacks,
-                stickerDelegate: self
-            )
-            self.stickerTabDataSource = dataSource
-            self.stickerTabViewController.dataSource = dataSource
-            self.stickerTabViewController.setViewControllers(
-                [dataSource.initialViewController()],
-                direction: .forward,
-                animated: false
-            )
+        // TODO: This could probably be made more elegant... maybe use UIStackView?
+        var leftAnchor = self.controlView.layoutMarginsGuide.leadingAnchor
+        if let nextKeyboardButton = self.nextKeyboardButton {
+            leftAnchor = nextKeyboardButton.trailingAnchor
         }
 
+        self.stickerPackPageControl = UIPageControl()
+        self.stickerPackPageControl
+            .autoLayoutInView(self.controlView)
+            .left(leftAnchor)
+            .right(self.controlView.layoutMarginsGuide.trailingAnchor)
+            .centerY(self.controlView.layoutMarginsGuide.centerYAnchor)
+            .activate()
+        self.stickerPackPageViewController.pageControl = self.stickerPackPageControl
+
+        // Ensure banners display over everything else
         self.touchableView.bringSubviewToFront(self.bannerViewController.view)
+
+        // Load the actual data
+        if self.hasFullAccess {
+            let stickerPacks = try! StickerFileManager.main.stickerPacks()
+            let dataSource = StickerPageViewControllerDataSource(
+                stickerPacks: stickerPacks,
+                stickerPickerDelegate: self
+            )
+            self.stickerPackDataSource = dataSource
+            self.stickerPackPageViewController.dataSource = dataSource
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

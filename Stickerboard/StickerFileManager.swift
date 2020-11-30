@@ -175,8 +175,9 @@ class StickerFileManager {
     /**
      * Imports all images within the documents directory to the shared
      * app group container to make them visible to the keyboard extension.
+     * Returns the number of stickers imported.
      */
-    func importFromDocuments() throws {
+    func importFromDocuments() throws -> Int {
         let files = try self.recursiveStickerFilesInDirectory(self.documentDirectoryURL())
         let tempDirURL = try self.temporaryDirectoryURL()
         for file in files {
@@ -189,6 +190,7 @@ class StickerFileManager {
             try self.copySticker(src: file.url, dest: destURL)
         }
         try self.commitStickerDirectory(tempDirURL: tempDirURL)
+        return files.count
     }
 
     /**

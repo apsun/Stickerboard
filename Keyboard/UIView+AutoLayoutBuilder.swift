@@ -62,6 +62,20 @@ class AutoLayoutBuilder {
     }
 
     /**
+     * Aligns the horizontal center of this view to the given point.
+     */
+    func centerX(_ centerX: NSLayoutXAxisAnchor) -> AutoLayoutBuilder {
+        return self.constraint(self.view.centerXAnchor.constraint(equalTo: centerX))
+    }
+
+    /**
+     * Aligns the vertical center of this view to the given point.
+     */
+    func centerY(_ centerY: NSLayoutYAxisAnchor) -> AutoLayoutBuilder {
+        return self.constraint(self.view.centerYAnchor.constraint(equalTo: centerY))
+    }
+
+    /**
      * Anchors the top edge of this view below the specified view.
      */
     func below(_ view: UIView) -> AutoLayoutBuilder {
