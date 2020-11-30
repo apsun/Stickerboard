@@ -5,11 +5,11 @@ class MainViewController
     , StickerPickerViewDelegate
 {
     private var touchableView: TouchableTransparentView!
+    private var bannerViewController: BannerViewController!
     private var stickerTabViewController: UIPageViewController!
+    private var stickerTabDataSource: StickerPageViewControllerDataSource?
     private var testTextField: UITextField!
     private var importButton: UIButton!
-    private var stickerTabDataSource: StickerPageViewControllerDataSource?
-    private var bannerContainer: BannerContainerViewController!
 
     override func loadView() {
         print("loadView")
@@ -31,28 +31,33 @@ class MainViewController
             .height(261)
             .activate()
 
+        self.bannerViewController = BannerViewController()
+        self.addChild(self.bannerViewController)
+        self.bannerViewController.view
+            .autoLayoutInView(self.touchableView)
+            .fill(self.touchableView.safeAreaLayoutGuide)
+            .activate()
+        self.bannerViewController.didMove(toParent: self)
+
         self.stickerTabViewController = UIPageViewController(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
         )
-        let appearance = UIPageControl.appearance()
-        appearance.pageIndicatorTintColor = UIColor.systemFill
-        appearance.currentPageIndicatorTintColor = UIColor.accent
-
-        self.bannerContainer = BannerContainerViewController()
-        self.addChild(self.bannerContainer)
-        self.bannerContainer.view
+        self.addChild(self.stickerTabViewController)
+        self.stickerTabViewController.view
             .autoLayoutInView(self.touchableView)
             .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
-        self.bannerContainer.didMove(toParent: self)
-        self.bannerContainer.setContentViewController(self.stickerTabViewController)
+        self.stickerTabViewController.didMove(toParent: self)
+        let appearance = UIPageControl.appearance()
+        appearance.pageIndicatorTintColor = UIColor.systemFill
+        appearance.currentPageIndicatorTintColor = UIColor.accent
 
         self.testTextField = UITextField()
         self.testTextField
             .autoLayoutInView(self.view)
             .fillX(self.view.layoutMarginsGuide)
-            .below(self.bannerContainer.view)
+            .below(self.bannerViewController.view)
             .activate()
         self.testTextField.borderStyle = .roundedRect
         self.testTextField.allowsEditingTextAttributes = true
@@ -83,6 +88,8 @@ class MainViewController
                 animated: false
             )
         }
+
+        self.touchableView.bringSubviewToFront(self.bannerViewController.view)
     }
 
     @objc
@@ -90,13 +97,13 @@ class MainViewController
         do {
             try StickerFileManager.main.importFromDocuments()
         } catch {
-            self.bannerContainer.showBanner(
+            self.bannerViewController.showBanner(
                 text: "Failed to import stickers",
                 style: .error
             )
             return
         }
-        self.bannerContainer.showBanner(text: "Successfully imported stickers")
+        self.bannerViewController.showBanner(text: "Successfully imported stickers")
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
         if stickerPacks.isEmpty {
             self.stickerTabDataSource = nil
@@ -128,14 +135,14 @@ class MainViewController
         do {
             data = try Data(contentsOf: stickerFile.url)
         } catch {
-            self.bannerContainer.showBanner(
+            self.bannerViewController.showBanner(
                 text: "Failed to load '\(stickerFile.name)'",
                 style: .error
             )
             return
         }
         UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
-        self.bannerContainer.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
+        self.bannerViewController.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
     }
 
     override func viewWillAppear(_ animated: Bool) {

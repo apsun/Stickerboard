@@ -4,12 +4,12 @@ class KeyboardViewController
     : UIInputViewController
     , StickerPickerViewDelegate
 {
+    private var needFullAccessView: UILabel?
     private var touchableView: TouchableTransparentView!
-    private var nextKeyboardButton: KeyboardButton!
-    private var bannerContainer: BannerContainerViewController!
+    private var bannerViewController: BannerViewController!
     private var stickerTabViewController: UIPageViewController!
     private var stickerTabDataSource: StickerPageViewControllerDataSource?
-    private var needFullAccessView: UILabel!
+    private var nextKeyboardButton: KeyboardButton?
     private var widthConstraint: NSLayoutConstraint?
     private var heightConstraint: NSLayoutConstraint?
 
@@ -29,15 +29,15 @@ class KeyboardViewController
 
         if !self.hasFullAccess {
             self.needFullAccessView = UILabel()
-            self.needFullAccessView
+            self.needFullAccessView!
                 .autoLayoutInView(self.view)
                 .fill(self.view.safeAreaLayoutGuide)
                 .activate()
-            self.needFullAccessView.numberOfLines = 0
-            self.needFullAccessView.lineBreakMode = .byClipping
-            self.needFullAccessView.adjustsFontSizeToFitWidth = true
-            self.needFullAccessView.textAlignment = .center
-            self.needFullAccessView.text = """
+            self.needFullAccessView!.numberOfLines = 0
+            self.needFullAccessView!.lineBreakMode = .byClipping
+            self.needFullAccessView!.adjustsFontSizeToFitWidth = true
+            self.needFullAccessView!.textAlignment = .center
+            self.needFullAccessView!.text = """
                 Please enable full access in the iOS keyboard settings in order to use this app
 
                 → Settings
@@ -55,45 +55,52 @@ class KeyboardViewController
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
+        self.bannerViewController = BannerViewController()
+        self.addChild(self.bannerViewController)
+        self.bannerViewController.view
+            .autoLayoutInView(self.touchableView)
+            .fill(self.touchableView.safeAreaLayoutGuide)
+            .activate()
+        self.bannerViewController.didMove(toParent: self)
+
         self.stickerTabViewController = UIPageViewController(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
         )
+        self.addChild(stickerTabViewController)
+        self.stickerTabViewController.view
+            .autoLayoutInView(self.touchableView)
+            .fill(self.touchableView.safeAreaLayoutGuide)
+            .activate()
+        self.stickerTabViewController.didMove(toParent: self)
         let appearance = UIPageControl.appearance()
         appearance.pageIndicatorTintColor = UIColor.systemFill
         appearance.currentPageIndicatorTintColor = UIColor.accent
 
-        self.bannerContainer = BannerContainerViewController()
-        self.addChild(self.bannerContainer)
-        self.bannerContainer.view
-            .autoLayoutInView(self.touchableView)
-            .fill(self.touchableView.safeAreaLayoutGuide)
-            .activate()
-        self.bannerContainer.didMove(toParent: self)
-        self.bannerContainer.setContentViewController(self.stickerTabViewController)
+        if self.needsInputModeSwitchKey {
+            self.nextKeyboardButton = KeyboardButton(type: .system)
+            self.nextKeyboardButton!
+                .autoLayoutInView(self.touchableView)
+                .left(self.touchableView.safeAreaLayoutGuide.leadingAnchor, constant: 4)
+                .bottom(self.touchableView.safeAreaLayoutGuide.bottomAnchor, constant: -4)
+                .height(32)
+                .width(64)
+                .activate()
 
-        self.nextKeyboardButton = KeyboardButton(type: .system)
-        self.nextKeyboardButton
-            .autoLayoutInView(self.bannerContainer.view)
-            .left(self.bannerContainer.view.safeAreaLayoutGuide.leadingAnchor, constant: 4)
-            .bottom(self.bannerContainer.view.safeAreaLayoutGuide.bottomAnchor, constant: -4)
-            .height(32)
-            .width(64)
-            .activate()
-
-        let globe = UIImage(
-            systemName: "globe",
-            withConfiguration: UIImage.SymbolConfiguration(pointSize: 16)
-        )!
-        self.nextKeyboardButton.setImage(globe, for: .normal)
-        self.nextKeyboardButton.tintColor = .label
-        self.nextKeyboardButton.backgroundColor = .systemFill
-        self.nextKeyboardButton.layer.cornerRadius = 5
-        self.nextKeyboardButton.addTarget(
-            self,
-            action: #selector(handleInputModeList(from:with:)),
-            for: .allTouchEvents
-        )
+            let globe = UIImage(
+                systemName: "globe",
+                withConfiguration: UIImage.SymbolConfiguration(pointSize: 16)
+            )!
+            self.nextKeyboardButton!.setImage(globe, for: .normal)
+            self.nextKeyboardButton!.tintColor = .label
+            self.nextKeyboardButton!.backgroundColor = .systemFill
+            self.nextKeyboardButton!.layer.cornerRadius = 5
+            self.nextKeyboardButton!.addTarget(
+                self,
+                action: #selector(handleInputModeList(from:with:)),
+                for: .allTouchEvents
+            )
+        }
 
         let stickerPacks = try! StickerFileManager.main.stickerPacks()
         if stickerPacks.isEmpty {
@@ -112,6 +119,8 @@ class KeyboardViewController
                 animated: false
             )
         }
+
+        self.touchableView.bringSubviewToFront(self.bannerViewController.view)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -156,13 +165,13 @@ class KeyboardViewController
         do {
             data = try Data(contentsOf: stickerFile.url)
         } catch {
-            self.bannerContainer.showBanner(
+            self.bannerViewController.showBanner(
                 text: "Failed to load '\(stickerFile.name)'",
                 style: .error
             )
             return
         }
         UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
-        self.bannerContainer.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
+        self.bannerViewController.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
     }
 }

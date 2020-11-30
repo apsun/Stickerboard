@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		490707B12572C36B005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707B02572C36B005AACD8 /* StickerPageViewControllerDataSource.swift */; };
 		490707C12572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */; };
-		490707CF2572FC0A005AACD8 /* BannerContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707CE2572FC0A005AACD8 /* BannerContainerViewController.swift */; };
-		490707E5257369E5005AACD8 /* BannerContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707E4257369E5005AACD8 /* BannerContainerViewController.swift */; };
+		490707CF2572FC0A005AACD8 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707CE2572FC0A005AACD8 /* BannerViewController.swift */; };
+		490707E5257369E5005AACD8 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707E4257369E5005AACD8 /* BannerViewController.swift */; };
 		49200F0725702D5F00DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */; };
 		49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F122570348600DCFB73 /* UIColor+Accent.swift */; };
 		49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F182570503100DCFB73 /* StickerFileManager.swift */; };
@@ -66,8 +66,8 @@
 /* Begin PBXFileReference section */
 		490707B02572C36B005AACD8 /* StickerPageViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPageViewControllerDataSource.swift; sourceTree = "<group>"; };
 		490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPageViewControllerDataSource.swift; sourceTree = "<group>"; };
-		490707CE2572FC0A005AACD8 /* BannerContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerContainerViewController.swift; sourceTree = "<group>"; };
-		490707E4257369E5005AACD8 /* BannerContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerContainerViewController.swift; sourceTree = "<group>"; };
+		490707CE2572FC0A005AACD8 /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
+		490707E4257369E5005AACD8 /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		49200F0625702D5F00DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49200F122570348600DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49200F182570503100DCFB73 /* StickerFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerFileManager.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 				494051B6256A265E00F39865 /* NavViewController.swift */,
 				490707B02572C36B005AACD8 /* StickerPageViewControllerDataSource.swift */,
 				49DD645B256B577D00E73195 /* StickerPickerViewController.swift */,
-				490707CE2572FC0A005AACD8 /* BannerContainerViewController.swift */,
+				490707CE2572FC0A005AACD8 /* BannerViewController.swift */,
 				49200F3B2570C80E00DCFB73 /* Cache.swift */,
 				4964E98625717E3B002AFDFE /* StickerModel.swift */,
 				49200F182570503100DCFB73 /* StickerFileManager.swift */,
@@ -182,7 +182,7 @@
 				49FADD7625662B0100493644 /* KeyboardViewController.swift */,
 				490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */,
 				49DD6403256AB89700E73195 /* StickerPickerViewController.swift */,
-				490707E4257369E5005AACD8 /* BannerContainerViewController.swift */,
+				490707E4257369E5005AACD8 /* BannerViewController.swift */,
 				49200F1E257066D400DCFB73 /* StickerFileManager.swift */,
 				4964E9BA2572125A002AFDFE /* StickerModel.swift */,
 				49200F472570CBCB00DCFB73 /* ImageLoader.swift */,
@@ -301,7 +301,7 @@
 				49200F3C2570C80E00DCFB73 /* Cache.swift in Sources */,
 				494051B7256A265E00F39865 /* NavViewController.swift in Sources */,
 				4964E9AF25720D9D002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */,
-				490707CF2572FC0A005AACD8 /* BannerContainerViewController.swift in Sources */,
+				490707CF2572FC0A005AACD8 /* BannerViewController.swift in Sources */,
 				49DD645F256B577D00E73195 /* TouchableTransparentView.swift in Sources */,
 				4964E98725717E3B002AFDFE /* StickerModel.swift in Sources */,
 				49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */,
@@ -322,7 +322,7 @@
 				49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */,
 				4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */,
 				49200F1F257066D400DCFB73 /* StickerFileManager.swift in Sources */,
-				490707E5257369E5005AACD8 /* BannerContainerViewController.swift in Sources */,
+				490707E5257369E5005AACD8 /* BannerViewController.swift in Sources */,
 				4964E9BB2572125A002AFDFE /* StickerModel.swift in Sources */,
 				49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */,
 				490707C12572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */,

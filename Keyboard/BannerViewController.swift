@@ -9,11 +9,10 @@ enum BannerStyle {
 }
 
 /**
- * Container view controller that adds the ability to display a banner overlay
- * on top of its contents.
+ * View controller that displays a notification banner at the top
+ * of its view.
  */
-class BannerContainerViewController: UIViewController {
-    private var contentViewController: UIViewController?
+class BannerViewController: UIViewController {
     private var bannerBackgroundView: UIView!
     private var bannerPaddingView: UIView!
     private var bannerLabel: UILabel!
@@ -31,6 +30,7 @@ class BannerContainerViewController: UIViewController {
 
     override func viewDidLoad() {
         self.view.clipsToBounds = true
+        self.view.isUserInteractionEnabled = false
 
         // The banner background view provides an "infinite height" background
         // color container for the banner. This allows us to use spring animations
@@ -41,7 +41,6 @@ class BannerContainerViewController: UIViewController {
             .fillX(self.view.safeAreaLayoutGuide)
             .height(640)  // ought to be enough for anybody ;-)
             .activate()
-        self.bannerBackgroundView.isUserInteractionEnabled = false
         self.bannerBackgroundView.backgroundColor = .accent
 
         // The padding view is used to add some insets to the label. It's anchored
@@ -74,27 +73,6 @@ class BannerContainerViewController: UIViewController {
             equalTo: self.view.topAnchor
         )
         self.bannerHiddenConstraint.isActive = true
-    }
-
-    /**
-     * Sets the inner view controller to be displayed.
-     */
-    func setContentViewController(_ viewController: UIViewController?) {
-        if let oldInnerViewController = self.contentViewController {
-            oldInnerViewController.willMove(toParent: nil)
-            oldInnerViewController.view.removeFromSuperview()
-            oldInnerViewController.removeFromParent()
-        }
-
-        self.contentViewController = viewController
-        if let innerViewController = viewController {
-            self.addChild(innerViewController)
-            innerViewController.view
-                .autoLayoutInView(self.view, below: self.bannerBackgroundView)
-                .fill(self.view.safeAreaLayoutGuide)
-                .activate()
-            innerViewController.didMove(toParent: self)
-        }
     }
 
     /**
