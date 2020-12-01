@@ -127,7 +127,6 @@ class BannerViewController: UIViewController {
         )
     }
 
-
     /**
      * Hides the banner if it is currently being shown.
      */

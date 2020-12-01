@@ -62,6 +62,7 @@ class KeyboardViewController
             .bottom(self.controlView.topAnchor)
             .activate()
         self.stickerPackPageViewController.didMove(toParent: self)
+        self.stickerPackPageViewController.animatePageTransitions = false
 
         if self.hasFullAccess {
             self.stickerPackPageViewController.emptyText = """

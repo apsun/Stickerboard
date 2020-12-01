@@ -35,7 +35,7 @@ class KeyboardButton: UIButton {
         // size so that we only affect the portion behind the button.
         path.append(
             UIBezierPath(
-                roundedRect: bounds.inset(
+                roundedRect: self.bounds.inset(
                     by: UIEdgeInsets(top: size, left: 0, bottom: 0, right: 0)
                 ),
                 cornerRadius: layer.cornerRadius

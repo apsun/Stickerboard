@@ -61,7 +61,9 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      */
     var viewController: UIViewController? {
         get {
-            return self.inner.viewControllers?.first
+            guard let viewControllers = self.inner.viewControllers else { return nil }
+            assert(viewControllers.count <= 1)
+            return viewControllers.first
         }
     }
 
@@ -109,7 +111,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
     }
 
     /**
-     * This is the "real" data source for our underlying page view controller.
+     * This is the proxy data source for our underlying page view controller.
      * It must be kept in sync with the dataSource field. Note that this field
      * itself is not weak, however the adapter itself holds a weak reference
      * to the real data source. Without this field, the adapter would be immediately
@@ -155,9 +157,17 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      */
     weak var pageControl: UIPageControl? {
         didSet {
-            oldValue?.removeTarget(self, action: #selector(pageControlSelectionDidChange), for: .valueChanged)
+            oldValue?.removeTarget(
+                self,
+                action: #selector(pageControlSelectionDidChange),
+                for: .valueChanged
+            )
             guard let newValue = pageControl else { return }
-            newValue.addTarget(self, action: #selector(pageControlSelectionDidChange), for: .valueChanged)
+            newValue.addTarget(
+                self,
+                action: #selector(pageControlSelectionDidChange),
+                for: .valueChanged
+            )
             if self.numberOfPages > 0 {
                 newValue.numberOfPages = self.numberOfPages
                 newValue.currentPage = self.currentPage!
@@ -230,7 +240,9 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
     ) {
         guard let pageControl = self.pageControl else { return }
         guard let currentPage = self.currentPage else { return }
-        pageControl.currentPage = currentPage
+        if completed {
+            pageControl.currentPage = currentPage
+        }
     }
 
     /**
