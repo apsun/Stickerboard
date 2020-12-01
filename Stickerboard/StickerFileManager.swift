@@ -207,15 +207,24 @@ class StickerFileManager {
         }
 
         var ret = [StickerPack]()
-        for url in filesByDir.keys.sorted(by: { $0.relativePath < $1.relativePath }) {
-            let files = filesByDir[url]!.sorted { $0.name < $1.name }
+        let urls = filesByDir.keys.sorted { a, b in
+            a.relativePath.localizedStandardCompare(b.relativePath) == .orderedAscending
+        }
+
+        for url in urls {
+            let files = filesByDir[url]!.sorted { a, b in
+                a.name.localizedStandardCompare(b.name) == .orderedAscending
+            }
+
             var name: String? = url.lastPathComponent
             if name == "." {
                 name = nil
             }
+
             let pack = StickerPack(name: name, url: url, files: files)
             ret.append(pack)
         }
+
         return ret
     }
 }
