@@ -41,7 +41,6 @@ class BannerViewController: UIViewController {
             .fillX(self.view.safeAreaLayoutGuide)
             .height(640)  // ought to be enough for anybody ;-)
             .activate()
-        self.bannerBackgroundView.backgroundColor = .accent
 
         // The padding view is used to add some insets to the label. It's anchored
         // at the bottom of the background view.
@@ -59,7 +58,6 @@ class BannerViewController: UIViewController {
             .autoLayoutInView(self.bannerPaddingView)
             .fill(self.bannerPaddingView.layoutMarginsGuide)
             .activate()
-        self.bannerLabel.textColor = .accentedLabel
         self.bannerLabel.lineBreakMode = .byTruncatingMiddle
         self.bannerLabel.textAlignment = .center
 
@@ -92,11 +90,13 @@ class BannerViewController: UIViewController {
      * if it is currently being shown.
      */
     func showBanner(text: String, style: BannerStyle = .normal) {
-        // Reset position in case we're overwriting the currently
-        // displayed banner, and also pre-set the text so that we
-        // don't animate size changes.
-        self.bannerBackgroundView.backgroundColor = self.backgroundColorForStyle(style)
+        let bannerColor = self.backgroundColorForStyle(style)
+        let textColor = UIColor.label.contrastingBackground(bannerColor)
+
+        self.bannerBackgroundView.backgroundColor = bannerColor
+        self.bannerLabel.textColor = textColor
         self.bannerLabel.text = text
+
         self.bannerVisibleConstraint.isActive = false
         self.bannerHiddenConstraint.isActive = true
         self.view.layoutIfNeeded()

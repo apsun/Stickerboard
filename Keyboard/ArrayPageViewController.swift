@@ -89,7 +89,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
             return dataSource.indexOf(viewController: viewController)
         }
         set {
-            assert((self.dataSource == nil) == (newValue == nil))
+            assert((newValue == nil) == (self.dataSource == nil))
             if let newValue = newValue, let dataSource = self.dataSource {
                 let oldValue = self.currentPage ?? Int.max
                 let direction: UIPageViewController.NavigationDirection
@@ -179,9 +179,12 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * Some text to show in place of the normal view in case the data source
      * is empty/nil.
      */
-    var emptyText: String = "" {
-        didSet {
-            self.emptyView.text = emptyText
+    var emptyText: String? {
+        get {
+            return self.emptyView.text
+        }
+        set {
+            self.emptyView.text = newValue
         }
     }
 
