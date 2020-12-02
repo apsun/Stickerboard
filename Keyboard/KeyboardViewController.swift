@@ -47,7 +47,7 @@ class KeyboardViewController
             .autoLayoutInView(self.touchableView)
             .fillX(self.touchableView.safeAreaLayoutGuide)
             .bottom(self.touchableView.safeAreaLayoutGuide.bottomAnchor)
-            .height(36)
+            .height(40)
             .activate()
         self.controlView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 4, leading: 4, bottom: 4, trailing: 4
@@ -63,24 +63,6 @@ class KeyboardViewController
             .activate()
         self.stickerPackPageViewController.didMove(toParent: self)
         self.stickerPackPageViewController.animatePageTransitions = false
-
-        if self.hasFullAccess {
-            self.stickerPackPageViewController.emptyText = """
-                It looks like you have no stickers!
-
-                To get started, add your stickers to the Stickerboard documents folder, then hit the import button.
-                """
-        } else {
-            self.stickerPackPageViewController.emptyText = """
-                Please enable full access in the iOS keyboard settings in order to use this app
-
-                → Settings
-                → General
-                → Keyboards
-                → Stickerboard
-                → Allow Full Access
-                """
-        }
 
         let appearance = UIPageControl.appearance()
         appearance.pageIndicatorTintColor = UIColor.systemFill
@@ -128,15 +110,47 @@ class KeyboardViewController
         // Ensure banners display over everything else
         self.touchableView.bringSubviewToFront(self.bannerViewController.view)
 
-        // Load the actual data
+        // Start loading the actual data
         if self.hasFullAccess {
-            let stickerPacks = try! StickerFileManager.main.stickerPacks()
+            DispatchQueue.global(qos: .userInitiated).async {
+                let result = Result { try StickerFileManager.main.stickerPacks() }
+                DispatchQueue.main.async {
+                    self.stickerPacksDidLoad(result: result)
+                }
+            }
+        } else {
+            self.stickerPackPageViewController.emptyText = """
+                Please enable full access in the iOS keyboard settings in order to use this app
+
+                → Settings
+                → General
+                → Keyboards
+                → Stickerboard
+                → Allow Full Access
+                """
+        }
+    }
+
+    private func stickerPacksDidLoad(result: Result<[StickerPack], Error>) {
+        switch result {
+        case .success(let stickerPacks):
             let dataSource = StickerPageViewControllerDataSource(
                 stickerPacks: stickerPacks,
                 stickerPickerDelegate: self
             )
             self.stickerPackDataSource = dataSource
             self.stickerPackPageViewController.dataSource = dataSource
+            self.stickerPackPageViewController.emptyText = """
+                It looks like you have no stickers!
+
+                To get started, add your stickers to the Stickerboard documents folder, then hit the import button.
+                """
+        case .failure(let err):
+            self.stickerPackPageViewController.emptyText = """
+                Something went wrong loading your stickers! Please file a bug report and include the following message:
+
+                \(err.localizedDescription)
+                """
         }
     }
 

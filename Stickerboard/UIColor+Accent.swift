@@ -7,7 +7,7 @@ extension UIColor {
     /**
      * Applies the inverse gamma transform to the given color component.
      */
-    static func sRGBToLinear(_ value: CGFloat) -> CGFloat {
+    private static func sRGBToLinear(_ value: CGFloat) -> CGFloat {
         if value <= 0.04045 {
             return value / 12.92
         } else {

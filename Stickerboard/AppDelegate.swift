@@ -5,7 +5,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        try! StickerFileManager.main.ensureReadmeFileExists()
+        do {
+            try StickerFileManager.main.ensureReadmeFileExists()
+        } catch {
+            // Nothing can be done about this; since this isn't technically critical,
+            // just swallow the error and move on.
+        }
         return true
     }
 }

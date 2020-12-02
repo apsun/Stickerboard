@@ -50,17 +50,22 @@ class MainViewController: UIViewController {
 
     @objc
     private func importStickersButtonClicked() {
-        let count: Int
-        do {
-            count = try StickerFileManager.main.importFromDocuments()
-        } catch {
-            self.bannerViewController.showBanner(text: "Failed to import stickers!", style: .error)
-            return
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = Result { try StickerFileManager.main.importFromDocuments() }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let count):
+                    self.bannerViewController.showBanner(
+                        text: "Successfully imported \(count) sticker(s)",
+                        style: .normal
+                    )
+                case .failure(_):
+                    self.bannerViewController.showBanner(
+                        text: "Failed to import stickers!",
+                        style: .error
+                    )
+                }
+            }
         }
-        
-        self.bannerViewController.showBanner(
-            text: "Successfully imported \(count) sticker(s)",
-            style: .normal
-        )
     }
 }
