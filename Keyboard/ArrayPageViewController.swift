@@ -79,8 +79,9 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
 
     /**
      * The index of the current visible page. It is an error to
-     * set this field to nil if the data source is not nil, or to
-     * set this field to non-nil if the data source is nil.
+     * set this field to nil if the data source is not nil and has at
+     * least one element, or to set this field to non-nil if the data
+     * source is nil or empty.
      */
     var currentPage: Int? {
         get {
@@ -89,7 +90,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
             return dataSource.indexOf(viewController: viewController)
         }
         set {
-            assert((newValue == nil) == (self.dataSource == nil))
+            assert((newValue == nil) == (self.dataSource?.count() ?? 0 == 0))
             if let newValue = newValue, let dataSource = self.dataSource {
                 let oldValue = self.currentPage ?? Int.max
                 let direction: UIPageViewController.NavigationDirection
@@ -145,10 +146,10 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
                 }
             }
 
-            self.emptyView.isHidden = false
             self.dataSourceAdapter = nil
             self.inner.dataSource = nil
             self.pageControl?.numberOfPages = 0
+            self.emptyView.isHidden = false
         }
     }
 
