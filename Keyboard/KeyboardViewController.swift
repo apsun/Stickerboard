@@ -87,7 +87,7 @@ class KeyboardViewController
             self.nextKeyboardButton!.layer.cornerRadius = 5
             self.nextKeyboardButton!.addTarget(
                 self,
-                action: #selector(handleInputModeList(from:with:)),
+                action: #selector(self.handleInputModeList(from:with:)),
                 for: .allTouchEvents
             )
         }

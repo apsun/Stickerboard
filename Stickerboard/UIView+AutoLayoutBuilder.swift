@@ -124,6 +124,18 @@ class AutoLayoutBuilder {
     }
 
     /**
+     * Anchors all edges of this view to the corresponding anchor points in
+     * the view. Note that this does not respect margins/safe areas.
+     */
+    func fill(_ view: UIView) -> AutoLayoutBuilder {
+        return self
+            .top(view.topAnchor)
+            .bottom(view.bottomAnchor)
+            .left(view.leadingAnchor)
+            .right(view.trailingAnchor)
+    }
+
+    /**
      * Call this to activate all constraints created by this builder.
      */
     func activate() {
@@ -160,6 +172,16 @@ extension UIView {
      */
     func autoLayoutInView(_ view: UIView, below: UIView) -> AutoLayoutBuilder {
         view.insertSubview(self, belowSubview: below)
+        return self.autoLayout()
+    }
+
+    /**
+     * Adds this view to the given parent view in front of the specified sibling view,
+     * disables autoresizing mask constraints for this view, then returns an auto
+     * layout builder object.
+     */
+    func autoLayoutInView(_ view: UIView, above: UIView) -> AutoLayoutBuilder {
+        view.insertSubview(self, aboveSubview: above)
         return self.autoLayout()
     }
 }

@@ -17,8 +17,11 @@
 		494051B7256A265E00F39865 /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051B6256A265E00F39865 /* NavViewController.swift */; };
 		494051BB256A384D00F39865 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051BA256A384D00F39865 /* main.swift */; };
 		49522A5D25698252007BBEDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49522A5C25698252007BBEDC /* MainViewController.swift */; };
+		4958D049257873EC00E44756 /* StickerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4958D048257873EC00E44756 /* StickerTextView.swift */; };
 		4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
 		4964E9BB2572125A002AFDFE /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9BA2572125A002AFDFE /* StickerModel.swift */; };
+		496943F825788E8300386FBD /* PreferenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496943F725788E8300386FBD /* PreferenceModel.swift */; };
+		496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496943FB25788F3E00386FBD /* PreferenceViewController.swift */; };
 		496E594F257435DA00F641AF /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E594E257435DA00F641AF /* KeyboardButton.swift */; };
 		496E59592574949400F641AF /* ArrayPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59582574949400F641AF /* ArrayPageViewController.swift */; };
 		496E59692574BADA00F641AF /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */; };
@@ -71,8 +74,11 @@
 		494051B6256A265E00F39865 /* NavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		494051BA256A384D00F39865 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		49522A5C25698252007BBEDC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		4958D048257873EC00E44756 /* StickerTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerTextView.swift; sourceTree = "<group>"; };
 		4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
 		4964E9BA2572125A002AFDFE /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
+		496943F725788E8300386FBD /* PreferenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceModel.swift; sourceTree = "<group>"; };
+		496943FB25788F3E00386FBD /* PreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		496E594E257435DA00F641AF /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		496E59582574949400F641AF /* ArrayPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayPageViewController.swift; sourceTree = "<group>"; };
 		496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
@@ -147,6 +153,9 @@
 				494051BA256A384D00F39865 /* main.swift */,
 				49FADD5B25662AEA00493644 /* AppDelegate.swift */,
 				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
+				4958D048257873EC00E44756 /* StickerTextView.swift */,
+				496943F725788E8300386FBD /* PreferenceModel.swift */,
+				496943FB25788F3E00386FBD /* PreferenceViewController.swift */,
 				496E59722574BB0B00F641AF /* BannerViewController.swift */,
 				49522A5C25698252007BBEDC /* MainViewController.swift */,
 				494051B6256A265E00F39865 /* NavViewController.swift */,
@@ -281,13 +290,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4958D049257873EC00E44756 /* StickerTextView.swift in Sources */,
 				496E59732574BB0B00F641AF /* BannerViewController.swift in Sources */,
 				496E59692574BADA00F641AF /* UIView+AutoLayoutBuilder.swift in Sources */,
 				49522A5D25698252007BBEDC /* MainViewController.swift in Sources */,
+				496943F825788E8300386FBD /* PreferenceModel.swift in Sources */,
 				496E59792574BB7D00F641AF /* UIColor+Accent.swift in Sources */,
 				494051BB256A384D00F39865 /* main.swift in Sources */,
 				496E596D2574BAE800F641AF /* StickerModel.swift in Sources */,
 				49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */,
+				496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */,
 				49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */,
 				494051B7256A265E00F39865 /* NavViewController.swift in Sources */,
 				49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */,

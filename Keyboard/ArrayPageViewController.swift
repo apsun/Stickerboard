@@ -160,13 +160,13 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
         didSet {
             oldValue?.removeTarget(
                 self,
-                action: #selector(pageControlSelectionDidChange),
+                action: #selector(self.pageControlSelectionDidChange),
                 for: .valueChanged
             )
             guard let newValue = pageControl else { return }
             newValue.addTarget(
                 self,
-                action: #selector(pageControlSelectionDidChange),
+                action: #selector(self.pageControlSelectionDidChange),
                 for: .valueChanged
             )
             if self.numberOfPages > 0 {

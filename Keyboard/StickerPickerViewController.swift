@@ -30,7 +30,7 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
 
         self.imageView = UIImageView()
         self.imageView
-            .autoLayoutInView(self)
+            .autoLayoutInView(self.contentView)
             .fill(self.contentView.safeAreaLayoutGuide)
             .activate()
         self.imageView.clipsToBounds = true
