@@ -125,15 +125,18 @@ class StickerFileManager {
             URLResourceKey.nameKey
         ]
 
-        let dirEnumerator = self.fileManager.enumerator(
+        var errors = [String]()
+        guard let dirEnumerator = self.fileManager.enumerator(
             at: dirURL,
             includingPropertiesForKeys: resourceKeys,
             options: [.skipsHiddenFiles, .producesRelativePathURLs],
             errorHandler: { (url: URL, error: Error) -> Bool in
-                print("Failed to enumerate \(url): \(error)")
+                errors.append("Failed to enumerate \(url.path): \(error.localizedDescription)")
                 return true
             }
-        )!
+        ) else {
+            throw RuntimeError("Failed to create directory enumerator")
+        }
 
         var stickerFiles = [StickerFile]()
         for case let fileURL as URL in dirEnumerator {
@@ -155,6 +158,11 @@ class StickerFileManager {
             let name = fileName.prefix(upTo: fileName.lastIndex(of: ".") ?? fileName.endIndex)
             stickerFiles.append(StickerFile(name: String(name), url: fileURL, utiType: utiType))
         }
+
+        if !errors.isEmpty {
+            throw RuntimeError(errors.joined(separator: "\n"))
+        }
+
         return stickerFiles
     }
 

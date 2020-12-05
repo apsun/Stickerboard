@@ -89,7 +89,7 @@ class BannerViewController: UIViewController {
      * Shows a banner with the given text, replacing the existing banner
      * if it is currently being shown.
      */
-    func showBanner(text: String, style: BannerStyle = .normal) {
+    func showBanner(text: String, style: BannerStyle) {
         let bannerColor = self.backgroundColorForStyle(style)
         let textColor = UIColor.label.contrastingBackground(bannerColor)
 

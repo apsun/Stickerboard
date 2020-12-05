@@ -23,7 +23,7 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
     )
 
     private var imageView: UIImageView!
-    private var imageParams: ImageLoaderParams?
+    private var imageParams: AsyncImageLoaderParams?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,19 +44,20 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
      * Returns a parameters object for the image loader given the specified
      * URL and the current size of the cell.
      */
-    private func makeImageParams(url: URL?) -> ImageLoaderParams? {
+    private func makeImageParams(url: URL?) -> AsyncImageLoaderParams? {
         guard let url = url else { return nil }
-        return ImageLoaderParams(
+        return AsyncImageLoaderParams(
             imageURL: url,
             pointSize: self.bounds.size,
-            scale: UIScreen.main.scale
+            scale: self.traitCollection.displayScale,
+            mode: .fill
         )
     }
 
     /**
      * Configures the cell to load and eventually display the specified image.
      */
-    private func beginSetImage(params: ImageLoaderParams?) {
+    private func beginSetImage(params: AsyncImageLoaderParams?) {
         let oldParams = self.imageParams
         if params == oldParams {
             return
@@ -76,8 +77,8 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
             self.imageView.contentMode = .center
         }
 
-        ImageLoader.main.loadAsync(params: params) { image in
-            self.commitSetImage(params: params, image: image)
+        AsyncImageLoader.main.loadAsync(params: params) { result in
+            self.commitSetImage(params: params, result: result)
         }
     }
 
@@ -85,13 +86,14 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
      * Called when an image has successfully loaded/failed to load. Updates
      * the cell with the image (or displays an error thumbnail if the load failed).
      */
-    private func commitSetImage(params: ImageLoaderParams, image: UIImage?) {
+    private func commitSetImage(params: AsyncImageLoaderParams, result: Result<UIImage, Error>) {
         guard params == self.imageParams else { return }
 
-        if let image = image {
+        switch result {
+        case .success(let image):
             self.imageView.contentMode = .scaleAspectFill
             self.imageView.image = image
-        } else {
+        case .failure(_):
             self.imageView.contentMode = .center
             self.imageView.image = StickerPickerCell.errorImage
         }
@@ -219,12 +221,13 @@ class StickerPickerViewController
         for indexPath in indexPaths {
             let imageURL = self.stickerPack!.files[indexPath.item].url
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
-            let params = ImageLoaderParams(
+            let params = AsyncImageLoaderParams(
                 imageURL: imageURL,
                 pointSize: size,
-                scale: UIScreen.main.scale
+                scale: self.traitCollection.displayScale,
+                mode: .fill
             )
-            ImageLoader.main.loadAsync(params: params)
+            AsyncImageLoader.main.loadAsync(params: params)
         }
     }
 
@@ -235,12 +238,13 @@ class StickerPickerViewController
         for indexPath in indexPaths {
             let imageURL = self.stickerPack!.files[indexPath.item].url
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
-            let params = ImageLoaderParams(
+            let params = AsyncImageLoaderParams(
                 imageURL: imageURL,
                 pointSize: size,
-                scale: UIScreen.main.scale
+                scale: self.traitCollection.displayScale,
+                mode: .fill
             )
-            ImageLoader.main.cancelLoad(params: params)
+            AsyncImageLoader.main.cancelLoad(params: params)
         }
     }
 

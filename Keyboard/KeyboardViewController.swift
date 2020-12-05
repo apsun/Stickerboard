@@ -1,4 +1,5 @@
 import UIKit
+import UniformTypeIdentifiers
 
 class KeyboardViewController
     : UIInputViewController
@@ -179,6 +180,28 @@ class KeyboardViewController
         super.viewWillDisappear(animated)
     }
 
+    private func loadStickerData(stickerFile: StickerFile) throws -> Data {
+        // If we want to downscale, use the image resize helper...
+        if PreferenceManager.main.signalMode() {
+            if [UTType.png, UTType.jpeg].contains(stickerFile.utiType) {
+                let image = try ImageLoader.loadImageWithAlpha(
+                    url: stickerFile.url,
+                    width: 512,
+                    height: 512,
+                    scale: 1.0,
+                    mode: .fit
+                )
+                guard let png = image.pngData() else {
+                    throw RuntimeError("Failed to convert image to PNG")
+                }
+                return png
+            }
+        }
+
+        // ... otherwise, just directly load the file
+        return try Data(contentsOf: stickerFile.url)
+    }
+
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,
@@ -192,17 +215,26 @@ class KeyboardViewController
         // if you didn't input anything with the keyboard)
         self.textDocumentProxy.insertText("")
 
-        let data: Data
-        do {
-            data = try Data(contentsOf: stickerFile.url)
-        } catch {
-            self.bannerViewController.showBanner(
-                text: "Failed to load '\(stickerFile.name)'",
-                style: .error
-            )
-            return
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = Result { try self.loadStickerData(stickerFile: stickerFile) }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    UIPasteboard.general.setData(
+                        data,
+                        forPasteboardType: stickerFile.utiType.identifier
+                    )
+                    self.bannerViewController.showBanner(
+                        text: "Copied '\(stickerFile.name)' to the clipboard",
+                        style: .normal
+                    )
+                case .failure(_):
+                    self.bannerViewController.showBanner(
+                        text: "Failed to load '\(stickerFile.name)'",
+                        style: .error
+                    )
+                }
+            }
         }
-        UIPasteboard.general.setData(data, forPasteboardType: stickerFile.utiType.identifier)
-        self.bannerViewController.showBanner(text: "Copied '\(stickerFile.name)' to the clipboard")
     }
 }

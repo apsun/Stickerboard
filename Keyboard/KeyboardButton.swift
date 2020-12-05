@@ -19,8 +19,8 @@ class KeyboardButton: UIButton {
         layer.shadowOffset = .zero
         layer.shadowRadius = 0
         layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-        layer.contentsScale = UIScreen.main.scale
+        layer.rasterizationScale = self.traitCollection.displayScale
+        layer.contentsScale = self.traitCollection.displayScale
 
         // Add a shadow in the shape of the button, translated by the size.
         // This is enough if the button is opaque, but if the button is

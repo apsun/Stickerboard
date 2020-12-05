@@ -49,7 +49,12 @@ fileprivate class SwitchCell: PreferenceCell {
     }
 
     var isOn: Bool {
-        return self.switchView.isOn
+        get {
+            return self.switchView.isOn
+        }
+        set {
+            self.switchView.isOn = newValue
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -85,7 +90,7 @@ fileprivate class SwitchCell: PreferenceCell {
 fileprivate class StickerTextViewCell: PreferenceCell, UITextViewDelegate {
     static let reuseIdentifier = NSStringFromClass(StickerTextViewCell.self)
 
-    private var textView: UITextView!
+    private var textView: StickerTextView!
 
     required init?(coder: NSCoder) {
         abort()
@@ -150,10 +155,16 @@ protocol PreferenceDelegate: class {
     optional func preferenceView(didClickButton id: String)
 
     /**
+     * Returns the initial value of the given switch preference.
+     */
+    @objc
+    optional func preferenceView(initialSwitchValue id: String) -> Bool
+
+    /**
      * Indicates a switch preference was toggled.
      */
     @objc
-    optional func preferenceView(didToggleSwitch id: String, newValue: Bool)
+    optional func preferenceView(didSetSwitchValue id: String, newValue: Bool)
 }
 
 /**
@@ -241,6 +252,7 @@ class PreferenceViewController
                 withIdentifier: SwitchCell.reuseIdentifier,
                 for: indexPath
             ) as! SwitchCell
+            cell.isOn = self.delegate!.preferenceView!(initialSwitchValue: pref.id)
             cell.preferenceID = pref.id
             cell.setLabel(label)
             cell.delegate = self
@@ -262,7 +274,7 @@ class PreferenceViewController
 
         // If this is a button preference, trigger the callback
         if let buttonCell = tableView.cellForRow(at: indexPath) as? ButtonCell {
-            self.delegate?.preferenceView?(didClickButton: buttonCell.preferenceID!)
+            self.delegate!.preferenceView!(didClickButton: buttonCell.preferenceID!)
         }
     }
 
@@ -274,8 +286,8 @@ class PreferenceViewController
             // selected and handled by ourselves, so this is a no-op.
             break
         case let switchCell as SwitchCell:
-            self.delegate?.preferenceView?(
-                didToggleSwitch: switchCell.preferenceID!,
+            self.delegate!.preferenceView!(
+                didSetSwitchValue: switchCell.preferenceID!,
                 newValue: switchCell.isOn
             )
         case is StickerTextViewCell:

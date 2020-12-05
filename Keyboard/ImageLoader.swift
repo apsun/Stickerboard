@@ -1,129 +1,56 @@
 import Foundation
 import UIKit
+import UniformTypeIdentifiers
 
 /**
- * Adds a Hashable implementation for CGSize.
+ * Whether the image should be resized to fill or fit the specified size.
  */
-extension CGSize: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.width)
-        hasher.combine(self.height)
-    }
+enum ImageResizeMode {
+    case fill
+    case fit
 }
 
 /**
- * Represents the desired image configuration to be loaded.
- */
-struct ImageLoaderParams: Hashable, CustomDebugStringConvertible {
-    let imageURL: URL
-    let pointSize: CGSize
-    let scale: CGFloat
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.imageURL.path)
-        hasher.combine(self.pointSize)
-        hasher.combine(self.scale)
-    }
-
-    var debugDescription: String {
-        return "\(self.imageURL.relativePath) @ \(self.pointSize) \(self.scale)x"
-    }
-}
-
-/**
- * Asynchronously loads, resizes, and caches images from disk.
+ * Synchronously loads images from disk and downsizes them to reduce
+ * memory usage.
  */
 class ImageLoader {
-    typealias Callback = (UIImage?) -> Void
-    private let decodeQueue = DispatchQueue(
-        label: "com.crossbowffs.stickerboard.decodequeue",
-        qos: .userInitiated
-    )
-
-    private let cache = Cache<ImageLoaderParams, UIImage>()
-    private var callbacks = [ImageLoaderParams: [Callback]]()
-
     /**
-     * The global shared image loader instance.
+     * Returns an appropriate value for maxDimensionPixels given the
+     * specified parameters.
      */
-    static let main = ImageLoader()
-
-    /**
-     * Loads the specified image, downsampling it to the given size for use
-     * as a thumbnail. Calls the given callback immediately if the image of
-     * the given size is already in the cache; otherwise, asynchronously loads
-     * the image and calls the callback once the image is ready.
-     */
-    func loadAsync(
-        params: ImageLoaderParams,
-        callback: Callback? = nil
-    ) {
-        // If the image is already in our cache, just immediately invoke
-        // the callback and return.
-        //
-        // TODO: Maybe this should be invoked asynchronously on the main
-        // event loop?
-        if let image = self.cache[params] {
-            callback?(image)
-            return
-        }
-
-        // If someone already submitted a request for this image, just
-        // piggyback off their request instead of making a new one.
-        if var callbacks = self.callbacks[params] {
-            if let callback = callback {
-                callbacks.append(callback)
-            }
-            return
-        }
-
-        var callbacks = [Callback]()
-        if let callback = callback {
-            callbacks.append(callback)
-        }
-        self.callbacks[params] = callbacks
-
-        self.decodeQueue.async {
-            let image = ImageLoader.loadSync(params: params)
-            DispatchQueue.main.async {
-                if let image = image {
-                    self.cache[params] = image
-                }
-                if let callbacks = self.callbacks.removeValue(forKey: params) {
-                    for callback in callbacks {
-                        callback(image)
-                    }
-                }
-            }
+    private static func maxDimensionPixelsFor(
+        width: CGFloat,
+        height: CGFloat,
+        scale: CGFloat,
+        mode: ImageResizeMode
+    ) -> CGFloat {
+        switch mode {
+        case .fill:
+            return max(width, height) * scale
+        case .fit:
+            return min(width, height) * scale
         }
     }
 
     /**
-     * Cancels any asynchronous loads in progress for the specified image.
+     * Resizes an image using the specified parameters.
      */
-    func cancelLoad(params: ImageLoaderParams) {
-        // TODO
-    }
+    private static func resize(
+        imageSource: CGImageSource,
+        width: CGFloat,
+        height: CGFloat,
+        scale: CGFloat,
+        mode: ImageResizeMode
+    ) throws -> CGImage {
+        let maxDimensionPixels = ImageLoader.maxDimensionPixelsFor(
+            width: width,
+            height: height,
+            scale: scale,
+            mode: mode
+        )
 
-    /**
-     * Synchronously loads the specified image, downsampling it to the given
-     * size for use as a thumbnail.
-     *
-     * https://developer.apple.com/videos/play/wwdc2018/219/
-     */
-    private static func loadSync(params: ImageLoaderParams) -> UIImage? {
-        let imageSourceOptions = [
-            kCGImageSourceShouldCache: false
-        ] as CFDictionary
-        guard let imageSource = CGImageSourceCreateWithURL(
-            params.imageURL as CFURL,
-            imageSourceOptions
-        ) else {
-            print("CGImageSourceCreateWithURL failed!")
-            return nil
-        }
-
-        let maxDimensionPixels = max(params.pointSize.width, params.pointSize.height) * params.scale
+        // https://developer.apple.com/videos/play/wwdc2018/219/
         let downsampleOptions = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceShouldCacheImmediately: true,
@@ -135,10 +62,98 @@ class ImageLoader {
             0,
             downsampleOptions
         ) else {
-            print("CGImageSourceCreateThumbnailAtIndex failed!")
-            return nil
+            throw RuntimeError("CGImageSourceCreateThumbnailAtIndex failed")
+        }
+        return image
+    }
+
+    /**
+     * Loads a CGImage from disk and resizes it using the specified
+     * parameters.
+     */
+    private static func loadAndResize(
+        url: URL,
+        width: CGFloat,
+        height: CGFloat,
+        scale: CGFloat,
+        mode: ImageResizeMode
+    ) throws -> CGImage {
+        let imageSourceOptions = [
+            kCGImageSourceShouldCache: false
+        ] as CFDictionary
+        guard let imageSource = CGImageSourceCreateWithURL(
+            url as CFURL,
+            imageSourceOptions
+        ) else {
+            throw RuntimeError("CGImageSourceCreateWithURL failed")
+        }
+        return try resize(
+            imageSource: imageSource,
+            width: width,
+            height: height,
+            scale: scale,
+            mode: mode
+        )
+    }
+
+    /**
+     * Loads an image from disk and resizes it to the given size.
+     */
+    static func loadImage(
+        url: URL,
+        width: CGFloat,
+        height: CGFloat,
+        scale: CGFloat,
+        mode: ImageResizeMode
+    ) throws -> UIImage {
+        let image = try ImageLoader.loadAndResize(
+            url: url,
+            width: width,
+            height: height,
+            scale: scale,
+            mode: mode
+        )
+        return UIImage(cgImage: image)
+    }
+
+    /**
+     * Loads an image from disk, resizes it to the given size, and
+     * ensures that it has an alpha channel.
+     */
+    static func loadImageWithAlpha(
+        url: URL,
+        width: CGFloat,
+        height: CGFloat,
+        scale: CGFloat,
+        mode: ImageResizeMode
+    ) throws -> UIImage {
+        let image = try ImageLoader.loadAndResize(
+            url: url,
+            width: width,
+            height: height,
+            scale: scale,
+            mode: mode
+        )
+
+        guard let context = CGContext(
+            data: nil,
+            width: image.width,
+            height: image.height,
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: CGColorSpace(name: CGColorSpace.sRGB)!,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else {
+            throw RuntimeError("Failed to create graphics context")
         }
 
-        return UIImage(cgImage: image)
+        context.interpolationQuality = .high
+        let rect = CGRect(origin: .zero, size: CGSize(width: image.width, height: image.height))
+        context.draw(image, in: rect)
+        guard let destImage = context.makeImage() else {
+            throw RuntimeError("Failed to create destination image")
+        }
+
+        return UIImage(cgImage: destImage)
     }
 }

@@ -1,17 +1,5 @@
 import UIKit
 
-/**
- * Preference screen keys.
- */
-fileprivate enum PreferenceKey: String {
-    case importStickers = "pref_import_stickers"
-    case playground = "pref_playground"
-    case signalMode = "pref_signal_mode"
-    case help = "pref_help"
-    case github = "pref_github"
-    case changelog = "pref_changelog"
-}
-
 class MainViewController
     : UIViewController
     , PreferenceDelegate
@@ -36,7 +24,7 @@ class MainViewController
         self.preferenceViewController = PreferenceViewController(root: PreferenceRoot(sections: [
             PreferenceSection(
                 header: "Actions",
-                footer: "Copies the stickers from the app's documents directory to the keyboard. Remember to re-import after adding or removing any stickers, or changing any settings.",
+                footer: "Copies the stickers from the app's documents directory to the keyboard. Remember to re-import after adding or removing any stickers.",
                 preferences: [
                     Preference(
                         id: PreferenceKey.importStickers.rawValue,
@@ -56,7 +44,7 @@ class MainViewController
             ),
             PreferenceSection(
                 header: "Settings",
-                footer: "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio) and convert them to PNG. This lets you send them in Signal without the confirmation dialog. This does not affect GIFs. Note that you have to re-import after changing this option.",
+                footer: "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio) and convert them to PNG. This lets you send them in Signal without the confirmation dialog. This does not affect GIFs.",
                 preferences: [
                     Preference(
                         id: PreferenceKey.signalMode.rawValue,
@@ -108,15 +96,30 @@ class MainViewController
         self.preferenceViewController.tableView.keyboardDismissMode = .onDrag
     }
 
-    func preferenceView(didClickButton id: String) {
-        if id == PreferenceKey.importStickers.rawValue {
-            self.importStickersButtonClicked()
+    func preferenceView(initialSwitchValue id: String) -> Bool {
+        switch id {
+        case PreferenceKey.signalMode.rawValue:
+            return PreferenceManager().signalMode()
+        default:
+            abort()
         }
     }
 
-    func preferenceView(didToggleSwitch id: String, newValue: Bool) {
-        if id == PreferenceKey.signalMode.rawValue {
-            // TODO
+    func preferenceView(didClickButton id: String) {
+        switch id {
+        case PreferenceKey.importStickers.rawValue:
+            self.importStickersButtonClicked()
+        default:
+            abort()
+        }
+    }
+
+    func preferenceView(didSetSwitchValue id: String, newValue: Bool) {
+        switch id {
+        case PreferenceKey.signalMode.rawValue:
+            PreferenceManager().setSignalMode(newValue)
+        default:
+            abort()
         }
     }
 
