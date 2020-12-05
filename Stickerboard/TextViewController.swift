@@ -5,6 +5,7 @@ import UIKit
  */
 class TextViewController: UIViewController {
     private let contentHtml: String
+    private let titleText: String
     private let backButtonText: String
     private var textView: UITextView!
 
@@ -12,8 +13,9 @@ class TextViewController: UIViewController {
         abort()
     }
 
-    init(contentHtml: String, backButtonText: String) {
+    init(contentHtml: String, titleText: String, backButtonText: String) {
         self.contentHtml = contentHtml
+        self.titleText = titleText
         self.backButtonText = backButtonText
         super.init(nibName: nil, bundle: nil)
     }
@@ -23,6 +25,7 @@ class TextViewController: UIViewController {
     }
 
     override func viewDidLoad() {
+        self.title = self.titleText
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: self.backButtonText,
             style: .done,

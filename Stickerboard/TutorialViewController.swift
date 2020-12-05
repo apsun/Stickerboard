@@ -12,6 +12,10 @@ class TutorialViewControllerImpl: TextViewController {
     }
 
     init() {
-        super.init(contentHtml: L("tutorial_html"), backButtonText: L("close"))
+        super.init(
+            contentHtml: L("tutorial_html"),
+            titleText: L("tutorial"),
+            backButtonText: L("close")
+        )
     }
 }

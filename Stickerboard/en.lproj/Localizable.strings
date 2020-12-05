@@ -12,6 +12,7 @@
 "about" = "About";
 "about_footer" = "Stickerboard %@";
 "view_tutorial" = "View tutorial";
+"tutorial" = "Tutorial";
 "visit_github" = "Visit the project on GitHub";
 "changelog" = "Changelog";
 "no_stickers_found" = "Didn't find any stickers to import";

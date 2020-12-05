@@ -24,7 +24,6 @@ class MainViewControllerImpl
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
         self.title = L("stickerboard")
 
         self.preferenceViewController = PreferenceViewController(root: PreferenceRoot(sections: [

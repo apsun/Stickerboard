@@ -12,6 +12,10 @@ class ChangelogViewControllerImpl: TextViewController {
     }
 
     init() {
-        super.init(contentHtml: L("changelog_html"), backButtonText: L("close"))
+        super.init(
+            contentHtml: L("changelog_html"),
+            titleText: L("changelog"),
+            backButtonText: L("close")
+        )
     }
 }
