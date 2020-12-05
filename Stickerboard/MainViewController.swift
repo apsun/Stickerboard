@@ -113,7 +113,7 @@ class MainViewControllerImpl
     func preferenceView(initialSwitchValue id: String) -> Bool {
         switch id {
         case PreferenceKey.signalMode.rawValue:
-            return PreferenceManager().signalMode()
+            return PreferenceManager.shared.signalMode()
         default:
             abort()
         }
@@ -137,7 +137,7 @@ class MainViewControllerImpl
     func preferenceView(didSetSwitchValue id: String, newValue: Bool) {
         switch id {
         case PreferenceKey.signalMode.rawValue:
-            PreferenceManager().setSignalMode(newValue)
+            PreferenceManager.shared.setSignalMode(newValue)
         default:
             abort()
         }

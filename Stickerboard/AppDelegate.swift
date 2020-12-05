@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             forInfoDictionaryKey: "CFBundleVersion"
         ) as! String
 
-        UserDefaults.standard.set(versionString, forKey: "pref_version")
-        UserDefaults.standard.set(versionCode, forKey: "pref_version_code")
+        UserDefaults.standard.set(versionString, forKey: PreferenceKey.version.rawValue)
+        UserDefaults.standard.set(versionCode, forKey: PreferenceKey.versionCode.rawValue)
 
         do {
             try StickerFileManager.main.ensureReadmeFileExists()

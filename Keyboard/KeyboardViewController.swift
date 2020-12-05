@@ -124,10 +124,8 @@ class KeyboardViewController
                 Please enable full access in the iOS keyboard settings in order to use this app
 
                 → Settings
-                → General
-                → Keyboards
                 → Stickerboard
-                → Allow Full Access
+                → Keyboards
                 """
         }
     }
@@ -181,7 +179,7 @@ class KeyboardViewController
     }
 
     private func loadStickerData(stickerFile: StickerFile, forceOriginal: Bool) throws -> Data {
-        if !forceOriginal && PreferenceManager.main.signalMode() {
+        if !forceOriginal && PreferenceManager.shared.signalMode() {
             if [UTType.png, UTType.jpeg].contains(stickerFile.utiType) {
                 let image = try ImageLoader.loadImageWithAlpha(
                     url: stickerFile.url,

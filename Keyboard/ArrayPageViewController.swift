@@ -45,6 +45,8 @@ protocol ArrayPageViewControllerDataSource: class {
     func create(index: Int) -> UIViewController
     func indexOf(viewController: UIViewController) -> Int
     func count() -> Int
+    func initialPage() -> Int?
+    func didShowPage(index: Int)
 }
 
 /**
@@ -90,9 +92,9 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
             return dataSource.indexOf(viewController: viewController)
         }
         set {
-            assert((newValue == nil) == (self.dataSource?.count() ?? 0 == 0))
+            assert((newValue == nil) == (self.numberOfPages == 0))
             if let newValue = newValue, let dataSource = self.dataSource {
-                let oldValue = self.currentPage ?? Int.max
+                let oldValue = currentPage ?? Int.max
                 let direction: UIPageViewController.NavigationDirection
                 if newValue > oldValue {
                     direction = .forward
@@ -107,6 +109,9 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
                     direction: direction,
                     animated: self.animatePageTransitions
                 )
+
+                self.updatePageControl(currentPage: newValue, numberOfPages: nil)
+                self.dataSource?.didShowPage(index: newValue)
             }
         }
     }
@@ -134,21 +139,24 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
                     let adapter = ArrayPageViewControllerDataSourceAdapter(newValue)
                     self.dataSourceAdapter = adapter
                     self.inner.dataSource = adapter
+                    let index = newValue.initialPage() ?? 0
+
                     self.inner.setViewControllers(
-                        [newValue.create(index: 0)],
+                        [newValue.create(index: index)],
                         direction: .reverse,
                         animated: false
                     )
-                    self.pageControl?.numberOfPages = newValue.count()
-                    self.pageControl?.currentPage = 0
+
+                    self.updatePageControl(currentPage: index, numberOfPages: newValue.count())
                     self.emptyView.isHidden = true
+                    newValue.didShowPage(index: index)
                     return
                 }
             }
 
             self.dataSourceAdapter = nil
             self.inner.dataSource = nil
-            self.pageControl?.numberOfPages = 0
+            self.updatePageControl(currentPage: nil, numberOfPages: 0)
             self.emptyView.isHidden = false
         }
     }
@@ -169,10 +177,10 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
                 action: #selector(self.pageControlSelectionDidChange),
                 for: .valueChanged
             )
-            if self.numberOfPages > 0 {
-                newValue.numberOfPages = self.numberOfPages
-                newValue.currentPage = self.currentPage!
-            }
+            self.updatePageControl(
+                currentPage: self.currentPage,
+                numberOfPages: self.numberOfPages
+            )
         }
     }
 
@@ -242,11 +250,22 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
         previousViewControllers: [UIViewController],
         transitionCompleted completed: Bool
     ) {
-        guard let pageControl = self.pageControl else { return }
-        guard let currentPage = self.currentPage else { return }
         if completed {
-            pageControl.currentPage = currentPage
+            guard let currentPage = self.currentPage else { return }
+            self.dataSource?.didShowPage(index: currentPage)
+            self.pageControl?.currentPage = currentPage
         }
+    }
+
+    private func updatePageControl(currentPage: Int?, numberOfPages: Int?) {
+        UIView.setAnimationsEnabled(false)
+        if let numberOfPages = numberOfPages {
+            self.pageControl?.numberOfPages = numberOfPages
+        }
+        if let currentPage = currentPage {
+            self.pageControl?.currentPage = currentPage
+        }
+        UIView.setAnimationsEnabled(true)
     }
 
     /**

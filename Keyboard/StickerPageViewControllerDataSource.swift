@@ -31,4 +31,14 @@ class StickerPageViewControllerDataSource
     func count() -> Int {
         return self.stickerPacks.count
     }
+
+    func initialPage() -> Int? {
+        return self.stickerPacks.firstIndex {
+            $0.url.path == PreferenceManager.standard.lastStickerPageUrl()
+        }
+    }
+
+    func didShowPage(index: Int) {
+        PreferenceManager.standard.setLastStickerPageUrl(self.stickerPacks[index].url.path)
+    }
 }
