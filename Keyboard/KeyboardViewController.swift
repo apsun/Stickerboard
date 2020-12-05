@@ -120,13 +120,7 @@ class KeyboardViewController
                 }
             }
         } else {
-            self.stickerPackPageViewController.emptyText = """
-                Please enable full access in the iOS keyboard settings in order to use this app
-
-                → Settings
-                → Stickerboard
-                → Keyboards
-                """
+            self.stickerPackPageViewController.emptyText = L("full_access_required")
         }
     }
 
@@ -139,17 +133,12 @@ class KeyboardViewController
             )
             self.stickerPackDataSource = dataSource
             self.stickerPackPageViewController.dataSource = dataSource
-            self.stickerPackPageViewController.emptyText = """
-                It looks like you have no stickers!
-
-                To get started, add your stickers to the Stickerboard documents folder, then hit the import button.
-                """
+            self.stickerPackPageViewController.emptyText = L("no_stickers")
         case .failure(let err):
-            self.stickerPackPageViewController.emptyText = """
-                Something went wrong loading your stickers! Please file a bug report and include the following message:
-
-                \(err.localizedDescription)
-                """
+            self.stickerPackPageViewController.emptyText = F(
+                "failed_load_stickers",
+                err.localizedDescription
+            )
         }
     }
 
@@ -197,6 +186,28 @@ class KeyboardViewController
         return try Data(contentsOf: stickerFile.url)
     }
 
+    private func didLoadStickerData(stickerFile: StickerFile, result: Result<Data, Error>) {
+        switch result {
+        case .success(let data):
+            UIPasteboard.general.setData(
+                data,
+                forPasteboardType: stickerFile.utiType.identifier
+            )
+            self.bannerViewController.showBanner(
+                text: F("copied_to_clipboard", stickerFile.name),
+                style: .normal
+            )
+        case .failure(let error):
+            logger.error(
+                "Failed to copy \(stickerFile.name): \(error.localizedDescription)"
+            )
+            self.bannerViewController.showBanner(
+                text: F("failed_copy_to_clipboard", stickerFile.name),
+                style: .error
+            )
+        }
+    }
+
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,
@@ -216,22 +227,7 @@ class KeyboardViewController
                 try self.loadStickerData(stickerFile: stickerFile, forceOriginal: longPress)
             }
             DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    UIPasteboard.general.setData(
-                        data,
-                        forPasteboardType: stickerFile.utiType.identifier
-                    )
-                    self.bannerViewController.showBanner(
-                        text: "Copied '\(stickerFile.name)' to the clipboard",
-                        style: .normal
-                    )
-                case .failure(_):
-                    self.bannerViewController.showBanner(
-                        text: "Failed to load '\(stickerFile.name)'",
-                        style: .error
-                    )
-                }
+                self.didLoadStickerData(stickerFile: stickerFile, result: result)
             }
         }
     }

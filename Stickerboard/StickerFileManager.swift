@@ -176,10 +176,9 @@ class StickerFileManager {
      * if the documents directory is empty, the system will automatically
      * hide the folder.
      */
-    func ensureReadmeFileExists() throws {
+    func ensureReadmeFileExists(content: String) throws {
         let fileURL = self.readmeFileURL()
         if !self.fileManager.fileExists(atPath: fileURL.path) {
-            let content = "Copy your files to this directory."
             try content.write(to: fileURL, atomically: true, encoding: .utf8)
         }
     }
@@ -193,7 +192,7 @@ class StickerFileManager {
         let files = try self.recursiveStickerFilesInDirectory(self.documentDirectoryURL())
         let tempDirURL = try self.temporaryDirectoryURL()
         for file in files {
-            print("Copying sticker \(file.url.relativePath)")
+            logger.info("Copying sticker \(file.url.relativePath)")
             let destURL = tempDirURL.appendingPathComponent(
                 file.url.relativePath,
                 isDirectory: false

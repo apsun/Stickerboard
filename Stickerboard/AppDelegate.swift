@@ -5,7 +5,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        let versionString = Bundle.main.object(
+        let versionName = Bundle.main.object(
             forInfoDictionaryKey: "CFBundleShortVersionString"
         ) as! String
 
@@ -13,14 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             forInfoDictionaryKey: "CFBundleVersion"
         ) as! String
 
-        UserDefaults.standard.set(versionString, forKey: PreferenceKey.version.rawValue)
+        UserDefaults.standard.set(versionName, forKey: PreferenceKey.versionName.rawValue)
         UserDefaults.standard.set(versionCode, forKey: PreferenceKey.versionCode.rawValue)
 
         do {
-            try StickerFileManager.main.ensureReadmeFileExists()
+            try StickerFileManager.main.ensureReadmeFileExists(content: L("readme_content"))
         } catch {
-            // Nothing can be done about this; since this isn't technically critical,
-            // just swallow the error and move on.
+            logger.error("Failed to create readme file: \(error.localizedDescription)")
         }
         return true
     }

@@ -4,7 +4,7 @@ import Foundation
  * Preference keys.
  */
 enum PreferenceKey: String {
-    case version = "pref_version"
+    case versionName = "pref_version_name"
     case versionCode = "pref_version_code"
     case importStickers = "pref_import_stickers"
     case playground = "pref_playground"

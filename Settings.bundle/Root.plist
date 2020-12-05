@@ -10,9 +10,9 @@
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
 			<key>Title</key>
-			<string>Version</string>
+			<string>version_name</string>
 			<key>Key</key>
-			<string>pref_version</string>
+			<string>pref_version_name</string>
 			<key>DefaultValue</key>
 			<string>-</string>
 		</dict>
@@ -20,7 +20,7 @@
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
 			<key>Title</key>
-			<string>Version code</string>
+			<string>version_code</string>
 			<key>Key</key>
 			<string>pref_version_code</string>
 			<key>DefaultValue</key>

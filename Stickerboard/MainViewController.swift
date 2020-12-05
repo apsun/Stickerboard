@@ -13,34 +13,34 @@ class MainViewControllerImpl
     private var preferenceViewController: PreferenceViewController!
     private var bannerViewController: BannerViewController!
 
-    private static func versionString() -> String {
+    private func versionString() -> String {
         let versionString = Bundle.main.object(
             forInfoDictionaryKey: "CFBundleShortVersionString"
         ) as! String
         let versionCode = Bundle.main.object(
             forInfoDictionaryKey: "CFBundleVersion"
         ) as! String
-        return "v\(versionString) (\(versionCode))"
+        return F("version_string", versionString, versionCode)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Stickerboard"
+        self.title = L("stickerboard")
 
         self.preferenceViewController = PreferenceViewController(root: PreferenceRoot(sections: [
             PreferenceSection(
-                header: "Actions",
-                footer: "Copies the stickers from the app's documents directory to the keyboard. Remember to re-import after adding or removing any stickers.",
+                header: L("actions"),
+                footer: L("actions_footer"),
                 preferences: [
                     Preference(
                         id: PreferenceKey.importStickers.rawValue,
-                        type: .button(label: "Import stickers")
+                        type: .button(label: L("import_stickers"))
                     )
                 ]
             ),
             PreferenceSection(
-                header: "Playground",
-                footer: "Use this textbox to try out your stickers!",
+                header: L("playground"),
+                footer: L("playground_footer"),
                 preferences: [
                     Preference(
                         id: PreferenceKey.playground.rawValue,
@@ -49,30 +49,30 @@ class MainViewControllerImpl
                 ]
             ),
             PreferenceSection(
-                header: "Settings",
-                footer: "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This lets you send them in Signal without the confirmation dialog. This does not affect GIFs. You can override this option at any time by long pressing on a sticker.",
+                header: L("settings"),
+                footer: L("settings_footer"),
                 preferences: [
                     Preference(
                         id: PreferenceKey.signalMode.rawValue,
-                        type: .switch(label: "Signal compatibility mode")
+                        type: .switch(label: L("signal_mode"))
                     )
                 ]
             ),
             PreferenceSection(
-                header: "About",
-                footer: "Stickerboard \(MainViewControllerImpl.versionString())",
+                header: L("about"),
+                footer: F("about_footer", self.versionString()),
                 preferences: [
                     Preference(
                         id: PreferenceKey.tutorial.rawValue,
-                        type: .button(label: "View tutorial")
+                        type: .button(label: L("view_tutorial"))
                     ),
                     Preference(
                         id: PreferenceKey.github.rawValue,
-                        type: .button(label: "Visit project on GitHub")
+                        type: .button(label: L("visit_github"))
                     ),
                     Preference(
                         id: PreferenceKey.changelog.rawValue,
-                        type: .button(label: "Changelog")
+                        type: .button(label: L("changelog"))
                     )
                 ]
             )
@@ -92,10 +92,6 @@ class MainViewControllerImpl
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
         self.bannerViewController.didMove(toParent: self)
-
-        // Avoid putting content under the banner
-        // let bannerHeight = self.bannerViewController.bannerHeight
-        // self.preferenceViewController.additionalSafeAreaInsets.top = bannerHeight
 
         // Dismiss the keyboard when the user scrolls (indicating they
         // need more screen real estate)
@@ -154,19 +150,20 @@ class MainViewControllerImpl
                 case .success(let count):
                     let message: String
                     if count == 0 {
-                        message = "Didn't find any stickers to import"
+                        message = L("no_stickers_found")
                     } else if count == 1 {
-                        message = "Successfully imported 1 sticker"
+                        message = L("imported_sticker")
                     } else {
-                        message = "Successfully imported \(count) stickers"
+                        message = F("imported_stickers", count)
                     }
                     self.bannerViewController.showBanner(
                         text: message,
                         style: .normal
                     )
-                case .failure(_):
+                case .failure(let error):
+                    logger.error("Failed to import stickers: \(error.localizedDescription)")
                     self.bannerViewController.showBanner(
-                        text: "Failed to import stickers!",
+                        text: L("failed_import_stickers"),
                         style: .error
                     )
                 }

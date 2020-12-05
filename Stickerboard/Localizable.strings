@@ -1,0 +1,108 @@
+"stickerboard" = "Stickerboard";
+"version_string" = "v%@ (%@)";
+"readme_content" = "Copy your files to this directory.";
+"actions" = "Actions";
+"actions_footer" = "Copies the stickers from the app's documents directory to the keyboard. Remember to re-import after adding or removing any stickers.";
+"import_stickers" = "Import stickers";
+"playground" = "Playground";
+"playground_footer" = "Use this textbox to try out your stickers!";
+"settings" = "Settings";
+"settings_footer" = "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This lets you send them in Signal without the confirmation dialog. This does not affect GIFs. You can override this option at any time by long pressing on a sticker.";
+"signal_mode" = "Signal compatibility mode";
+"about" = "About";
+"about_footer" = "Stickerboard %@";
+"view_tutorial" = "View tutorial";
+"visit_github" = "Visit the project on GitHub";
+"changelog" = "Changelog";
+"no_stickers_found" = "Didn't find any stickers to import";
+"imported_sticker" = "Successfully imported 1 sticker";
+"imported_stickers" = "Successfully imported %d stickers";
+"failed_import_stickers" = "Failed to import stickers!";
+"close" = "Close";
+"tutorial_html" = "<body>
+<section>
+    <h1>Welcome to Stickerboard!</h1>
+    <p>
+        Before we get started, there's a few steps you'll need to take in order to use
+        Stickerboard:
+    </p>
+</section>
+<section>
+    <br><h1>Enable the keyboard</h1>
+    <p>
+        Please enable Stickerboard by heading to:
+    </p>
+    <ol>
+        <li>Settings</li>
+        <li>Stickerboard</li>
+        <li>Keyboards</li>
+    </ol>
+    <br>
+    <p>
+        <a href=\"app-settings:\">Click here to open the Stickerboard settings menu</a>
+    </p>
+</section>
+<section>
+    <br><h1>Allow full access</h1>
+    <p>
+        Stickerboard requires full access to function. Don't worry, we aren't uploading
+        your stickers anywhere! All of your data stays on your device. Stickerboard only
+        needs full access to copy stickers to your clipboard.
+    </p>
+    <p>
+        To enable full access, open the Stickerboard settings (in the same place you enabled
+        the keyboard, see section above), and toggle the switch labeled \"Allow Full Access\".
+    </p>
+</section>
+<section>
+    <br><h1>Add some stickers</h1>
+    <p>
+        You might have noticed that Stickerboard does not come with any stickers. That's
+        because <i>you</i> provide them! Stickerboard allows you to send any image you want
+        as a sticker. Once you've added the images, just hit the import button within the app
+        and they will magically appear in the keyboard.
+    </p>
+    <p>
+        So how do you add images to Stickerboard? There are three ways to do this:
+    </p>
+</section>
+<section>
+    <br><h1>1. Share menu</h1>
+    <p>
+        Have some images on your device you would like to use? Hit share, then select
+        the \"Save to Files\" option. When given the option, choose Stickerboard under
+        \"On My iPhone\".
+    </p>
+</section>
+<section>
+    <br><h1>2. iTunes File Sharing</h1>
+    <p>
+        Want to copy stickers from your computer? You can use iTunes File Sharing to
+        drag and drop the images from your computer directly into the Stickerboard app.
+    </p>
+</section>
+<section>
+    <br><h1>3. Files app</h1>
+    <p>
+        You can use the built-in Files app to manage your stickers. Just copy the images
+        you want to add to the Stickerboard folder under \"On My iPhone\".
+    </p>
+</section>
+<section>
+    <br><h1>Sticker packs</h1>
+    <p>
+        Too many stickers to handle? Create new sticker packs by organizing your images
+        into folders under the Stickerboard directory. Each folder will turn into a new
+        sticker pack.
+    </p>
+</section>
+</body>";
+"changelog_html" = "<body>
+<section>
+    <h1>v1.0 - Dec 4, 2020</h1>
+    <p>
+        This is the initial release! Thanks for being an early adopter. Come back in the
+        future to see what new features we've added.
+    </p>
+</section>
+</body>";

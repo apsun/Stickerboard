@@ -116,6 +116,14 @@ class AutoLayoutBuilder {
     }
 
     /**
+     * Anchors the top and bottom edges of this view to the corresponding
+     * anchor points in the view. Note that this does not respect margins/safe areas.
+     */
+    func fillY(_ view: UIView) -> AutoLayoutBuilder {
+        return self.top(view.topAnchor).bottom(view.bottomAnchor)
+    }
+
+    /**
      * Anchors all edges of this view to the corresponding anchor points in
      * the layout guide.
      */

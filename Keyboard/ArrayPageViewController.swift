@@ -257,6 +257,10 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
         }
     }
 
+    /**
+     * Updates the page control state while animations are disabled.
+     * This helps avoid some weird ghosting issues on load.
+     */
     private func updatePageControl(currentPage: Int?, numberOfPages: Int?) {
         UIView.setAnimationsEnabled(false)
         if let numberOfPages = numberOfPages {

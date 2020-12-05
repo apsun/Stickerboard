@@ -24,15 +24,6 @@ class BannerViewController: UIViewController {
      */
     var bannerTimeout: TimeInterval? = 3
 
-    /**
-     * Returns the amount of vertical space the banner will take up on screen
-     * when it is shown.
-     */
-    var bannerHeight: CGFloat {
-        self.view.layoutIfNeeded()
-        return self.bannerPaddingView.bounds.height
-    }
-
     override func loadView() {
         self.view = UIView()
     }

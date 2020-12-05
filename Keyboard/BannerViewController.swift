@@ -60,6 +60,7 @@ class BannerViewController: UIViewController {
             .activate()
         self.bannerLabel.lineBreakMode = .byTruncatingMiddle
         self.bannerLabel.textAlignment = .center
+        self.setBannerText("")
 
         // Create the banner position constraints. We don't use the constant:
         // form because we want to adapt to screen/text size changes automatically.
@@ -86,6 +87,19 @@ class BannerViewController: UIViewController {
     }
 
     /**
+     * Sets the banner text. Note that we do not allow an empty string
+     * as that would collapse the whole view. At the minimum we show a
+     * single space which takes up some height.
+     */
+    private func setBannerText(_ text: String) {
+        if text == "" {
+            self.bannerLabel.text = " "
+        } else {
+            self.bannerLabel.text = text
+        }
+    }
+
+    /**
      * Shows a banner with the given text, replacing the existing banner
      * if it is currently being shown.
      */
@@ -95,7 +109,7 @@ class BannerViewController: UIViewController {
 
         self.bannerBackgroundView.backgroundColor = bannerColor
         self.bannerLabel.textColor = textColor
-        self.bannerLabel.text = text
+        self.setBannerText(text)
 
         self.bannerVisibleConstraint.isActive = false
         self.bannerHiddenConstraint.isActive = true
