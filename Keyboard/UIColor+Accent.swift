@@ -30,13 +30,41 @@ extension UIColor {
     }
 
     /**
-     * Computes the contrast ratio between the two specified relative luminances
-     * as defined by WCAG 2.0.
+     * Computes the contrast ratio between the two given relative luminances.
+     * This uses the APCA contrast ratio algorithm, translated from:
+     * https://github.com/Myndex/SAPC-APCA/blob/master/JS/APCAsRGBonly.98.js
      */
-    private static func contrastRatio(_ a: CGFloat, _ b: CGFloat) -> CGFloat {
-        let darker = min(a, b)
-        let lighter = max(a, b)
-        return (lighter + 0.05) / (darker + 0.05)
+    private static func apcaContrast(foreground: CGFloat, background: CGFloat) -> CGFloat {
+        let scaleBoW: CGFloat = 1.618
+        let scaleWoB: CGFloat = 1.618
+
+        let normBGExp: CGFloat = 0.38
+        let normTXTExp: CGFloat = 0.43
+        let revBGExp: CGFloat = 0.5
+        let revTXTExp: CGFloat = 0.43
+
+        let blkThrs: CGFloat = 0.02
+        let blkClmp: CGFloat = 1.33
+
+        var Ytxt = foreground
+        var Ybg = background
+        if Ybg >= Ytxt {
+            if Ytxt <= blkThrs {
+                Ytxt += pow(abs(Ytxt - blkThrs), blkClmp)
+                if Ytxt > Ybg {
+                    return 0.0
+                }
+            }
+            return (pow(Ybg, normBGExp) - pow(Ytxt, normTXTExp)) * scaleBoW
+        } else {
+            if Ybg <= blkThrs {
+                Ybg += pow(abs(Ybg - blkThrs), blkClmp)
+                if Ybg > Ytxt {
+                    return 0.0
+                }
+            }
+            return (pow(Ybg, revBGExp) - pow(Ytxt, revTXTExp)) * scaleWoB
+        }
     }
 
     /**
@@ -67,8 +95,18 @@ extension UIColor {
             let lightLuminance = lightColor.relativeLuminance()
             let darkLuminance = darkColor.relativeLuminance()
 
-            let lightContrast = UIColor.contrastRatio(backgroundLuminance, lightLuminance)
-            let darkContrast = UIColor.contrastRatio(backgroundLuminance, darkLuminance)
+            let lightContrast = abs(
+                UIColor.apcaContrast(
+                    foreground: lightLuminance,
+                    background: backgroundLuminance
+                )
+            )
+            let darkContrast = abs(
+                UIColor.apcaContrast(
+                    foreground: darkLuminance,
+                    background: backgroundLuminance
+                )
+            )
 
             if lightContrast < darkContrast {
                 return darkColor
