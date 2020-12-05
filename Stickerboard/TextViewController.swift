@@ -39,31 +39,39 @@ class TextViewController: UIViewController {
             .fillX(self.view.safeAreaLayoutGuide)
             .activate()
 
-        let style = """
-            <style>
-                body {
-                    font-family: -apple-system, sans-serif;
-                    font: -apple-system-body;
-                }
-                h1 { font: -apple-system-headline; }
-                h2 { font: -apple-system-subheadline; }
-            </style>
-            """
-
-        let html = style + self.contentHtml
         self.textView.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         self.textView.isScrollEnabled = false
         self.textView.isEditable = false
-        let attrString = try! NSMutableAttributedString(
-            data: Data(html.utf8),
-            options: [.documentType: NSAttributedString.DocumentType.html],
-            documentAttributes: nil
-        )
-        attrString.addAttributes(
-            [.foregroundColor: UIColor.label],
-            range: NSMakeRange(0, attrString.length)
-        )
-        self.textView.attributedText = attrString
+
+        // Creating NSAttributedString from HTML is extremely slow,
+        // so load it off the main thread
+        DispatchQueue.global(qos: .userInitiated).async {
+            let style = """
+                <style>
+                    body {
+                        font-family: -apple-system, sans-serif;
+                        font: -apple-system-body;
+                    }
+                    h1 { font: -apple-system-headline; }
+                    h2 { font: -apple-system-subheadline; }
+                </style>
+                """
+
+            let html = style + self.contentHtml
+
+            let attrString = try! NSMutableAttributedString(
+                data: Data(html.utf8),
+                options: [.documentType: NSAttributedString.DocumentType.html],
+                documentAttributes: nil
+            )
+            attrString.addAttributes(
+                [.foregroundColor: UIColor.label],
+                range: NSMakeRange(0, attrString.length)
+            )
+            DispatchQueue.main.async {
+                self.textView.attributedText = attrString
+            }
+        }
     }
 
     @objc

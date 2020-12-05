@@ -113,7 +113,6 @@
 		496E59782574BB7D00F641AF /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49DD6403256AB89700E73195 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTransparentView.swift; sourceTree = "<group>"; };
-		49DD6427256AFB5900E73195 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		49DD642D256B090D00E73195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
 		49E7A2C1257B03B200E5CBA9 /* PreferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
@@ -148,14 +147,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		49DD6426256AFB5900E73195 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				49DD6427256AFB5900E73195 /* QuartzCore.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		49FADD4F25662AEA00493644 = {
 			isa = PBXGroup;
 			children = (
@@ -163,7 +154,6 @@
 				49FADD5A25662AEA00493644 /* Stickerboard */,
 				49FADD7525662B0100493644 /* Keyboard */,
 				49FADD5925662AEA00493644 /* Products */,
-				49DD6426256AFB5900E73195 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
