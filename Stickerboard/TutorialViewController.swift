@@ -16,7 +16,8 @@ class TutorialViewControllerImpl: UIViewController {
     override func viewDidLoad() {
         self.title = "Tutorial"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
+            title: "Close",
+            style: .done,
             target: self,
             action: #selector(self.close)
         )
@@ -58,7 +59,7 @@ class TutorialViewControllerImpl: UIViewController {
                 <li>Stickerboard</li>
                 <li>Keyboards</li>
             </ol>
-            <br><p><a href="app-settings:">Click here to open the settings menu</a></p>
+            <br><p><a href="app-settings:">Click here to open the Stickerboard settings menu</a></p>
             </section>
 
             <section>
@@ -83,8 +84,7 @@ class TutorialViewControllerImpl: UIViewController {
             and they will magically appear in the keyboard.
             </p>
             <p>
-            How do you add images to Stickerboard? We offer not one, not two, but <i>three</i>
-            different ways to get stickers into the app. Here they are:
+            So how do you add images to Stickerboard? There are three ways to do this:
             </p>
             </section>
 

@@ -19,6 +19,7 @@
 		494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */; };
 		494FC5E4257B403900D22885 /* ChangelogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5E3257B403900D22885 /* ChangelogViewController.swift */; };
 		494FC5EA257B5B2F00D22885 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 494FC5E9257B5B2F00D22885 /* Settings.bundle */; };
+		494FC5F0257B77E800D22885 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5EF257B77E800D22885 /* KeyboardManager.swift */; };
 		49522A5D25698252007BBEDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49522A5C25698252007BBEDC /* MainViewController.swift */; };
 		4958D049257873EC00E44756 /* StickerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4958D048257873EC00E44756 /* StickerTextView.swift */; };
 		4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
@@ -83,6 +84,7 @@
 		494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		494FC5E3257B403900D22885 /* ChangelogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogViewController.swift; sourceTree = "<group>"; };
 		494FC5E9257B5B2F00D22885 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		494FC5EF257B77E800D22885 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		49522A5C25698252007BBEDC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4958D048257873EC00E44756 /* StickerTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerTextView.swift; sourceTree = "<group>"; };
 		4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				496E596C2574BAE800F641AF /* StickerModel.swift */,
 				49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */,
 				49200F182570503100DCFB73 /* StickerFileManager.swift */,
+				494FC5EF257B77E800D22885 /* KeyboardManager.swift */,
 				496E59782574BB7D00F641AF /* UIColor+Accent.swift */,
 				496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */,
 				49FADD6425662AEB00493644 /* Assets.xcassets */,
@@ -315,6 +318,7 @@
 				4958D049257873EC00E44756 /* StickerTextView.swift in Sources */,
 				496E59732574BB0B00F641AF /* BannerViewController.swift in Sources */,
 				496E59692574BADA00F641AF /* UIView+AutoLayoutBuilder.swift in Sources */,
+				494FC5F0257B77E800D22885 /* KeyboardManager.swift in Sources */,
 				49522A5D25698252007BBEDC /* MainViewController.swift in Sources */,
 				496943F825788E8300386FBD /* PreferenceModel.swift in Sources */,
 				496E59792574BB7D00F641AF /* UIColor+Accent.swift in Sources */,

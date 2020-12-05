@@ -16,7 +16,8 @@ class ChangelogViewControllerImpl: UIViewController {
     override func viewDidLoad() {
         self.title = "Changelog"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
+            title: "Close",
+            style: .done,
             target: self,
             action: #selector(self.close)
         )

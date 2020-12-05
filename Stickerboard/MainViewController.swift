@@ -102,6 +102,14 @@ class MainViewControllerImpl
         self.preferenceViewController.tableView.keyboardDismissMode = .onDrag
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !KeyboardManager.main.isKeyboardEnabled() {
+            self.showTutorial()
+        }
+    }
+
     func preferenceView(initialSwitchValue id: String) -> Bool {
         switch id {
         case PreferenceKey.signalMode.rawValue:
@@ -144,8 +152,16 @@ class MainViewControllerImpl
             DispatchQueue.main.async {
                 switch result {
                 case .success(let count):
+                    let message: String
+                    if count == 0 {
+                        message = "Didn't find any stickers to import"
+                    } else if count == 1 {
+                        message = "Successfully imported 1 sticker"
+                    } else {
+                        message = "Successfully imported \(count) stickers"
+                    }
                     self.bannerViewController.showBanner(
-                        text: "Successfully imported \(count) sticker(s)",
+                        text: message,
                         style: .normal
                     )
                 case .failure(_):
