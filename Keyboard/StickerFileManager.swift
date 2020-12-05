@@ -125,6 +125,10 @@ class StickerFileManager {
             URLResourceKey.nameKey
         ]
 
+        if !self.fileManager.fileExists(atPath: dirURL.path) {
+            return []
+        }
+
         var errors = [String]()
         guard let dirEnumerator = self.fileManager.enumerator(
             at: dirURL,

@@ -1,6 +1,12 @@
 import UIKit
 
-class MainViewController
+class MainViewController: UINavigationController {
+    override func viewDidLoad() {
+        self.setViewControllers([MainViewControllerImpl()], animated: false)
+    }
+}
+
+class MainViewControllerImpl
     : UIViewController
     , PreferenceDelegate
 {
@@ -44,7 +50,7 @@ class MainViewController
             ),
             PreferenceSection(
                 header: "Settings",
-                footer: "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio) and convert them to PNG. This lets you send them in Signal without the confirmation dialog. This does not affect GIFs.",
+                footer: "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This lets you send them in Signal without the confirmation dialog. This does not affect GIFs. You can override this option at any time by long pressing on a sticker.",
                 preferences: [
                     Preference(
                         id: PreferenceKey.signalMode.rawValue,
@@ -54,11 +60,11 @@ class MainViewController
             ),
             PreferenceSection(
                 header: "About",
-                footer: "Stickerboard \(MainViewController.versionString())",
+                footer: "Stickerboard \(MainViewControllerImpl.versionString())",
                 preferences: [
                     Preference(
-                        id: PreferenceKey.help.rawValue,
-                        type: .button(label: "Usage help")
+                        id: PreferenceKey.tutorial.rawValue,
+                        type: .button(label: "View tutorial")
                     ),
                     Preference(
                         id: PreferenceKey.github.rawValue,
@@ -109,6 +115,12 @@ class MainViewController
         switch id {
         case PreferenceKey.importStickers.rawValue:
             self.importStickersButtonClicked()
+        case PreferenceKey.tutorial.rawValue:
+            self.showTutorial()
+        case PreferenceKey.github.rawValue:
+            self.openGitHub()
+        case PreferenceKey.changelog.rawValue:
+            self.showChangelog()
         default:
             abort()
         }
@@ -144,5 +156,18 @@ class MainViewController
                 }
             }
         }
+    }
+
+    private func showTutorial() {
+        self.present(TutorialViewController(), animated: true, completion: nil)
+    }
+
+    private func openGitHub() {
+        let url = URL(string: "https://github.com/apsun/Stickerboard")!
+        UIApplication.shared.open(url)
+    }
+
+    private func showChangelog() {
+        self.present(ChangelogViewController(), animated: true, completion: nil)
     }
 }

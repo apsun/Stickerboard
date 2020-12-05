@@ -180,9 +180,8 @@ class KeyboardViewController
         super.viewWillDisappear(animated)
     }
 
-    private func loadStickerData(stickerFile: StickerFile) throws -> Data {
-        // If we want to downscale, use the image resize helper...
-        if PreferenceManager.main.signalMode() {
+    private func loadStickerData(stickerFile: StickerFile, forceOriginal: Bool) throws -> Data {
+        if !forceOriginal && PreferenceManager.main.signalMode() {
             if [UTType.png, UTType.jpeg].contains(stickerFile.utiType) {
                 let image = try ImageLoader.loadImageWithAlpha(
                     url: stickerFile.url,
@@ -197,15 +196,14 @@ class KeyboardViewController
                 return png
             }
         }
-
-        // ... otherwise, just directly load the file
         return try Data(contentsOf: stickerFile.url)
     }
 
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,
-        inPack stickerPack: StickerPack
+        inPack stickerPack: StickerPack,
+        longPress: Bool
     ) {
         let feedbackGenerator = UISelectionFeedbackGenerator()
         feedbackGenerator.selectionChanged()
@@ -216,7 +214,9 @@ class KeyboardViewController
         self.textDocumentProxy.insertText("")
 
         DispatchQueue.global(qos: .userInitiated).async {
-            let result = Result { try self.loadStickerData(stickerFile: stickerFile) }
+            let result = Result {
+                try self.loadStickerData(stickerFile: stickerFile, forceOriginal: longPress)
+            }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):

@@ -7,7 +7,7 @@ enum PreferenceKey: String {
     case importStickers = "pref_import_stickers"
     case playground = "pref_playground"
     case signalMode = "pref_signal_mode"
-    case help = "pref_help"
+    case tutorial = "pref_tutorial"
     case github = "pref_github"
     case changelog = "pref_changelog"
 }

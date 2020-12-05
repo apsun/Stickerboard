@@ -14,9 +14,11 @@
 		49200F1F257066D400DCFB73 /* StickerFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F1E257066D400DCFB73 /* StickerFileManager.swift */; };
 		49200F422570CBAB00DCFB73 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F412570CBAB00DCFB73 /* Cache.swift */; };
 		49200F482570CBCB00DCFB73 /* AsyncImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */; };
-		494051B7256A265E00F39865 /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051B6256A265E00F39865 /* NavViewController.swift */; };
 		494051BB256A384D00F39865 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051BA256A384D00F39865 /* main.swift */; };
 		494FC5D6257B381600D22885 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5D5257B381600D22885 /* RuntimeError.swift */; };
+		494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */; };
+		494FC5E4257B403900D22885 /* ChangelogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5E3257B403900D22885 /* ChangelogViewController.swift */; };
+		494FC5EA257B5B2F00D22885 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 494FC5E9257B5B2F00D22885 /* Settings.bundle */; };
 		49522A5D25698252007BBEDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49522A5C25698252007BBEDC /* MainViewController.swift */; };
 		4958D049257873EC00E44756 /* StickerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4958D048257873EC00E44756 /* StickerTextView.swift */; };
 		4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
@@ -76,9 +78,11 @@
 		49200F222570696200DCFB73 /* Keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Keyboard.entitlements; sourceTree = "<group>"; };
 		49200F412570CBAB00DCFB73 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageLoader.swift; sourceTree = "<group>"; };
-		494051B6256A265E00F39865 /* NavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		494051BA256A384D00F39865 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		494FC5D5257B381600D22885 /* RuntimeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeError.swift; sourceTree = "<group>"; };
+		494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		494FC5E3257B403900D22885 /* ChangelogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogViewController.swift; sourceTree = "<group>"; };
+		494FC5E9257B5B2F00D22885 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		49522A5C25698252007BBEDC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4958D048257873EC00E44756 /* StickerTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerTextView.swift; sourceTree = "<group>"; };
 		4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 		49FADD4F25662AEA00493644 = {
 			isa = PBXGroup;
 			children = (
+				494FC5E9257B5B2F00D22885 /* Settings.bundle */,
 				49FADD5A25662AEA00493644 /* Stickerboard */,
 				49FADD7525662B0100493644 /* Keyboard */,
 				49FADD5925662AEA00493644 /* Products */,
@@ -169,7 +174,8 @@
 				496943FB25788F3E00386FBD /* PreferenceViewController.swift */,
 				496E59722574BB0B00F641AF /* BannerViewController.swift */,
 				49522A5C25698252007BBEDC /* MainViewController.swift */,
-				494051B6256A265E00F39865 /* NavViewController.swift */,
+				494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */,
+				494FC5E3257B403900D22885 /* ChangelogViewController.swift */,
 				496E596C2574BAE800F641AF /* StickerModel.swift */,
 				49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */,
 				49200F182570503100DCFB73 /* StickerFileManager.swift */,
@@ -286,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				494FC5EA257B5B2F00D22885 /* Settings.bundle in Resources */,
 				49FADD6525662AEB00493644 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,10 +323,11 @@
 				49E7A2BC257AFFFD00E5CBA9 /* PreferenceManager.swift in Sources */,
 				494FC5D6257B381600D22885 /* RuntimeError.swift in Sources */,
 				49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */,
+				494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */,
 				496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */,
 				49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */,
-				494051B7256A265E00F39865 /* NavViewController.swift in Sources */,
 				49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */,
+				494FC5E4257B403900D22885 /* ChangelogViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

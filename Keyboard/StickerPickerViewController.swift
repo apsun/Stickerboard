@@ -7,7 +7,8 @@ protocol StickerPickerViewDelegate: class {
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,
-        inPack stickerPack: StickerPack
+        inPack stickerPack: StickerPack,
+        longPress: Bool
     )
 }
 
@@ -185,6 +186,12 @@ class StickerPickerViewController
             forCellWithReuseIdentifier: StickerPickerCell.reuseIdentifier
         )
         self.collectionView.backgroundColor = .clear
+
+        let longPress = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(self.didLongPressCollectionView)
+        )
+        self.collectionView.addGestureRecognizer(longPress)
     }
 
     override func collectionView(
@@ -254,6 +261,20 @@ class StickerPickerViewController
     ) {
         let pack = self.stickerPack!
         let file = pack.files[indexPath.item]
-        self.delegate?.stickerPickerView(self, didSelect: file, inPack: pack)
+        self.delegate?.stickerPickerView(self, didSelect: file, inPack: pack, longPress: false)
+    }
+
+    @objc
+    private func didLongPressCollectionView(recognizer: UILongPressGestureRecognizer) {
+        if recognizer.state != .began {
+            return
+        }
+
+        let point = recognizer.location(in: self.collectionView)
+        guard let indexPath = self.collectionView.indexPathForItem(at: point) else { return }
+
+        let pack = self.stickerPack!
+        let file = pack.files[indexPath.item]
+        self.delegate?.stickerPickerView(self, didSelect: file, inPack: pack, longPress: true)
     }
 }
