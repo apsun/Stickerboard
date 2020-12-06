@@ -13,7 +13,7 @@
 "about_footer" = "Stickerboard %@";
 "view_tutorial" = "View tutorial";
 "tutorial" = "Tutorial";
-"visit_github" = "Visit the project on GitHub";
+"visit_github" = "Visit project on GitHub";
 "changelog" = "Changelog";
 "no_stickers_found" = "Didn't find any stickers to import";
 "imported_sticker" = "Successfully imported 1 sticker";
@@ -24,14 +24,13 @@
 <section>
     <h1>Welcome to Stickerboard!</h1>
     <p>
-        Before we get started, there's a few steps you'll need to take in order to use
-        Stickerboard:
+        Before you can start sending stickers, there's a few steps you'll need to take:
     </p>
 </section>
 <section>
     <br><h1>Enable the keyboard</h1>
     <p>
-        Please enable Stickerboard by heading to:
+        You can enable Stickerboard by heading to:
     </p>
     <ol>
         <li>Settings</li>
@@ -40,7 +39,7 @@
     </ol>
     <br>
     <p>
-        <a href=\"app-settings:\">Click here to open the Stickerboard settings menu</a>
+        <a href=\"app-settings:\">Click here to directly open the Stickerboard settings page</a>
     </p>
 </section>
 <section>
@@ -51,26 +50,26 @@
         needs full access to copy stickers to your clipboard.
     </p>
     <p>
-        To enable full access, open the Stickerboard settings (in the same place you enabled
-        the keyboard, see section above), and toggle the switch labeled \"Allow Full Access\".
+        To enable full access, open the Stickerboard settings (see section above), and toggle
+        the switch labeled \"Allow Full Access\".
     </p>
 </section>
 <section>
     <br><h1>Add some stickers</h1>
     <p>
         You might have noticed that Stickerboard does not come with any stickers. That's
-        because <i>you</i> provide them! Stickerboard allows you to send any image you want
-        as a sticker. Once you've added the images, just hit the import button within the app
-        and they will magically appear in the keyboard.
+        because <i>you</i> provide them! Stickerboard allows you to turn any image into a
+        sticker. Once you've added the images, just hit the import button and they will
+        appear in the keyboard.
     </p>
     <p>
-        So how do you add images to Stickerboard? There are three ways to do this:
+        How do you add the images, you ask? You can use any of the following methods:
     </p>
 </section>
 <section>
     <br><h1>1. Share menu</h1>
     <p>
-        Have some images on your device you would like to use? Hit share, then select
+        Already have some images on your device you would like to use? Tap share, then select
         the \"Save to Files\" option. When given the option, choose Stickerboard under
         \"On My iPhone\".
     </p>
@@ -79,7 +78,7 @@
     <br><h1>2. iTunes File Sharing</h1>
     <p>
         Want to copy stickers from your computer? You can use iTunes File Sharing to
-        drag and drop the images from your computer directly into the Stickerboard app.
+        drag and drop images from your computer directly into the Stickerboard app.
     </p>
 </section>
 <section>
@@ -97,10 +96,17 @@
         sticker pack.
     </p>
 </section>
+<section>
+    <br><h1>Can't remember all this?</h1>
+    <p>
+        No problem! You can revisit this tutorial at any time using the \"View tutorial\"
+        button within the app.
+    </p>
+</section>
 </body>";
 "changelog_html" = "<body>
 <section>
-    <h1>v1.0 - Dec 4, 2020</h1>
+    <h1>v1.0 - Dec 6, 2020</h1>
     <p>
         This is the initial release! Thanks for being an early adopter. Come back in the
         future to see what new features we've added.
