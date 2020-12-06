@@ -7,8 +7,8 @@
 "playground" = "Playground";
 "playground_footer" = "Use this textbox to try out your stickers!";
 "settings" = "Settings";
-"settings_footer" = "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This lets you send them in Signal without the confirmation dialog. This does not affect GIFs. You can override this option at any time by long pressing on a sticker.";
-"signal_mode" = "Signal compatibility mode";
+"settings_footer" = "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This does not affect GIFs. You can override this option at any time by long pressing on a sticker.";
+"resize_stickers" = "Resize stickers";
 "about" = "About";
 "about_footer" = "Stickerboard %@";
 "view_tutorial" = "View tutorial";

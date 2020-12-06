@@ -163,7 +163,7 @@ class KeyboardViewController
     }
 
     private func loadStickerData(stickerFile: StickerFile, forceOriginal: Bool) throws -> Data {
-        if !forceOriginal && PreferenceManager.shared.signalMode() {
+        if !forceOriginal && PreferenceManager.shared.resizeStickers() {
             if [UTType.png, UTType.jpeg].contains(stickerFile.utiType) {
                 let image = try ImageLoader.loadImageWithAlpha(
                     url: stickerFile.url,

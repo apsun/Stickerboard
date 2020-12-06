@@ -52,8 +52,8 @@ class MainViewControllerImpl
                 footer: L("settings_footer"),
                 preferences: [
                     Preference(
-                        id: PreferenceKey.signalMode.rawValue,
-                        type: .switch(label: L("signal_mode"))
+                        id: PreferenceKey.resizeStickers.rawValue,
+                        type: .switch(label: L("resize_stickers"))
                     )
                 ]
             ),
@@ -107,8 +107,8 @@ class MainViewControllerImpl
 
     func preferenceView(initialSwitchValue id: String) -> Bool {
         switch id {
-        case PreferenceKey.signalMode.rawValue:
-            return PreferenceManager.shared.signalMode()
+        case PreferenceKey.resizeStickers.rawValue:
+            return PreferenceManager.shared.resizeStickers()
         default:
             abort()
         }
@@ -131,8 +131,8 @@ class MainViewControllerImpl
 
     func preferenceView(didSetSwitchValue id: String, newValue: Bool) {
         switch id {
-        case PreferenceKey.signalMode.rawValue:
-            PreferenceManager.shared.setSignalMode(newValue)
+        case PreferenceKey.resizeStickers.rawValue:
+            PreferenceManager.shared.setResizeStickers(newValue)
         default:
             abort()
         }

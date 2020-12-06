@@ -8,7 +8,7 @@ enum PreferenceKey: String {
     case versionCode = "pref_version_code"
     case importStickers = "pref_import_stickers"
     case playground = "pref_playground"
-    case signalMode = "pref_signal_mode"
+    case resizeStickers = "pref_resize_stickers"
     case tutorial = "pref_tutorial"
     case github = "pref_github"
     case changelog = "pref_changelog"
@@ -73,11 +73,11 @@ class SharedPreferenceManager: PreferenceManager {
         super.init(userDefaults: UserDefaults(suiteName: SharedPreferenceManager.groupIdentifier)!)
     }
 
-    func signalMode() -> Bool {
-        return self.bool(key: PreferenceKey.signalMode.rawValue) ?? false
+    func resizeStickers() -> Bool {
+        return self.bool(key: PreferenceKey.resizeStickers.rawValue) ?? false
     }
 
-    func setSignalMode(_ newValue: Bool) {
-        self.setBool(key: PreferenceKey.signalMode.rawValue, value: newValue)
+    func setResizeStickers(_ newValue: Bool) {
+        self.setBool(key: PreferenceKey.resizeStickers.rawValue, value: newValue)
     }
 }
