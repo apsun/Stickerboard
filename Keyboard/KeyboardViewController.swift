@@ -111,16 +111,11 @@ class KeyboardViewController
         // Ensure banners display over everything else
         self.touchableView.bringSubviewToFront(self.bannerViewController.view)
 
-        // Start loading the actual data
-        if self.hasFullAccess {
-            DispatchQueue.global(qos: .userInitiated).async {
-                let result = Result { try StickerFileManager.main.stickerPacks() }
-                DispatchQueue.main.async {
-                    self.stickerPacksDidLoad(result: result)
-                }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = Result { try StickerFileManager.main.stickerPacks() }
+            DispatchQueue.main.async {
+                self.stickerPacksDidLoad(result: result)
             }
-        } else {
-            self.stickerPackPageViewController.emptyText = L("full_access_required")
         }
     }
 
@@ -221,6 +216,14 @@ class KeyboardViewController
         // keyboard instead of the next one (iOS seems go to the next one only
         // if you didn't input anything with the keyboard)
         self.textDocumentProxy.insertText("")
+
+        if !self.hasFullAccess {
+            self.bannerViewController.showBanner(
+                text: L("full_access_required"),
+                style: .error
+            )
+            return
+        }
 
         DispatchQueue.global(qos: .userInitiated).async {
             let result = Result {

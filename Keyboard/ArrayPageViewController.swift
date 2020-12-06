@@ -203,14 +203,6 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      */
     var animatePageTransitions: Bool = true
 
-    required init?(coder: NSCoder) {
-        abort()
-    }
-
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-
     override func loadView() {
         self.view = UIView()
     }
