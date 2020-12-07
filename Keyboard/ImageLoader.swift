@@ -30,10 +30,10 @@ struct ImageResizeParams: Hashable, CustomDebugStringConvertible {
 
     var debugDescription: String {
         return "ImageResizeParams("
-        + "pointSize=\(self.pointSize)"
-        + ", scale=\(self.scale)"
-        + ", mode=\(self.mode)"
-        + ")"
+            + "pointSize=\(self.pointSize.debugDescription)"
+            + ", scale=\(self.scale)"
+            + ", mode=\(self.mode)"
+            + ")"
     }
 }
 

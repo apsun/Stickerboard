@@ -22,7 +22,7 @@ struct StickerFile: CustomDebugStringConvertible {
     let utiType: UTType
 
     var debugDescription: String {
-        return "Sticker("
+        return "StickerFile("
             + "name=\(self.name.debugDescription)"
             + ", urlPath=\(self.url.relativePath.debugDescription)"
             + ", utiType=\(self.utiType.debugDescription)"

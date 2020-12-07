@@ -20,8 +20,8 @@
 "imported_sticker_banner" = "Successfully imported 1 sticker";
 "imported_stickers_banner" = "Successfully imported %d stickers";
 "failed_import_banner" = "Failed to import stickers!";
-"skipped_stickers_title" = "Import partially failed";
-"skipped_stickers_body" = "Unfortunately, we were unable to read the following files:\n\n%@\n\nPlease check that your images are in PNG, JPEG, or GIF format.";
+"skipped_stickers_title" = "Import succeeded";
+"skipped_stickers_body" = "We skipped the following files because they did not look like images:\n\n%@\n\nPlease ensure that your images are in PNG, JPEG, or GIF format.";
 "skipped_stickers_more" = "... (%d more)";
 "failed_import_dialog_title" = "Import failed";
 "failed_import_dialog_body" = "Unfortunately, we were unable to import any stickers. Our best guess at the problem:\n\n%@\n\nIf this looks like a bug, please submit an issue on GitHub and include the message above.";
