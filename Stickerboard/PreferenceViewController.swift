@@ -189,7 +189,11 @@ class PreferenceViewController
 
     init(root: PreferenceRoot) {
         self.root = root
-        super.init(style: .grouped)
+        var style = UITableView.Style.grouped
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            style = UITableView.Style.insetGrouped
+        }
+        super.init(style: style)
     }
 
     override func viewDidLoad() {
