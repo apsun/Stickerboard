@@ -162,31 +162,50 @@ class KeyboardViewController
         super.viewWillDisappear(animated)
     }
 
-    private func loadStickerData(stickerFile: StickerFile, forceOriginal: Bool) throws -> Data {
-        if !forceOriginal && PreferenceManager.shared.resizeStickers() {
-            if [UTType.png, UTType.jpeg].contains(stickerFile.utiType) {
-                let image = try ImageLoader.loadImageWithAlpha(
-                    url: stickerFile.url,
-                    width: 512,
-                    height: 512,
-                    scale: 1.0,
-                    mode: .fit
-                )
-                guard let png = image.pngData() else {
-                    throw RuntimeError("Failed to convert image to PNG")
-                }
-                return png
-            }
+    private func loadStickerData(
+        stickerFile: StickerFile,
+        forceOriginal: Bool
+    ) throws -> (Data, UTType) {
+        // We return the original sticker under the following conditions:
+        //
+        // 1. User absolutely wants the original (by long tapping)
+        // 2. Image is animated (we don't support resizing those)
+        // 3. Resize image option is disabled and the image format is widely supported
+        //
+        // This path is faster since it doesn't involve decoding the image;
+        // we just push bits around.
+        let isAnimatedFormat = ImageLoader.animatedImageFormats.contains(stickerFile.utiType)
+        let isSafeFormat = ImageLoader.safeImageFormats.contains(stickerFile.utiType)
+        let wantsResize = PreferenceManager.shared.resizeStickers()
+        if forceOriginal || isAnimatedFormat || (isSafeFormat && !wantsResize) {
+            let data = try Data(contentsOf: stickerFile.url)
+            return (data, stickerFile.utiType)
         }
-        return try Data(contentsOf: stickerFile.url)
+
+        // Otherwise, either the image needs resizing, or it's in an "unsafe"
+        // format (like HEIC). Go through the image loader and turn it into a
+        // PNG. Note that we limit to 512x512 here even if the user did not want
+        // resizing, because performance quickly degrades with larger images.
+        let data = try ImageLoader.loadImageAsPNG(
+            url: stickerFile.url,
+            resizeParams: ImageResizeParams(
+                pointSize: CGSize(width: 512, height: 512),
+                scale: 1.0,
+                mode: .fit
+            )
+        )
+        return (data, .png)
     }
 
-    private func didLoadStickerData(stickerFile: StickerFile, result: Result<Data, Error>) {
+    private func didLoadStickerData(
+        stickerFile: StickerFile,
+        result: Result<(Data, UTType), Error>
+    ) {
         switch result {
-        case .success(let data):
+        case .success(let (data, type)):
             UIPasteboard.general.setData(
                 data,
-                forPasteboardType: stickerFile.utiType.identifier
+                forPasteboardType: type.identifier
             )
             self.bannerViewController.showBanner(
                 text: F("copied_to_clipboard", stickerFile.name),

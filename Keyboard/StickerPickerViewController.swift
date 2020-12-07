@@ -49,9 +49,11 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         guard let url = url else { return nil }
         return AsyncImageLoaderParams(
             imageURL: url,
-            pointSize: self.bounds.size,
-            scale: self.traitCollection.displayScale,
-            mode: .fill
+            resizeParams: ImageResizeParams(
+                pointSize: self.bounds.size,
+                scale: self.traitCollection.displayScale,
+                mode: .fill
+            )
         )
     }
 
@@ -230,9 +232,11 @@ class StickerPickerViewController
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
             let params = AsyncImageLoaderParams(
                 imageURL: imageURL,
-                pointSize: size,
-                scale: self.traitCollection.displayScale,
-                mode: .fill
+                resizeParams: ImageResizeParams(
+                    pointSize: size,
+                    scale: self.traitCollection.displayScale,
+                    mode: .fill
+                )
             )
             AsyncImageLoader.main.loadAsync(params: params)
         }
@@ -247,9 +251,11 @@ class StickerPickerViewController
             let size = self.collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size
             let params = AsyncImageLoaderParams(
                 imageURL: imageURL,
-                pointSize: size,
-                scale: self.traitCollection.displayScale,
-                mode: .fill
+                resizeParams: ImageResizeParams(
+                    pointSize: size,
+                    scale: self.traitCollection.displayScale,
+                    mode: .fill
+                )
             )
             AsyncImageLoader.main.cancelLoad(params: params)
         }

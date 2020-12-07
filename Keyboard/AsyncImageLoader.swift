@@ -2,33 +2,22 @@ import Foundation
 import UIKit
 
 /**
- * Adds a Hashable implementation for CGSize.
- */
-extension CGSize: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.width)
-        hasher.combine(self.height)
-    }
-}
-
-/**
  * Represents the desired image configuration to be loaded.
  */
 struct AsyncImageLoaderParams: Hashable, CustomDebugStringConvertible {
     let imageURL: URL
-    let pointSize: CGSize
-    let scale: CGFloat
-    let mode: ImageResizeMode
+    let resizeParams: ImageResizeParams
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.imageURL.path)
-        hasher.combine(self.pointSize)
-        hasher.combine(self.scale)
-        hasher.combine(self.mode)
+        hasher.combine(self.resizeParams)
     }
 
     var debugDescription: String {
-        return "\(self.imageURL.relativePath) @ \(self.pointSize) \(self.scale)x ~\(self.mode)"
+        return "AsyncImageLoaderParams("
+        + "path=\(self.imageURL.relativePath)"
+        + ", resizeParams=\(self.resizeParams.debugDescription)"
+        + ")"
     }
 }
 
@@ -89,10 +78,7 @@ class AsyncImageLoader {
             let result = Result {
                 try ImageLoader.loadImage(
                     url: params.imageURL,
-                    width: params.pointSize.width,
-                    height: params.pointSize.height,
-                    scale: params.scale,
-                    mode: params.mode
+                    resizeParams: params.resizeParams
                 )
             }
 

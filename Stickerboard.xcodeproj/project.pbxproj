@@ -39,6 +39,7 @@
 		496E596D2574BAE800F641AF /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E596C2574BAE800F641AF /* StickerModel.swift */; };
 		496E59732574BB0B00F641AF /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59722574BB0B00F641AF /* BannerViewController.swift */; };
 		496E59792574BB7D00F641AF /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59782574BB7D00F641AF /* UIColor+Accent.swift */; };
+		49AFE4FA257DD57F007F8F11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */; };
 		49DD642E256B090D00E73195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49DD642D256B090D00E73195 /* Assets.xcassets */; };
 		49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */; };
 		49DD6436256B1B1200E73195 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6403256AB89700E73195 /* StickerPickerViewController.swift */; };
@@ -111,6 +112,7 @@
 		496E596C2574BAE800F641AF /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		496E59722574BB0B00F641AF /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		496E59782574BB7D00F641AF /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
+		49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		49DD6403256AB89700E73195 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTransparentView.swift; sourceTree = "<group>"; };
 		49DD642D256B090D00E73195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -186,9 +188,10 @@
 				493B0B5F257C210700948471 /* TextViewController.swift */,
 				494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */,
 				494FC5E3257B403900D22885 /* ChangelogViewController.swift */,
-				496E596C2574BAE800F641AF /* StickerModel.swift */,
-				49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */,
 				49200F182570503100DCFB73 /* StickerFileManager.swift */,
+				496E596C2574BAE800F641AF /* StickerModel.swift */,
+				49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */,
+				49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */,
 				494FC5EF257B77E800D22885 /* KeyboardManager.swift */,
 				496E59782574BB7D00F641AF /* UIColor+Accent.swift */,
 				496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */,
@@ -342,6 +345,7 @@
 				494FC5D6257B381600D22885 /* RuntimeError.swift in Sources */,
 				49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */,
 				494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */,
+				49AFE4FA257DD57F007F8F11 /* ImageLoader.swift in Sources */,
 				493B0B41257C14A300948471 /* Logger.swift in Sources */,
 				493B0B60257C210700948471 /* TextViewController.swift in Sources */,
 				496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */,
@@ -530,6 +534,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Stickerboard/Stickerboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 23S4K4RW8P;
 				INFOPLIST_FILE = Stickerboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -551,6 +556,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Stickerboard/Stickerboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 23S4K4RW8P;
 				INFOPLIST_FILE = Stickerboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -569,6 +575,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Keyboard/Keyboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 23S4K4RW8P;
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -589,6 +596,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Keyboard/Keyboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 23S4K4RW8P;
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -138,6 +138,56 @@ class MainViewControllerImpl
         }
     }
 
+    private func showStickerImportResult(_ result: Result<StickerLoadResult, Error>) {
+        switch result {
+        case .success(let result):
+            let message: String
+            if result.succeeded.count == 0 {
+                message = L("no_stickers_found_banner")
+            } else if result.succeeded.count == 1 {
+                message = L("imported_sticker_banner")
+            } else {
+                message = F("imported_stickers_banner", result.succeeded.count)
+            }
+            self.bannerViewController.showBanner(
+                text: message,
+                style: .normal
+            )
+
+            if !result.skipped.isEmpty {
+                var skippedPaths = result.skipped.map { $0.url.relativePath }
+                let count = skippedPaths.count
+                let maxLines = 5
+                if count > maxLines {
+                    skippedPaths.removeSubrange(maxLines..<count)
+                    skippedPaths.append(F("skipped_stickers_more", count - maxLines))
+                }
+
+                let alert = UIAlertController(
+                    title: L("skipped_stickers_title"),
+                    message: F("skipped_stickers_body", skippedPaths.joined(separator: "\n")),
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: L("ok"), style: .default))
+                self.present(alert, animated: true)
+            }
+        case .failure(let error):
+            logger.error("Failed to import stickers: \(error.localizedDescription)")
+            self.bannerViewController.showBanner(
+                text: L("failed_import_banner"),
+                style: .error
+            )
+
+            let alert = UIAlertController(
+                title: L("failed_import_dialog_title"),
+                message: F("failed_import_dialog_body", error.localizedDescription),
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: L("ok"), style: .default))
+            self.present(alert, animated: true)
+        }
+    }
+
     private func importStickersButtonClicked() {
         // Dismiss the keyboard so it can refresh itself the next time it loads
         self.view.endEditing(false)
@@ -145,27 +195,7 @@ class MainViewControllerImpl
         DispatchQueue.global(qos: .userInitiated).async {
             let result = Result { try StickerFileManager.main.importFromDocuments() }
             DispatchQueue.main.async {
-                switch result {
-                case .success(let count):
-                    let message: String
-                    if count == 0 {
-                        message = L("no_stickers_found")
-                    } else if count == 1 {
-                        message = L("imported_sticker")
-                    } else {
-                        message = F("imported_stickers", count)
-                    }
-                    self.bannerViewController.showBanner(
-                        text: message,
-                        style: .normal
-                    )
-                case .failure(let error):
-                    logger.error("Failed to import stickers: \(error.localizedDescription)")
-                    self.bannerViewController.showBanner(
-                        text: L("failed_import_stickers"),
-                        style: .error
-                    )
-                }
+                self.showStickerImportResult(result)
             }
         }
     }
