@@ -26,6 +26,10 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
     private var imageView: UIImageView!
     private var imageParams: AsyncImageLoaderParams?
 
+    required init?(coder: NSCoder) {
+        abort()
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -35,10 +39,6 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
             .fill(self.contentView.safeAreaLayoutGuide)
             .activate()
         self.imageView.clipsToBounds = true
-    }
-
-    required init?(coder: NSCoder) {
-        abort()
     }
 
     /**
@@ -145,6 +145,10 @@ class StickerPickerViewController
         }
     }
 
+    required init?(coder: NSCoder) {
+        abort()
+    }
+
     init() {
         let layout = UICollectionViewCompositionalLayout { (
             sectionIndex: Int,
@@ -176,10 +180,6 @@ class StickerPickerViewController
             return section
         }
         super.init(collectionViewLayout: layout)
-    }
-
-    required init?(coder: NSCoder) {
-        abort()
     }
 
     override func viewDidLoad() {

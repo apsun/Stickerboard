@@ -24,10 +24,6 @@ class BannerViewController: UIViewController {
      */
     var bannerTimeout: TimeInterval? = 3
 
-    override func loadView() {
-        self.view = UIView()
-    }
-
     override func viewDidLoad() {
         self.view.clipsToBounds = true
         self.view.isUserInteractionEnabled = false

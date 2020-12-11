@@ -49,7 +49,7 @@ class PreferenceManager {
  * Helper for accessing container-internal preferences.
  */
 class StandardPreferenceManager: PreferenceManager {
-    init() {
+    fileprivate init() {
         super.init(userDefaults: UserDefaults.standard)
     }
 
@@ -69,7 +69,7 @@ class StandardPreferenceManager: PreferenceManager {
 class SharedPreferenceManager: PreferenceManager {
     private static let groupIdentifier = "group.com.crossbowffs.stickerboard.stickers"
 
-    init() {
+    fileprivate init() {
         super.init(userDefaults: UserDefaults(suiteName: SharedPreferenceManager.groupIdentifier)!)
     }
 

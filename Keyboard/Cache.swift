@@ -36,10 +36,10 @@ class Cache<Key: Hashable, Value> {
             return self.inner.object(forKey: KeyWrapper(key))?.value
         }
         set {
-            if newValue == nil {
-                self.inner.removeObject(forKey: KeyWrapper(key))
+            if let newValue = newValue {
+                self.inner.setObject(ValueWrapper(newValue), forKey: KeyWrapper(key))
             } else {
-                self.inner.setObject(ValueWrapper(newValue!), forKey: KeyWrapper(key))
+                self.inner.removeObject(forKey: KeyWrapper(key))
             }
         }
     }

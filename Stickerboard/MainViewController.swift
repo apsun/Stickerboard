@@ -100,7 +100,7 @@ class MainViewControllerImpl
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if !KeyboardManager.main.isKeyboardEnabled() {
+        if !KeyboardManager.isKeyboardEnabled() {
             self.showTutorial()
         }
     }
@@ -117,7 +117,7 @@ class MainViewControllerImpl
     func preferenceView(didClickButton id: String) {
         switch id {
         case PreferenceKey.importStickers.rawValue:
-            self.importStickersButtonClicked()
+            self.importStickers()
         case PreferenceKey.tutorial.rawValue:
             self.showTutorial()
         case PreferenceKey.github.rawValue:
@@ -188,7 +188,7 @@ class MainViewControllerImpl
         }
     }
 
-    private func importStickersButtonClicked() {
+    private func importStickers() {
         // Dismiss the keyboard so it can refresh itself the next time it loads
         self.view.endEditing(false)
 

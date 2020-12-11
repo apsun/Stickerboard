@@ -23,28 +23,36 @@ class AutoLayoutBuilder {
      * Anchors the leading edge of this view to the given point.
      */
     func left(_ left: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
-        return self.constraint(self.view.leadingAnchor.constraint(equalTo: left, constant: constant))
+        return self.constraint(
+            self.view.leadingAnchor.constraint(equalTo: left, constant: constant)
+        )
     }
 
     /**
      * Anchors the top edge of this view to the given point.
      */
     func top(_ top: NSLayoutYAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
-        return self.constraint(self.view.topAnchor.constraint(equalTo: top, constant: constant))
+        return self.constraint(
+            self.view.topAnchor.constraint(equalTo: top, constant: constant)
+        )
     }
 
     /**
      * Anchors the trailing edge of this view to the given point.
      */
     func right(_ right: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
-        return self.constraint(self.view.trailingAnchor.constraint(equalTo: right, constant: constant))
+        return self.constraint(
+            self.view.trailingAnchor.constraint(equalTo: right, constant: constant)
+        )
     }
 
     /**
      * Anchors the bottom edge of this view to the given point.
      */
     func bottom(_ bottom: NSLayoutYAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
-        return self.constraint(self.view.bottomAnchor.constraint(equalTo: bottom, constant: constant))
+        return self.constraint(
+            self.view.bottomAnchor.constraint(equalTo: bottom, constant: constant)
+        )
     }
 
     /**

@@ -114,12 +114,12 @@ class KeyboardViewController
         DispatchQueue.global(qos: .userInitiated).async {
             let result = Result { try StickerFileManager.main.stickerPacks() }
             DispatchQueue.main.async {
-                self.stickerPacksDidLoad(result: result)
+                self.didLoadStickerPacks(result: result)
             }
         }
     }
 
-    private func stickerPacksDidLoad(result: Result<[StickerPack], Error>) {
+    private func didLoadStickerPacks(result: Result<[StickerPack], Error>) {
         switch result {
         case .success(let stickerPacks):
             let dataSource = StickerPageViewControllerDataSource(

@@ -15,9 +15,9 @@ struct AsyncImageLoaderParams: Hashable, CustomDebugStringConvertible {
 
     var debugDescription: String {
         return "AsyncImageLoaderParams("
-        + "path=\(self.imageURL.relativePath)"
-        + ", resizeParams=\(self.resizeParams.debugDescription)"
-        + ")"
+            + "path=\(self.imageURL.relativePath)"
+            + ", resizeParams=\(self.resizeParams.debugDescription)"
+            + ")"
     }
 }
 

@@ -203,10 +203,6 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      */
     var animatePageTransitions: Bool = true
 
-    override func loadView() {
-        self.view = UIView()
-    }
-
     override func viewDidLoad() {
         self.inner = UIPageViewController(
             transitionStyle: .scroll,
