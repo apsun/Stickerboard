@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 /**
  * A view controller containing a scrollable HTML text view.

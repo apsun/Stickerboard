@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 /**
  * Internal delegate for callbacks from the cell to the view controller.

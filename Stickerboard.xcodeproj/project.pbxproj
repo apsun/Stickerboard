@@ -3,50 +3,44 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		490707C12572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */; };
-		490707E5257369E5005AACD8 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707E4257369E5005AACD8 /* BannerViewController.swift */; };
-		49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F122570348600DCFB73 /* UIColor+Accent.swift */; };
-		49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F182570503100DCFB73 /* StickerFileManager.swift */; };
-		49200F1F257066D400DCFB73 /* StickerFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F1E257066D400DCFB73 /* StickerFileManager.swift */; };
-		49200F422570CBAB00DCFB73 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F412570CBAB00DCFB73 /* Cache.swift */; };
-		49200F482570CBCB00DCFB73 /* AsyncImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */; };
-		493B0B2F257BFF7200948471 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B2E257BFF7200948471 /* Logger.swift */; };
-		493B0B41257C14A300948471 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B40257C14A300948471 /* Logger.swift */; };
-		493B0B49257C19CE00948471 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B48257C19CE00948471 /* LocalizedString.swift */; };
-		493B0B4D257C1C9A00948471 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B4C257C1C9A00948471 /* LocalizedString.swift */; };
 		493B0B5A257C1E8F00948471 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 493B0B5C257C1E8F00948471 /* Localizable.strings */; };
 		493B0B60257C210700948471 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B5F257C210700948471 /* TextViewController.swift */; };
 		493B0B65257C2E3100948471 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 493B0B67257C2E3100948471 /* Localizable.strings */; };
 		493B0B6D257C2EAA00948471 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 493B0B6C257C2EAA00948471 /* Settings.bundle */; };
 		494051BB256A384D00F39865 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051BA256A384D00F39865 /* main.swift */; };
-		494FC5D6257B381600D22885 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5D5257B381600D22885 /* RuntimeError.swift */; };
 		494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */; };
 		494FC5E4257B403900D22885 /* ChangelogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5E3257B403900D22885 /* ChangelogViewController.swift */; };
 		494FC5F0257B77E800D22885 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5EF257B77E800D22885 /* KeyboardManager.swift */; };
 		49522A5D25698252007BBEDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49522A5C25698252007BBEDC /* MainViewController.swift */; };
 		4958D049257873EC00E44756 /* StickerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4958D048257873EC00E44756 /* StickerTextView.swift */; };
-		4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */; };
-		4964E9BB2572125A002AFDFE /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4964E9BA2572125A002AFDFE /* StickerModel.swift */; };
 		496943F825788E8300386FBD /* PreferenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496943F725788E8300386FBD /* PreferenceModel.swift */; };
 		496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496943FB25788F3E00386FBD /* PreferenceViewController.swift */; };
 		496E594F257435DA00F641AF /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E594E257435DA00F641AF /* KeyboardButton.swift */; };
-		496E59592574949400F641AF /* ArrayPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59582574949400F641AF /* ArrayPageViewController.swift */; };
-		496E59692574BADA00F641AF /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */; };
-		496E596D2574BAE800F641AF /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E596C2574BAE800F641AF /* StickerModel.swift */; };
-		496E59732574BB0B00F641AF /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59722574BB0B00F641AF /* BannerViewController.swift */; };
-		496E59792574BB7D00F641AF /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59782574BB7D00F641AF /* UIColor+Accent.swift */; };
-		49AFE4FA257DD57F007F8F11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */; };
+		49BC7B84258470220026A3B4 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BC7B6425846EE30026A3B4 /* libCommon.a */; };
+		49BC7B87258470330026A3B4 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BC7B6425846EE30026A3B4 /* libCommon.a */; };
+		49BC7B90258470D20026A3B4 /* ArrayPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59582574949400F641AF /* ArrayPageViewController.swift */; platformFilter = ios; };
+		49BC7B91258470D20026A3B4 /* AsyncImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */; platformFilter = ios; };
+		49BC7B92258470D20026A3B4 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59722574BB0B00F641AF /* BannerViewController.swift */; platformFilter = ios; };
+		49BC7B93258470D20026A3B4 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F412570CBAB00DCFB73 /* Cache.swift */; platformFilter = ios; };
+		49BC7B94258470D20026A3B4 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */; platformFilter = ios; };
+		49BC7B95258470D20026A3B4 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B4C257C1C9A00948471 /* LocalizedString.swift */; platformFilter = ios; };
+		49BC7B97258470D20026A3B4 /* PreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */; platformFilter = ios; };
+		49BC7B98258470D20026A3B4 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494FC5D5257B381600D22885 /* RuntimeError.swift */; platformFilter = ios; };
+		49BC7B99258470D20026A3B4 /* StickerFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49200F182570503100DCFB73 /* StickerFileManager.swift */; platformFilter = ios; };
+		49BC7B9A258470D20026A3B4 /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E596C2574BAE800F641AF /* StickerModel.swift */; platformFilter = ios; };
+		49BC7B9B258470D20026A3B4 /* StickerPageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */; platformFilter = ios; };
+		49BC7B9C258470D20026A3B4 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6403256AB89700E73195 /* StickerPickerViewController.swift */; platformFilter = ios; };
+		49BC7B9D258470D20026A3B4 /* TouchableTransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */; platformFilter = ios; };
+		49BC7B9E258470D20026A3B4 /* UIColor+Accent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59782574BB7D00F641AF /* UIColor+Accent.swift */; platformFilter = ios; };
+		49BC7B9F258470D20026A3B4 /* UIView+AutoLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */; platformFilter = ios; };
+		49BC7BB3258472E40026A3B4 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B40257C14A300948471 /* Logger.swift */; platformFilter = ios; };
+		49BC7BB82584753E0026A3B4 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC7BB72584753E0026A3B4 /* Logger.swift */; };
+		49BC7BC0258477CF0026A3B4 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC7BBF258477CF0026A3B4 /* Logger.swift */; };
 		49DD642E256B090D00E73195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49DD642D256B090D00E73195 /* Assets.xcassets */; };
-		49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */; };
-		49DD6436256B1B1200E73195 /* StickerPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DD6403256AB89700E73195 /* StickerPickerViewController.swift */; };
-		49E7A2BC257AFFFD00E5CBA9 /* PreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */; };
-		49E7A2C2257B03B200E5CBA9 /* PreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7A2C1257B03B200E5CBA9 /* PreferenceManager.swift */; };
-		49E7A2C8257B08C200E5CBA9 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7A2C7257B08C200E5CBA9 /* ImageLoader.swift */; };
-		49E7A2D0257B0EA300E5CBA9 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E7A2CF257B0EA300E5CBA9 /* RuntimeError.swift */; };
 		49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FADD5B25662AEA00493644 /* AppDelegate.swift */; };
 		49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FADD5D25662AEA00493644 /* SceneDelegate.swift */; };
 		49FADD6525662AEB00493644 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49FADD6425662AEB00493644 /* Assets.xcassets */; };
@@ -55,6 +49,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		49BC7B85258470220026A3B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49FADD5025662AEA00493644 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49BC7B6325846EE30026A3B4;
+			remoteInfo = Shared;
+		};
+		49BC7B88258470330026A3B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49FADD5025662AEA00493644 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49BC7B6325846EE30026A3B4;
+			remoteInfo = Shared;
+		};
 		49FADD7925662B0100493644 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 49FADD5025662AEA00493644 /* Project object */;
@@ -65,6 +73,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		49BC7B6225846EE30026A3B4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49FADD7F25662B0100493644 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -80,16 +97,11 @@
 
 /* Begin PBXFileReference section */
 		490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPageViewControllerDataSource.swift; sourceTree = "<group>"; };
-		490707E4257369E5005AACD8 /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
-		49200F122570348600DCFB73 /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49200F182570503100DCFB73 /* StickerFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerFileManager.swift; sourceTree = "<group>"; };
-		49200F1E257066D400DCFB73 /* StickerFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerFileManager.swift; sourceTree = "<group>"; };
 		49200F222570696200DCFB73 /* Keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Keyboard.entitlements; sourceTree = "<group>"; };
 		49200F412570CBAB00DCFB73 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageLoader.swift; sourceTree = "<group>"; };
-		493B0B2E257BFF7200948471 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		493B0B40257C14A300948471 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		493B0B48257C19CE00948471 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		493B0B4C257C1C9A00948471 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		493B0B5B257C1E8F00948471 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		493B0B5F257C210700948471 /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
@@ -102,8 +114,6 @@
 		494FC5EF257B77E800D22885 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		49522A5C25698252007BBEDC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4958D048257873EC00E44756 /* StickerTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerTextView.swift; sourceTree = "<group>"; };
-		4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayoutBuilder.swift"; sourceTree = "<group>"; };
-		4964E9BA2572125A002AFDFE /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		496943F725788E8300386FBD /* PreferenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceModel.swift; sourceTree = "<group>"; };
 		496943FB25788F3E00386FBD /* PreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		496E594E257435DA00F641AF /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
@@ -113,13 +123,13 @@
 		496E59722574BB0B00F641AF /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		496E59782574BB7D00F641AF /* UIColor+Accent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Accent.swift"; sourceTree = "<group>"; };
 		49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		49BC7B6425846EE30026A3B4 /* libCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		49BC7BB72584753E0026A3B4 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		49BC7BBF258477CF0026A3B4 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		49DD6403256AB89700E73195 /* StickerPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerViewController.swift; sourceTree = "<group>"; };
 		49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTransparentView.swift; sourceTree = "<group>"; };
 		49DD642D256B090D00E73195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
-		49E7A2C1257B03B200E5CBA9 /* PreferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
-		49E7A2C7257B08C200E5CBA9 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		49E7A2CF257B0EA300E5CBA9 /* RuntimeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeError.swift; sourceTree = "<group>"; };
 		49FADD5825662AEA00493644 /* Stickerboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stickerboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FADD5B25662AEA00493644 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49FADD5D25662AEA00493644 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,10 +142,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		49BC7B6125846EE30026A3B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49FADD5525662AEA00493644 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49BC7B84258470220026A3B4 /* libCommon.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,19 +161,52 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49BC7B87258470330026A3B4 /* libCommon.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49BC7B6525846EE30026A3B4 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				496E59582574949400F641AF /* ArrayPageViewController.swift */,
+				49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */,
+				496E59722574BB0B00F641AF /* BannerViewController.swift */,
+				49200F412570CBAB00DCFB73 /* Cache.swift */,
+				49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */,
+				493B0B4C257C1C9A00948471 /* LocalizedString.swift */,
+				493B0B40257C14A300948471 /* Logger.swift */,
+				49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */,
+				494FC5D5257B381600D22885 /* RuntimeError.swift */,
+				49200F182570503100DCFB73 /* StickerFileManager.swift */,
+				496E596C2574BAE800F641AF /* StickerModel.swift */,
+				490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */,
+				49DD6403256AB89700E73195 /* StickerPickerViewController.swift */,
+				49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */,
+				496E59782574BB7D00F641AF /* UIColor+Accent.swift */,
+				496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		49BC7B83258470220026A3B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		49FADD4F25662AEA00493644 = {
 			isa = PBXGroup;
 			children = (
 				493B0B6C257C2EAA00948471 /* Settings.bundle */,
 				49FADD5A25662AEA00493644 /* Stickerboard */,
 				49FADD7525662B0100493644 /* Keyboard */,
+				49BC7B6525846EE30026A3B4 /* Common */,
 				49FADD5925662AEA00493644 /* Products */,
+				49BC7B83258470220026A3B4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,6 +215,7 @@
 			children = (
 				49FADD5825662AEA00493644 /* Stickerboard.app */,
 				49FADD7425662B0100493644 /* Keyboard.appex */,
+				49BC7B6425846EE30026A3B4 /* libCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,31 +223,22 @@
 		49FADD5A25662AEA00493644 /* Stickerboard */ = {
 			isa = PBXGroup;
 			children = (
-				493B0B67257C2E3100948471 /* Localizable.strings */,
 				49FADD8E25662E5E00493644 /* Stickerboard.entitlements */,
 				49FADD6925662AEB00493644 /* Info.plist */,
 				494051BA256A384D00F39865 /* main.swift */,
-				493B0B40257C14A300948471 /* Logger.swift */,
-				493B0B4C257C1C9A00948471 /* LocalizedString.swift */,
-				494FC5D5257B381600D22885 /* RuntimeError.swift */,
 				49FADD5B25662AEA00493644 /* AppDelegate.swift */,
-				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
-				4958D048257873EC00E44756 /* StickerTextView.swift */,
+				494FC5E3257B403900D22885 /* ChangelogViewController.swift */,
+				494FC5EF257B77E800D22885 /* KeyboardManager.swift */,
+				49BC7BBF258477CF0026A3B4 /* Logger.swift */,
+				49522A5C25698252007BBEDC /* MainViewController.swift */,
 				496943F725788E8300386FBD /* PreferenceModel.swift */,
 				496943FB25788F3E00386FBD /* PreferenceViewController.swift */,
-				496E59722574BB0B00F641AF /* BannerViewController.swift */,
-				49522A5C25698252007BBEDC /* MainViewController.swift */,
+				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
+				4958D048257873EC00E44756 /* StickerTextView.swift */,
 				493B0B5F257C210700948471 /* TextViewController.swift */,
 				494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */,
-				494FC5E3257B403900D22885 /* ChangelogViewController.swift */,
-				49200F182570503100DCFB73 /* StickerFileManager.swift */,
-				496E596C2574BAE800F641AF /* StickerModel.swift */,
-				49AFE4F9257DD57F007F8F11 /* ImageLoader.swift */,
-				49E7A2BB257AFFFD00E5CBA9 /* PreferenceManager.swift */,
-				494FC5EF257B77E800D22885 /* KeyboardManager.swift */,
-				496E59782574BB7D00F641AF /* UIColor+Accent.swift */,
-				496E59682574BADA00F641AF /* UIView+AutoLayoutBuilder.swift */,
 				49FADD6425662AEB00493644 /* Assets.xcassets */,
+				493B0B67257C2E3100948471 /* Localizable.strings */,
 			);
 			path = Stickerboard;
 			sourceTree = "<group>";
@@ -203,28 +246,13 @@
 		49FADD7525662B0100493644 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				493B0B5C257C1E8F00948471 /* Localizable.strings */,
 				49200F222570696200DCFB73 /* Keyboard.entitlements */,
 				49FADD7825662B0100493644 /* Info.plist */,
-				493B0B2E257BFF7200948471 /* Logger.swift */,
-				493B0B48257C19CE00948471 /* LocalizedString.swift */,
-				49200F412570CBAB00DCFB73 /* Cache.swift */,
-				49E7A2CF257B0EA300E5CBA9 /* RuntimeError.swift */,
 				496E594E257435DA00F641AF /* KeyboardButton.swift */,
 				49FADD7625662B0100493644 /* KeyboardViewController.swift */,
-				496E59582574949400F641AF /* ArrayPageViewController.swift */,
-				490707C02572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift */,
-				49DD6403256AB89700E73195 /* StickerPickerViewController.swift */,
-				490707E4257369E5005AACD8 /* BannerViewController.swift */,
-				49E7A2C1257B03B200E5CBA9 /* PreferenceManager.swift */,
-				49200F1E257066D400DCFB73 /* StickerFileManager.swift */,
-				4964E9BA2572125A002AFDFE /* StickerModel.swift */,
-				49E7A2C7257B08C200E5CBA9 /* ImageLoader.swift */,
-				49200F472570CBCB00DCFB73 /* AsyncImageLoader.swift */,
-				49DD6420256AF1A400E73195 /* TouchableTransparentView.swift */,
-				49200F122570348600DCFB73 /* UIColor+Accent.swift */,
-				4964E9A625720A99002AFDFE /* UIView+AutoLayoutBuilder.swift */,
+				49BC7BB72584753E0026A3B4 /* Logger.swift */,
 				49DD642D256B090D00E73195 /* Assets.xcassets */,
+				493B0B5C257C1E8F00948471 /* Localizable.strings */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -232,6 +260,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		49BC7B6325846EE30026A3B4 /* Common */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49BC7B6825846EE30026A3B4 /* Build configuration list for PBXNativeTarget "Common" */;
+			buildPhases = (
+				49BC7B6025846EE30026A3B4 /* Sources */,
+				49BC7B6125846EE30026A3B4 /* Frameworks */,
+				49BC7B6225846EE30026A3B4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Common;
+			productName = Shared;
+			productReference = 49BC7B6425846EE30026A3B4 /* libCommon.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		49FADD5725662AEA00493644 /* Stickerboard */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 49FADD6C25662AEB00493644 /* Build configuration list for PBXNativeTarget "Stickerboard" */;
@@ -245,6 +290,7 @@
 			);
 			dependencies = (
 				49FADD7A25662B0100493644 /* PBXTargetDependency */,
+				49BC7B86258470220026A3B4 /* PBXTargetDependency */,
 			);
 			name = Stickerboard;
 			productName = Stickerboard;
@@ -262,6 +308,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				49BC7B89258470330026A3B4 /* PBXTargetDependency */,
 			);
 			name = Keyboard;
 			productName = Keyboard;
@@ -277,6 +324,9 @@
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					49BC7B6325846EE30026A3B4 = {
+						CreatedOnToolsVersion = 12.2;
+					};
 					49FADD5725662AEA00493644 = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -300,6 +350,7 @@
 			targets = (
 				49FADD5725662AEA00493644 /* Stickerboard */,
 				49FADD7325662B0100493644 /* Keyboard */,
+				49BC7B6325846EE30026A3B4 /* Common */,
 			);
 		};
 /* End PBXProject section */
@@ -327,27 +378,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		49BC7B6025846EE30026A3B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49BC7B90258470D20026A3B4 /* ArrayPageViewController.swift in Sources */,
+				49BC7B91258470D20026A3B4 /* AsyncImageLoader.swift in Sources */,
+				49BC7B92258470D20026A3B4 /* BannerViewController.swift in Sources */,
+				49BC7B93258470D20026A3B4 /* Cache.swift in Sources */,
+				49BC7B94258470D20026A3B4 /* ImageLoader.swift in Sources */,
+				49BC7B95258470D20026A3B4 /* LocalizedString.swift in Sources */,
+				49BC7BB3258472E40026A3B4 /* Logger.swift in Sources */,
+				49BC7B97258470D20026A3B4 /* PreferenceManager.swift in Sources */,
+				49BC7B98258470D20026A3B4 /* RuntimeError.swift in Sources */,
+				49BC7B99258470D20026A3B4 /* StickerFileManager.swift in Sources */,
+				49BC7B9A258470D20026A3B4 /* StickerModel.swift in Sources */,
+				49BC7B9B258470D20026A3B4 /* StickerPageViewControllerDataSource.swift in Sources */,
+				49BC7B9C258470D20026A3B4 /* StickerPickerViewController.swift in Sources */,
+				49BC7B9D258470D20026A3B4 /* TouchableTransparentView.swift in Sources */,
+				49BC7B9E258470D20026A3B4 /* UIColor+Accent.swift in Sources */,
+				49BC7B9F258470D20026A3B4 /* UIView+AutoLayoutBuilder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49FADD5425662AEA00493644 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				493B0B4D257C1C9A00948471 /* LocalizedString.swift in Sources */,
 				4958D049257873EC00E44756 /* StickerTextView.swift in Sources */,
-				496E59732574BB0B00F641AF /* BannerViewController.swift in Sources */,
-				496E59692574BADA00F641AF /* UIView+AutoLayoutBuilder.swift in Sources */,
 				494FC5F0257B77E800D22885 /* KeyboardManager.swift in Sources */,
 				49522A5D25698252007BBEDC /* MainViewController.swift in Sources */,
 				496943F825788E8300386FBD /* PreferenceModel.swift in Sources */,
-				496E59792574BB7D00F641AF /* UIColor+Accent.swift in Sources */,
 				494051BB256A384D00F39865 /* main.swift in Sources */,
-				496E596D2574BAE800F641AF /* StickerModel.swift in Sources */,
-				49E7A2BC257AFFFD00E5CBA9 /* PreferenceManager.swift in Sources */,
-				494FC5D6257B381600D22885 /* RuntimeError.swift in Sources */,
-				49200F192570503100DCFB73 /* StickerFileManager.swift in Sources */,
 				494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */,
-				49AFE4FA257DD57F007F8F11 /* ImageLoader.swift in Sources */,
-				493B0B41257C14A300948471 /* Logger.swift in Sources */,
 				493B0B60257C210700948471 /* TextViewController.swift in Sources */,
+				49BC7BC0258477CF0026A3B4 /* Logger.swift in Sources */,
 				496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */,
 				49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */,
 				49FADD5E25662AEA00493644 /* SceneDelegate.swift in Sources */,
@@ -359,23 +424,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49E7A2C8257B08C200E5CBA9 /* ImageLoader.swift in Sources */,
 				496E594F257435DA00F641AF /* KeyboardButton.swift in Sources */,
-				49200F422570CBAB00DCFB73 /* Cache.swift in Sources */,
-				496E59592574949400F641AF /* ArrayPageViewController.swift in Sources */,
-				49200F482570CBCB00DCFB73 /* AsyncImageLoader.swift in Sources */,
-				49DD6436256B1B1200E73195 /* StickerPickerViewController.swift in Sources */,
-				49DD6433256B1B0C00E73195 /* TouchableTransparentView.swift in Sources */,
-				4964E9A725720A99002AFDFE /* UIView+AutoLayoutBuilder.swift in Sources */,
-				493B0B49257C19CE00948471 /* LocalizedString.swift in Sources */,
-				493B0B2F257BFF7200948471 /* Logger.swift in Sources */,
-				49200F1F257066D400DCFB73 /* StickerFileManager.swift in Sources */,
-				49E7A2C2257B03B200E5CBA9 /* PreferenceManager.swift in Sources */,
-				490707E5257369E5005AACD8 /* BannerViewController.swift in Sources */,
-				49E7A2D0257B0EA300E5CBA9 /* RuntimeError.swift in Sources */,
-				4964E9BB2572125A002AFDFE /* StickerModel.swift in Sources */,
-				49200F132570348600DCFB73 /* UIColor+Accent.swift in Sources */,
-				490707C12572E6F1005AACD8 /* StickerPageViewControllerDataSource.swift in Sources */,
+				49BC7BB82584753E0026A3B4 /* Logger.swift in Sources */,
 				49FADD7725662B0100493644 /* KeyboardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,6 +433,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		49BC7B86258470220026A3B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49BC7B6325846EE30026A3B4 /* Common */;
+			targetProxy = 49BC7B85258470220026A3B4 /* PBXContainerItemProxy */;
+		};
+		49BC7B89258470330026A3B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49BC7B6325846EE30026A3B4 /* Common */;
+			targetProxy = 49BC7B88258470330026A3B4 /* PBXContainerItemProxy */;
+		};
 		49FADD7A25662B0100493644 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 49FADD7325662B0100493644 /* Keyboard */;
@@ -410,6 +470,30 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		49BC7B6925846EE30026A3B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49BC7B6A25846EE30026A3B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		49FADD6A25662AEB00493644 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -619,6 +703,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		49BC7B6825846EE30026A3B4 /* Build configuration list for PBXNativeTarget "Common" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49BC7B6925846EE30026A3B4 /* Debug */,
+				49BC7B6A25846EE30026A3B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		49FADD5325662AEA00493644 /* Build configuration list for PBXProject "Stickerboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -4,16 +4,16 @@ import UniformTypeIdentifiers
 /**
  * Result of trying to load the sticker files.
  */
-struct StickerLoadResult {
+public struct StickerLoadResult {
     /**
      * These files were successfully loaded.
      */
-    var succeeded: [StickerFile]
+    public var succeeded: [StickerFile]
 
     /**
      * These files were skipped over.
      */
-    var skipped: [StickerFile]
+    public var skipped: [StickerFile]
 }
 
 /**
@@ -22,18 +22,18 @@ struct StickerLoadResult {
  * directory to the shared app group container and querying for
  * stickers in the shared app group container.
  */
-class StickerFileManager {
+public class StickerFileManager {
     private static let groupIdentifier = "group.com.crossbowffs.stickerboard.stickers"
     private static let readmeFileName = "README.txt"
 
     /**
      * The shared sticker file manager instance for the process.
      */
-    static let main = StickerFileManager(fileManager: FileManager.default)
+    public static let main = StickerFileManager(fileManager: FileManager.default)
 
     private let fileManager: FileManager
 
-    init(fileManager: FileManager) {
+    private init(fileManager: FileManager) {
         self.fileManager = fileManager
     }
 
@@ -197,7 +197,7 @@ class StickerFileManager {
      * if the documents directory is empty, the system will automatically
      * hide the folder.
      */
-    func ensureReadmeFileExists(content: String) throws {
+    public func ensureReadmeFileExists(content: String) throws {
         let fileURL = self.readmeFileURL()
         if !self.fileManager.fileExists(atPath: fileURL.path) {
             try content.write(to: fileURL, atomically: true, encoding: .utf8)
@@ -209,7 +209,7 @@ class StickerFileManager {
      * app group container to make them visible to the keyboard extension.
      * Returns the number of stickers imported.
      */
-    func importFromDocuments() throws -> StickerLoadResult {
+    public func importFromDocuments() throws -> StickerLoadResult {
         let result = try self.recursiveStickerFilesInDirectory(self.documentDirectoryURL())
         let tempDirURL = try self.temporaryDirectoryURL()
         for file in result.succeeded {
@@ -228,7 +228,7 @@ class StickerFileManager {
     /**
      * Returns all of the stickers in the shared app group container.
      */
-    func stickerPacks() throws -> [StickerPack] {
+    public func stickerPacks() throws -> [StickerPack] {
         let result = try self.recursiveStickerFilesInDirectory(self.stickerDirectoryURL())
         var filesByDir = [URL: [StickerFile]]()
         for file in result.succeeded {

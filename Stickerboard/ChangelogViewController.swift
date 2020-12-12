@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 class ChangelogViewController: UINavigationController {
     override func viewDidLoad() {
@@ -6,7 +7,7 @@ class ChangelogViewController: UINavigationController {
     }
 }
 
-class ChangelogViewControllerImpl: TextViewController {
+fileprivate class ChangelogViewControllerImpl: TextViewController {
     required init?(coder: NSCoder) {
         abort()
     }

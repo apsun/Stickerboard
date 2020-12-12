@@ -3,7 +3,7 @@ import Foundation
 /**
  * Preference keys.
  */
-enum PreferenceKey: String {
+public enum PreferenceKey: String {
     case versionName = "pref_version_name"
     case versionCode = "pref_version_code"
     case importStickers = "pref_import_stickers"
@@ -18,9 +18,9 @@ enum PreferenceKey: String {
 /**
  * Helpers for getting and setting preferences.
  */
-class PreferenceManager {
-    static let standard = StandardPreferenceManager()
-    static let shared = SharedPreferenceManager()
+public class PreferenceManager {
+    public static let standard = StandardPreferenceManager()
+    public static let shared = SharedPreferenceManager()
 
     private let userDefaults: UserDefaults
 
@@ -48,16 +48,16 @@ class PreferenceManager {
 /**
  * Helper for accessing container-internal preferences.
  */
-class StandardPreferenceManager: PreferenceManager {
+public class StandardPreferenceManager: PreferenceManager {
     fileprivate init() {
         super.init(userDefaults: UserDefaults.standard)
     }
 
-    func lastStickerPageUrl() -> String? {
+    public func lastStickerPageUrl() -> String? {
         return self.string(key: PreferenceKey.lastStickerPageUrl.rawValue)
     }
 
-    func setLastStickerPageUrl(_ newValue: String) {
+    public func setLastStickerPageUrl(_ newValue: String) {
         return self.setString(key: PreferenceKey.lastStickerPageUrl.rawValue, value: newValue)
     }
 }
@@ -66,18 +66,18 @@ class StandardPreferenceManager: PreferenceManager {
  * Helper for accessing preferences that are shared between the app and keyboard
  * extension containers.
  */
-class SharedPreferenceManager: PreferenceManager {
+public class SharedPreferenceManager: PreferenceManager {
     private static let groupIdentifier = "group.com.crossbowffs.stickerboard.stickers"
 
     fileprivate init() {
         super.init(userDefaults: UserDefaults(suiteName: SharedPreferenceManager.groupIdentifier)!)
     }
 
-    func resizeStickers() -> Bool {
+    public func resizeStickers() -> Bool {
         return self.bool(key: PreferenceKey.resizeStickers.rawValue) ?? false
     }
 
-    func setResizeStickers(_ newValue: Bool) {
+    public func setResizeStickers(_ newValue: Bool) {
         self.setBool(key: PreferenceKey.resizeStickers.rawValue, value: newValue)
     }
 }

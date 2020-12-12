@@ -1,4 +1,5 @@
 import UIKit
+import Common
 
 class TutorialViewController: UINavigationController {
     override func viewDidLoad() {
@@ -6,7 +7,7 @@ class TutorialViewController: UINavigationController {
     }
 }
 
-class TutorialViewControllerImpl: TextViewController {
+fileprivate class TutorialViewControllerImpl: TextViewController {
     required init?(coder: NSCoder) {
         abort()
     }

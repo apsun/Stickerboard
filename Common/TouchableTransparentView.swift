@@ -5,7 +5,7 @@ import UIKit
  * transparent background causes it to ignore touch inputs. Without this,
  * the collection view will fail to scroll if you drag it by the background.
  */
-class TouchableTransparentView: UIView {
+public class TouchableTransparentView: UIView {
     override open class var layerClass: AnyClass {
        return CAGradientLayer.classForCoder()
     }

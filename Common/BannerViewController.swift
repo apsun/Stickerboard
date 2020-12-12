@@ -3,7 +3,7 @@ import UIKit
 /**
  * Controls the banner style (i.e. background color).
  */
-enum BannerStyle {
+public enum BannerStyle {
     case normal
     case error
 }
@@ -12,7 +12,7 @@ enum BannerStyle {
  * View controller that displays a notification banner at the top
  * of its view.
  */
-class BannerViewController: UIViewController {
+public class BannerViewController: UIViewController {
     private var bannerBackgroundView: UIView!
     private var bannerPaddingView: UIView!
     private var bannerLabel: UILabel!
@@ -22,9 +22,9 @@ class BannerViewController: UIViewController {
     /**
      * If non-nil, banners will automatically hide after this amount of time.
      */
-    var bannerTimeout: TimeInterval? = 3
+    public var bannerTimeout: TimeInterval? = 3
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         self.view.clipsToBounds = true
         self.view.isUserInteractionEnabled = false
 
@@ -99,7 +99,7 @@ class BannerViewController: UIViewController {
      * Shows a banner with the given text, replacing the existing banner
      * if it is currently being shown.
      */
-    func showBanner(text: String, style: BannerStyle) {
+    public func showBanner(text: String, style: BannerStyle) {
         let bannerColor = self.backgroundColorForStyle(style)
         let textColor = UIColor.label.contrastingBackground(bannerColor)
 
@@ -141,7 +141,7 @@ class BannerViewController: UIViewController {
      * Hides the banner if it is currently being shown.
      */
     @objc
-    func hideBanner() {
+    public func hideBanner() {
         self.view.layoutIfNeeded()
 
         NSObject.cancelPreviousPerformRequests(

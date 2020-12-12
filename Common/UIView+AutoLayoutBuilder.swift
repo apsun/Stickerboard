@@ -3,18 +3,18 @@ import UIKit
 /**
  * Builder object to help generate auto layout constraints.
  */
-class AutoLayoutBuilder {
+public class AutoLayoutBuilder {
     private var constraints: [NSLayoutConstraint] = []
     private let view: UIView
 
-    init(_ view: UIView) {
+    fileprivate init(_ view: UIView) {
         self.view = view
     }
 
     /**
      * Adds an arbitrary pre-generated constraint to the view.
      */
-    func constraint(_ constraint: NSLayoutConstraint) -> AutoLayoutBuilder {
+    public func constraint(_ constraint: NSLayoutConstraint) -> AutoLayoutBuilder {
         self.constraints.append(constraint)
         return self
     }
@@ -22,7 +22,7 @@ class AutoLayoutBuilder {
     /**
      * Anchors the leading edge of this view to the given point.
      */
-    func left(_ left: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
+    public func left(_ left: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.leadingAnchor.constraint(equalTo: left, constant: constant)
         )
@@ -31,7 +31,7 @@ class AutoLayoutBuilder {
     /**
      * Anchors the top edge of this view to the given point.
      */
-    func top(_ top: NSLayoutYAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
+    public func top(_ top: NSLayoutYAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.topAnchor.constraint(equalTo: top, constant: constant)
         )
@@ -40,7 +40,7 @@ class AutoLayoutBuilder {
     /**
      * Anchors the trailing edge of this view to the given point.
      */
-    func right(_ right: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
+    public func right(_ right: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.trailingAnchor.constraint(equalTo: right, constant: constant)
         )
@@ -49,7 +49,7 @@ class AutoLayoutBuilder {
     /**
      * Anchors the bottom edge of this view to the given point.
      */
-    func bottom(_ bottom: NSLayoutYAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
+    public func bottom(_ bottom: NSLayoutYAxisAnchor, constant: CGFloat = 0) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.bottomAnchor.constraint(equalTo: bottom, constant: constant)
         )
@@ -58,35 +58,35 @@ class AutoLayoutBuilder {
     /**
      * Sets a fixed width for this view.
      */
-    func width(_ constant: CGFloat) -> AutoLayoutBuilder {
+    public func width(_ constant: CGFloat) -> AutoLayoutBuilder {
         return self.constraint(self.view.widthAnchor.constraint(equalToConstant: constant))
     }
 
     /**
      * Sets a fixed height for this view.
      */
-    func height(_ constant: CGFloat) -> AutoLayoutBuilder {
+    public func height(_ constant: CGFloat) -> AutoLayoutBuilder {
         return self.constraint(self.view.heightAnchor.constraint(equalToConstant: constant))
     }
 
     /**
      * Aligns the horizontal center of this view to the given point.
      */
-    func centerX(_ centerX: NSLayoutXAxisAnchor) -> AutoLayoutBuilder {
+    public func centerX(_ centerX: NSLayoutXAxisAnchor) -> AutoLayoutBuilder {
         return self.constraint(self.view.centerXAnchor.constraint(equalTo: centerX))
     }
 
     /**
      * Aligns the vertical center of this view to the given point.
      */
-    func centerY(_ centerY: NSLayoutYAxisAnchor) -> AutoLayoutBuilder {
+    public func centerY(_ centerY: NSLayoutYAxisAnchor) -> AutoLayoutBuilder {
         return self.constraint(self.view.centerYAnchor.constraint(equalTo: centerY))
     }
 
     /**
      * Anchors the top edge of this view below the specified view.
      */
-    func below(_ view: UIView) -> AutoLayoutBuilder {
+    public func below(_ view: UIView) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.topAnchor.constraint(
                 equalToSystemSpacingBelow: view.bottomAnchor,
@@ -98,7 +98,7 @@ class AutoLayoutBuilder {
     /**
      * Anchors the leading edge of this view after the specified view.
      */
-    func after(_ view: UIView) -> AutoLayoutBuilder {
+    public func after(_ view: UIView) -> AutoLayoutBuilder {
         return self.constraint(
             self.view.leadingAnchor.constraint(
                 equalToSystemSpacingAfter: view.trailingAnchor,
@@ -111,7 +111,7 @@ class AutoLayoutBuilder {
      * Anchors the leading and trailing edges of this view to the corresponding
      * anchor points in the layout guide.
      */
-    func fillX(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
+    public func fillX(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
         return self.left(guide.leadingAnchor).right(guide.trailingAnchor)
     }
 
@@ -119,7 +119,7 @@ class AutoLayoutBuilder {
      * Anchors the top and bottom edges of this view to the corresponding
      * anchor points in the layout guide.
      */
-    func fillY(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
+    public func fillY(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
         return self.top(guide.topAnchor).bottom(guide.bottomAnchor)
     }
 
@@ -127,7 +127,7 @@ class AutoLayoutBuilder {
      * Anchors the top and bottom edges of this view to the corresponding
      * anchor points in the view. Note that this does not respect margins/safe areas.
      */
-    func fillY(_ view: UIView) -> AutoLayoutBuilder {
+    public func fillY(_ view: UIView) -> AutoLayoutBuilder {
         return self.top(view.topAnchor).bottom(view.bottomAnchor)
     }
 
@@ -135,7 +135,7 @@ class AutoLayoutBuilder {
      * Anchors all edges of this view to the corresponding anchor points in
      * the layout guide.
      */
-    func fill(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
+    public func fill(_ guide: UILayoutGuide) -> AutoLayoutBuilder {
         return self.fillX(guide).fillY(guide)
     }
 
@@ -143,7 +143,7 @@ class AutoLayoutBuilder {
      * Anchors all edges of this view to the corresponding anchor points in
      * the view. Note that this does not respect margins/safe areas.
      */
-    func fill(_ view: UIView) -> AutoLayoutBuilder {
+    public func fill(_ view: UIView) -> AutoLayoutBuilder {
         return self
             .top(view.topAnchor)
             .bottom(view.bottomAnchor)
@@ -154,7 +154,7 @@ class AutoLayoutBuilder {
     /**
      * Call this to activate all constraints created by this builder.
      */
-    func activate() {
+    public func activate() {
         NSLayoutConstraint.activate(self.constraints)
     }
 }
@@ -162,7 +162,7 @@ class AutoLayoutBuilder {
 /**
  * Adds a convenience method to create an auto layout builder for the current view.
  */
-extension UIView {
+public extension UIView {
     /**
      * Disables autoresizing mask constraints for this view, then returns an auto
      * layout builder object.

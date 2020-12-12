@@ -3,11 +3,11 @@ import Foundation
 /**
  * Wrapper around NSCache that works with Hashable objects.
  */
-class Cache<Key: Hashable, Value> {
+public class Cache<Key: Hashable, Value> {
     private class KeyWrapper: NSObject {
-        let key: Key
+        fileprivate let key: Key
 
-        init(_ key: Key) {
+        fileprivate init(_ key: Key) {
             self.key = key
         }
 
@@ -22,16 +22,16 @@ class Cache<Key: Hashable, Value> {
     }
 
     private class ValueWrapper {
-        let value: Value
+        fileprivate let value: Value
 
-        init(_ value: Value) {
+        fileprivate init(_ value: Value) {
             self.value = value
         }
     }
 
     private let inner = NSCache<KeyWrapper, ValueWrapper>()
 
-    subscript(key: Key) -> Value? {
+    public subscript(key: Key) -> Value? {
         get {
             return self.inner.object(forKey: KeyWrapper(key))?.value
         }

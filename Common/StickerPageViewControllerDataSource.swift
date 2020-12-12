@@ -3,19 +3,19 @@ import UIKit
 /**
  * Creates StickerPickerViewController instances from StickerPack objects.
  */
-class StickerPageViewControllerDataSource
+public class StickerPageViewControllerDataSource
     : NSObject
     , ArrayPageViewControllerDataSource
 {
     private let stickerPacks: [StickerPack]
     private weak var stickerPickerDelegate: StickerPickerViewDelegate?
 
-    init(stickerPacks: [StickerPack], stickerPickerDelegate: StickerPickerViewDelegate) {
+    public init(stickerPacks: [StickerPack], stickerPickerDelegate: StickerPickerViewDelegate) {
         self.stickerPacks = stickerPacks
         self.stickerPickerDelegate = stickerPickerDelegate
     }
 
-    func create(index: Int) -> UIViewController {
+    public func create(index: Int) -> UIViewController {
         let pack = self.stickerPacks[index]
         let controller = StickerPickerViewController()
         controller.stickerPack = pack
@@ -23,22 +23,22 @@ class StickerPageViewControllerDataSource
         return controller
     }
 
-    func indexOf(viewController: UIViewController) -> Int {
+    public func indexOf(viewController: UIViewController) -> Int {
         let pack = (viewController as! StickerPickerViewController).stickerPack!
         return self.stickerPacks.firstIndex { $0.url == pack.url }!
     }
 
-    func count() -> Int {
+    public func count() -> Int {
         return self.stickerPacks.count
     }
 
-    func initialPage() -> Int? {
+    public func initialPage() -> Int? {
         return self.stickerPacks.firstIndex {
             $0.url.path == PreferenceManager.standard.lastStickerPageUrl()
         }
     }
 
-    func didShowPage(index: Int) {
+    public func didShowPage(index: Int) {
         PreferenceManager.standard.setLastStickerPageUrl(self.stickerPacks[index].url.path)
     }
 }

@@ -3,7 +3,7 @@ import UIKit
 /**
  * Adds accent colors and related UI element colors to the global UIColor constants.
  */
-extension UIColor {
+public extension UIColor {
     /**
      * Applies the inverse gamma transform to the given color component.
      */

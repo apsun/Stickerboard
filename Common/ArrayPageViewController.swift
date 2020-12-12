@@ -10,13 +10,13 @@ fileprivate class ArrayPageViewControllerDataSourceAdapter
     : NSObject
     , UIPageViewControllerDataSource
 {
-    weak var dataSource: ArrayPageViewControllerDataSource?
+    private weak var dataSource: ArrayPageViewControllerDataSource?
 
-    init(_ dataSource: ArrayPageViewControllerDataSource) {
+    fileprivate init(_ dataSource: ArrayPageViewControllerDataSource) {
         self.dataSource = dataSource
     }
 
-    func pageViewController(
+    public func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
     ) -> UIViewController? {
@@ -26,7 +26,7 @@ fileprivate class ArrayPageViewControllerDataSourceAdapter
         return dataSource.create(index: packIndex - 1)
     }
 
-    func pageViewController(
+    public func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerAfter viewController: UIViewController
     ) -> UIViewController? {
@@ -41,7 +41,7 @@ fileprivate class ArrayPageViewControllerDataSourceAdapter
  * This provides the methods to create view controllers from the backing
  * array, and to go back and forth between index <-> view controller.
  */
-protocol ArrayPageViewControllerDataSource: class {
+public protocol ArrayPageViewControllerDataSource: class {
     func create(index: Int) -> UIViewController
     func indexOf(viewController: UIViewController) -> Int
     func count() -> Int
@@ -54,14 +54,14 @@ protocol ArrayPageViewControllerDataSource: class {
  * linear, fixed set of pages to display. It also allows you to specify an
  * arbitrary UIPageControl to bind to.
  */
-class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
+public class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
     private var inner: UIPageViewController!
     private var emptyView: UILabel!
 
     /**
      * Returns the currently visible view controller, if one exists.
      */
-    var viewController: UIViewController? {
+    public var viewController: UIViewController? {
         get {
             guard let viewControllers = self.inner.viewControllers else { return nil }
             assert(viewControllers.count <= 1)
@@ -73,7 +73,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * Returns the total number of pages in this page controller.
      * Returns zero if there is no data source set.
      */
-    var numberOfPages: Int {
+    public var numberOfPages: Int {
         get {
             return self.dataSource?.count() ?? 0
         }
@@ -85,7 +85,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * least one element, or to set this field to non-nil if the data
      * source is nil or empty.
      */
-    var currentPage: Int? {
+    public var currentPage: Int? {
         get {
             guard let dataSource = self.dataSource else { return nil }
             guard let viewController = self.viewController else { return nil }
@@ -129,7 +129,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * The data source for this page view controller. Writing to this field
      * will reset the currently visible page.
      */
-    weak var dataSource: ArrayPageViewControllerDataSource? {
+    public weak var dataSource: ArrayPageViewControllerDataSource? {
         didSet {
             if let newValue = dataSource {
                 // UIPageViewController has a bug where giving it an empty
@@ -164,7 +164,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
     /**
      * An arbitrary page control to bind the status of this controller to.
      */
-    weak var pageControl: UIPageControl? {
+    public weak var pageControl: UIPageControl? {
         didSet {
             oldValue?.removeTarget(
                 self,
@@ -188,7 +188,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * Some text to show in place of the normal view in case the data source
      * is empty/nil.
      */
-    var emptyText: String? {
+    public var emptyText: String? {
         get {
             return self.emptyView.text
         }
@@ -201,9 +201,9 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * Whether to animate the page transitions when the user drags the page
      * indicators.
      */
-    var animatePageTransitions: Bool = true
+    public var animatePageTransitions: Bool = true
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         self.inner = UIPageViewController(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal
@@ -232,7 +232,7 @@ class ArrayPageViewController: UIViewController, UIPageViewControllerDelegate {
      * Called when the user swipes through the pages directly.
      * Updates the indicator dot index.
      */
-    func pageViewController(
+    public func pageViewController(
         _ pageViewController: UIPageViewController,
         didFinishAnimating finished: Bool,
         previousViewControllers: [UIViewController],

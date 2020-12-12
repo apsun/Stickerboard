@@ -15,7 +15,7 @@ extension CGSize: Hashable {
 /**
  * Whether the image should be resized to fill or fit the specified size.
  */
-enum ImageResizeMode {
+public enum ImageResizeMode {
     case fill
     case fit
 }
@@ -23,12 +23,18 @@ enum ImageResizeMode {
 /**
  * Parameters for resizing an image, if desired.
  */
-struct ImageResizeParams: Hashable, CustomDebugStringConvertible {
-    let pointSize: CGSize
-    let scale: CGFloat
-    let mode: ImageResizeMode
+public struct ImageResizeParams: Hashable, CustomDebugStringConvertible {
+    public let pointSize: CGSize
+    public let scale: CGFloat
+    public let mode: ImageResizeMode
 
-    var debugDescription: String {
+    public init(pointSize: CGSize, scale: CGFloat, mode: ImageResizeMode) {
+        self.pointSize = pointSize
+        self.scale = scale
+        self.mode = mode
+    }
+
+    public var debugDescription: String {
         return "ImageResizeParams("
             + "pointSize=\(self.pointSize.debugDescription)"
             + ", scale=\(self.scale)"
@@ -41,11 +47,11 @@ struct ImageResizeParams: Hashable, CustomDebugStringConvertible {
  * Synchronously loads images from disk and downsizes them to reduce
  * memory usage.
  */
-class ImageLoader {
+public class ImageLoader {
     /**
      * These image formats are universally renderable.
      */
-    static let safeImageFormats = [
+    public static let safeImageFormats = [
         UTType.png,
         UTType.jpeg,
     ]
@@ -53,7 +59,7 @@ class ImageLoader {
     /**
      * These image formats are animated, and cannot be resized.
      */
-    static let animatedImageFormats = [
+    public static let animatedImageFormats = [
         UTType.gif,
     ]
 
@@ -61,7 +67,7 @@ class ImageLoader {
      * These image formats can be loaded by the app, although some
      * apps may not be able to render them.
      */
-    static let loadableImageFormats = [
+    public static let loadableImageFormats = [
         UTType.png,
         UTType.jpeg,
         UTType.gif,
@@ -152,7 +158,7 @@ class ImageLoader {
     /**
      * Loads an image from disk and resizes it to the given size.
      */
-    static func loadImage(
+    public static func loadImage(
         url: URL,
         resizeParams: ImageResizeParams?
     ) throws -> UIImage {
@@ -167,7 +173,7 @@ class ImageLoader {
      * Loads an image from disk, resizes it to the given size, and
      * returns it as a PNG with an alpha channel.
      */
-    static func loadImageAsPNG(
+    public static func loadImageAsPNG(
         url: URL,
         resizeParams: ImageResizeParams?
     ) throws -> Data {

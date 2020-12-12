@@ -4,16 +4,21 @@ import UIKit
 /**
  * Represents the desired image configuration to be loaded.
  */
-struct AsyncImageLoaderParams: Hashable, CustomDebugStringConvertible {
-    let imageURL: URL
-    let resizeParams: ImageResizeParams
+public struct AsyncImageLoaderParams: Hashable, CustomDebugStringConvertible {
+    public let imageURL: URL
+    public let resizeParams: ImageResizeParams
 
-    func hash(into hasher: inout Hasher) {
+    public init(imageURL: URL, resizeParams: ImageResizeParams) {
+        self.imageURL = imageURL
+        self.resizeParams = resizeParams
+    }
+
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(self.imageURL.path)
         hasher.combine(self.resizeParams)
     }
 
-    var debugDescription: String {
+    public var debugDescription: String {
         return "AsyncImageLoaderParams("
             + "path=\(self.imageURL.relativePath)"
             + ", resizeParams=\(self.resizeParams.debugDescription)"
@@ -24,8 +29,8 @@ struct AsyncImageLoaderParams: Hashable, CustomDebugStringConvertible {
 /**
  * Asynchronously loads, resizes, and caches images from disk.
  */
-class AsyncImageLoader {
-    typealias Callback = (Result<UIImage, Error>) -> Void
+public class AsyncImageLoader {
+    public typealias Callback = (Result<UIImage, Error>) -> Void
     private let decodeQueue = DispatchQueue(
         label: "com.crossbowffs.stickerboard.decodequeue",
         qos: .userInitiated
@@ -37,7 +42,7 @@ class AsyncImageLoader {
     /**
      * The global shared image loader instance.
      */
-    static let main = AsyncImageLoader()
+    public static let main = AsyncImageLoader()
 
     /**
      * Loads the specified image, downsampling it to the given size for use
@@ -45,7 +50,7 @@ class AsyncImageLoader {
      * the given size is already in the cache; otherwise, asynchronously loads
      * the image and calls the callback once the image is ready.
      */
-    func loadAsync(
+    public func loadAsync(
         params: AsyncImageLoaderParams,
         callback: Callback? = nil
     ) {
@@ -99,7 +104,7 @@ class AsyncImageLoader {
     /**
      * Cancels any asynchronous loads in progress for the specified image.
      */
-    func cancelLoad(params: AsyncImageLoaderParams) {
+    public func cancelLoad(params: AsyncImageLoaderParams) {
         // TODO
     }
 }

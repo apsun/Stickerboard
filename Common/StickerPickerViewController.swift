@@ -3,7 +3,7 @@ import UIKit
 /**
  * Provides a callback for when the user selects a sticker.
  */
-protocol StickerPickerViewDelegate: class {
+public protocol StickerPickerViewDelegate: class {
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,
@@ -16,7 +16,7 @@ protocol StickerPickerViewDelegate: class {
  * A cell containing an image view.
  */
 fileprivate class StickerPickerCell: UICollectionViewCell {
-    static let reuseIdentifier = NSStringFromClass(StickerPickerCell.self)
+    fileprivate static let reuseIdentifier = NSStringFromClass(StickerPickerCell.self)
     private static let loadingImage: UIImage? = nil
     private static let errorImage = UIImage(
         systemName: "exclamationmark.triangle.fill",
@@ -103,6 +103,14 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
     }
 
     /**
+     * Asynchronously loads the specified image in this cell.
+     */
+    fileprivate func setImageAsync(url: URL?) {
+        let params = self.makeImageParams(url: url)
+        self.beginSetImage(params: params)
+    }
+
+    /**
      * Called when the size of the image changes; triggers a request to load
      * a new version of the current image with the appropriate size.
      */
@@ -112,21 +120,13 @@ fileprivate class StickerPickerCell: UICollectionViewCell {
         let params = self.makeImageParams(url: self.imageParams?.imageURL)
         self.beginSetImage(params: params)
     }
-
-    /**
-     * Asynchronously loads the specified image in this cell.
-     */
-    func setImageAsync(url: URL?) {
-        let params = self.makeImageParams(url: url)
-        self.beginSetImage(params: params)
-    }
 }
 
 /**
  * Displays a vertically scrolling list of sticker images that the user
  * can select.
  */
-class StickerPickerViewController
+public class StickerPickerViewController
     : UICollectionViewController
     , UICollectionViewDelegateFlowLayout
     , UICollectionViewDataSourcePrefetching
@@ -134,12 +134,12 @@ class StickerPickerViewController
     /**
      * Callback for when a sticker is selected by the user.
      */
-    weak var delegate: StickerPickerViewDelegate?
+    public weak var delegate: StickerPickerViewDelegate?
 
     /**
      * The sticker pack (i.e. image list) displayed by this sticker picker.
      */
-    var stickerPack: StickerPack? {
+    public var stickerPack: StickerPack? {
         didSet {
             self.collectionView.reloadData()
         }
@@ -149,7 +149,7 @@ class StickerPickerViewController
         abort()
     }
 
-    init() {
+    public init() {
         let layout = UICollectionViewCompositionalLayout { (
             sectionIndex: Int,
             layoutEnvironment: NSCollectionLayoutEnvironment
@@ -182,7 +182,7 @@ class StickerPickerViewController
         super.init(collectionViewLayout: layout)
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         self.collectionView.register(
             StickerPickerCell.self,
             forCellWithReuseIdentifier: StickerPickerCell.reuseIdentifier
@@ -196,14 +196,14 @@ class StickerPickerViewController
         self.collectionView.addGestureRecognizer(longPress)
     }
 
-    override func collectionView(
+    public override func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
         return self.stickerPack?.files.count ?? 0
     }
 
-    override func collectionView(
+    public override func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
@@ -213,7 +213,7 @@ class StickerPickerViewController
         )
     }
 
-    override func collectionView(
+    public override func collectionView(
         _ collectionView: UICollectionView,
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
@@ -223,7 +223,7 @@ class StickerPickerViewController
         cell.setImageAsync(url: imageURL)
     }
 
-    func collectionView(
+    public func collectionView(
         _ collectionView: UICollectionView,
         prefetchItemsAt indexPaths: [IndexPath]
     ) {
@@ -242,7 +242,7 @@ class StickerPickerViewController
         }
     }
 
-    func collectionView(
+    public func collectionView(
         _ collectionView: UICollectionView,
         cancelPrefetchingForItemsAt indexPaths: [IndexPath]
     ) {
@@ -261,7 +261,7 @@ class StickerPickerViewController
         }
     }
 
-    override func collectionView(
+    public override func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
