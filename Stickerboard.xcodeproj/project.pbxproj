@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		493B0B5A257C1E8F00948471 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 493B0B5C257C1E8F00948471 /* Localizable.strings */; };
-		493B0B60257C210700948471 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B5F257C210700948471 /* TextViewController.swift */; };
+		493B0B60257C210700948471 /* HTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B0B5F257C210700948471 /* HTMLViewController.swift */; };
 		493B0B65257C2E3100948471 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 493B0B67257C2E3100948471 /* Localizable.strings */; };
 		493B0B6D257C2EAA00948471 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 493B0B6C257C2EAA00948471 /* Settings.bundle */; };
 		494051BB256A384D00F39865 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494051BA256A384D00F39865 /* main.swift */; };
@@ -104,7 +104,7 @@
 		493B0B40257C14A300948471 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		493B0B4C257C1C9A00948471 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		493B0B5B257C1E8F00948471 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		493B0B5F257C210700948471 /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
+		493B0B5F257C210700948471 /* HTMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLViewController.swift; sourceTree = "<group>"; };
 		493B0B66257C2E3100948471 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		493B0B6C257C2EAA00948471 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		494051BA256A384D00F39865 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -225,17 +225,17 @@
 			children = (
 				49FADD8E25662E5E00493644 /* Stickerboard.entitlements */,
 				49FADD6925662AEB00493644 /* Info.plist */,
-				494051BA256A384D00F39865 /* main.swift */,
 				49FADD5B25662AEA00493644 /* AppDelegate.swift */,
 				494FC5E3257B403900D22885 /* ChangelogViewController.swift */,
+				493B0B5F257C210700948471 /* HTMLViewController.swift */,
 				494FC5EF257B77E800D22885 /* KeyboardManager.swift */,
 				49BC7BBF258477CF0026A3B4 /* Logger.swift */,
+				494051BA256A384D00F39865 /* main.swift */,
 				49522A5C25698252007BBEDC /* MainViewController.swift */,
 				496943F725788E8300386FBD /* PreferenceModel.swift */,
 				496943FB25788F3E00386FBD /* PreferenceViewController.swift */,
 				49FADD5D25662AEA00493644 /* SceneDelegate.swift */,
 				4958D048257873EC00E44756 /* StickerTextView.swift */,
-				493B0B5F257C210700948471 /* TextViewController.swift */,
 				494FC5DB257B3B1C00D22885 /* TutorialViewController.swift */,
 				49FADD6425662AEB00493644 /* Assets.xcassets */,
 				493B0B67257C2E3100948471 /* Localizable.strings */,
@@ -411,7 +411,7 @@
 				496943F825788E8300386FBD /* PreferenceModel.swift in Sources */,
 				494051BB256A384D00F39865 /* main.swift in Sources */,
 				494FC5DC257B3B1C00D22885 /* TutorialViewController.swift in Sources */,
-				493B0B60257C210700948471 /* TextViewController.swift in Sources */,
+				493B0B60257C210700948471 /* HTMLViewController.swift in Sources */,
 				49BC7BC0258477CF0026A3B4 /* Logger.swift in Sources */,
 				496943FC25788F3E00386FBD /* PreferenceViewController.swift in Sources */,
 				49FADD5C25662AEA00493644 /* AppDelegate.swift in Sources */,

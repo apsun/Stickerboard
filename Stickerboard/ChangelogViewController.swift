@@ -7,7 +7,7 @@ class ChangelogViewController: UINavigationController {
     }
 }
 
-fileprivate class ChangelogViewControllerImpl: TextViewController {
+fileprivate class ChangelogViewControllerImpl: HTMLViewController {
     required init?(coder: NSCoder) {
         abort()
     }

@@ -4,7 +4,7 @@ import Common
 /**
  * A view controller containing a scrollable HTML text view.
  */
-class TextViewController: UIViewController {
+class HTMLViewController: UIViewController {
     private let contentHtml: String
     private let titleText: String
     private let backButtonText: String

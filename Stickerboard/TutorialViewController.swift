@@ -7,7 +7,7 @@ class TutorialViewController: UINavigationController {
     }
 }
 
-fileprivate class TutorialViewControllerImpl: TextViewController {
+fileprivate class TutorialViewControllerImpl: HTMLViewController {
     required init?(coder: NSCoder) {
         abort()
     }
