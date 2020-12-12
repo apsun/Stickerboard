@@ -7,7 +7,7 @@ class MainViewController: UINavigationController {
     }
 }
 
-class MainViewControllerImpl
+fileprivate class MainViewControllerImpl
     : UIViewController
     , PreferenceDelegate
 {
