@@ -153,9 +153,9 @@ class KeyboardViewController
 
     override func viewWillDisappear(_ animated: Bool) {
         NSLayoutConstraint.deactivate([
-            self.widthConstraint!,
-            self.heightConstraint!,
-        ])
+            self.widthConstraint,
+            self.heightConstraint,
+        ].compactMap { $0 })
 
         self.widthConstraint = nil
         self.heightConstraint = nil
