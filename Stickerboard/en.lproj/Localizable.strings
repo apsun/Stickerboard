@@ -33,8 +33,9 @@
         Before you can start sending stickers, there's a few steps you'll need to take:
     </p>
 </section>
+<br>
 <section>
-    <br><h1>Enable the keyboard</h1>
+    <h1>Enable the keyboard</h1>
     <p>
         You can enable Stickerboard by heading to:
     </p>
@@ -48,8 +49,9 @@
         <a href=\"app-settings:\">Click here to directly open the Stickerboard settings page</a>
     </p>
 </section>
+<br>
 <section>
-    <br><h1>Allow full access</h1>
+    <h1>Allow full access</h1>
     <p>
         Stickerboard requires full access to function. Don't worry, we aren't uploading
         your stickers anywhere! All of your data stays on your device. Stickerboard only
@@ -60,8 +62,9 @@
         the switch labeled \"Allow Full Access\".
     </p>
 </section>
+<br>
 <section>
-    <br><h1>Add some stickers</h1>
+    <h1>Add some stickers</h1>
     <p>
         You might have noticed that Stickerboard does not come with any stickers. That's
         because <i>you</i> provide them! Stickerboard allows you to turn any image into a
@@ -72,38 +75,43 @@
         How do you add the images, you ask? You can use any of the following methods:
     </p>
 </section>
+<br>
 <section>
-    <br><h1>1. Share menu</h1>
+    <h1>1. Share menu</h1>
     <p>
         Already have some images on your device you would like to use? Tap share, then select
         the \"Save to Files\" option. When given the option, choose Stickerboard under
         \"On My iPhone\".
     </p>
 </section>
+<br>
 <section>
-    <br><h1>2. iTunes File Sharing</h1>
+    <h1>2. iTunes File Sharing</h1>
     <p>
         Want to copy stickers from your computer? You can use iTunes File Sharing to
         drag and drop images from your computer directly into the Stickerboard app.
     </p>
 </section>
+<br>
 <section>
-    <br><h1>3. Files app</h1>
+    <h1>3. Files app</h1>
     <p>
         You can use the built-in Files app to manage your stickers. Just copy the images
         you want to add to the Stickerboard folder under \"On My iPhone\".
     </p>
 </section>
+<br>
 <section>
-    <br><h1>Sticker packs</h1>
+    <h1>Sticker packs</h1>
     <p>
         Too many stickers to handle? Create new sticker packs by organizing your images
         into folders under the Stickerboard directory. Each folder will turn into a new
         sticker pack.
     </p>
 </section>
+<br>
 <section>
-    <br><h1>Can't remember all this?</h1>
+    <h1>Can't remember all this?</h1>
     <p>
         No problem! You can revisit this tutorial at any time using the \"View tutorial\"
         button within the app.
@@ -111,6 +119,13 @@
 </section>
 </body>";
 "changelog_html" = "<body>
+<section>
+    <h1>v1.0.1 - Dec 12, 2020</h1>
+    <p>
+        Fixed an occasional crash when the keyboard loads. Also improved the app icon a bit.
+    </p>
+</section>
+<br>
 <section>
     <h1>v1.0 - Dec 6, 2020</h1>
     <p>
