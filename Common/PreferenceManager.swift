@@ -9,6 +9,7 @@ public enum PreferenceKey: String {
     case importStickers = "pref_import_stickers"
     case playground = "pref_playground"
     case resizeStickers = "pref_resize_stickers"
+    case autoSwitchKeyboard = "pref_auto_switch_keyboard"
     case tutorial = "pref_tutorial"
     case github = "pref_github"
     case changelog = "pref_changelog"
@@ -79,5 +80,13 @@ public class SharedPreferenceManager: PreferenceManager {
 
     public func setResizeStickers(_ newValue: Bool) {
         self.setBool(key: PreferenceKey.resizeStickers.rawValue, value: newValue)
+    }
+
+    public func autoSwitchKeyboard() -> Bool {
+        return self.bool(key: PreferenceKey.autoSwitchKeyboard.rawValue) ?? false
+    }
+
+    public func setAutoSwitchKeyboard(_ newValue: Bool) {
+        self.setBool(key: PreferenceKey.autoSwitchKeyboard.rawValue, value: newValue)
     }
 }

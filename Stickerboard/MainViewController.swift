@@ -50,11 +50,21 @@ fileprivate class MainViewControllerImpl
             ),
             PreferenceSection(
                 header: L("settings"),
-                footer: L("settings_footer"),
+                footer: L("resize_stickers_footer"),
                 preferences: [
                     Preference(
                         id: PreferenceKey.resizeStickers.rawValue,
                         type: .switch(label: L("resize_stickers"))
+                    )
+                ]
+            ),
+            PreferenceSection(
+                header: nil,
+                footer: L("auto_switch_keyboard_footer"),
+                preferences: [
+                    Preference(
+                        id: PreferenceKey.autoSwitchKeyboard.rawValue,
+                        type: .switch(label: L("auto_switch_keyboard"))
                     )
                 ]
             ),
@@ -106,15 +116,6 @@ fileprivate class MainViewControllerImpl
         }
     }
 
-    func preferenceView(initialSwitchValue id: String) -> Bool {
-        switch id {
-        case PreferenceKey.resizeStickers.rawValue:
-            return PreferenceManager.shared.resizeStickers()
-        default:
-            abort()
-        }
-    }
-
     func preferenceView(didClickButton id: String) {
         switch id {
         case PreferenceKey.importStickers.rawValue:
@@ -130,10 +131,23 @@ fileprivate class MainViewControllerImpl
         }
     }
 
+    func preferenceView(initialSwitchValue id: String) -> Bool {
+        switch id {
+        case PreferenceKey.resizeStickers.rawValue:
+            return PreferenceManager.shared.resizeStickers()
+        case PreferenceKey.autoSwitchKeyboard.rawValue:
+            return PreferenceManager.shared.autoSwitchKeyboard()
+        default:
+            abort()
+        }
+    }
+
     func preferenceView(didSetSwitchValue id: String, newValue: Bool) {
         switch id {
         case PreferenceKey.resizeStickers.rawValue:
             PreferenceManager.shared.setResizeStickers(newValue)
+        case PreferenceKey.autoSwitchKeyboard.rawValue:
+            return PreferenceManager.shared.setAutoSwitchKeyboard(newValue)
         default:
             abort()
         }

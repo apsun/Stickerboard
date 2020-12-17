@@ -8,8 +8,10 @@
 "playground" = "Playground";
 "playground_footer" = "Use this textbox to try out your stickers! Note that animations are disabled here.";
 "settings" = "Settings";
-"settings_footer" = "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This does not affect GIFs. You can override this option at any time by long pressing on a sticker.";
 "resize_stickers" = "Resize stickers";
+"resize_stickers_footer" = "If enabled, this will shrink your stickers to 512x512 (or smaller, depending on the aspect ratio). This does not affect GIFs. You can override this option at any time by long pressing on a sticker.";
+"auto_switch_keyboard" = "Auto switch keyboard";
+"auto_switch_keyboard_footer" = "Automatically switch back to the previous keyboard after selecting a sticker.";
 "about" = "About";
 "about_footer" = "Stickerboard %@";
 "view_tutorial" = "View tutorial";

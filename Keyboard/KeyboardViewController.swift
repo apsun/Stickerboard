@@ -131,6 +131,7 @@ class KeyboardViewController
             self.stickerPackPageViewController.dataSource = dataSource
             self.stickerPackPageViewController.emptyText = L("no_stickers")
         case .failure(let err):
+            logger.error("Failed to load stickers: \(err.localizedDescription)")
             self.stickerPackPageViewController.emptyText = F(
                 "failed_load_stickers",
                 err.localizedDescription
@@ -208,10 +209,15 @@ class KeyboardViewController
                 data,
                 forPasteboardType: type.identifier
             )
-            self.bannerViewController.showBanner(
-                text: F("copied_to_clipboard", stickerFile.name),
-                style: .normal
-            )
+
+            if PreferenceManager.shared.autoSwitchKeyboard() {
+                self.advanceToNextInputMode()
+            } else {
+                self.bannerViewController.showBanner(
+                    text: F("copied_to_clipboard", stickerFile.name),
+                    style: .normal
+                )
+            }
         case .failure(let error):
             logger.error(
                 "Failed to copy \(stickerFile.name): \(error.localizedDescription)"
