@@ -139,8 +139,6 @@ public class ImageLoader {
         url: URL,
         resizeParams: ImageResizeParams?
     ) throws -> CGImage {
-        logger.info("Loading image \(url.relativePath) using \(resizeParams.debugDescription)")
-
         // https://developer.apple.com/videos/play/wwdc2018/219/
         let options = [
             kCGImageSourceShouldCache: false
