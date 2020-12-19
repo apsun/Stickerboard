@@ -1,6 +1,18 @@
 import UIKit
 
 /**
+ * This provides the methods to create view controllers from the backing
+ * array, and to go back and forth between index <-> view controller.
+ */
+public protocol ArrayPageViewControllerDataSource: class {
+    func create(index: Int) -> UIViewController
+    func indexOf(viewController: UIViewController) -> Int
+    func count() -> Int
+    func initialPage() -> Int?
+    func didShowPage(index: Int)
+}
+
+/**
  * This transforms a ArrayPageViewControllerDataSource to a
  * UIPageViewControllerDataSource. Note that this does not provide the
  * presentation{Index,Count} methods so that the underlying view controller
@@ -35,18 +47,6 @@ fileprivate class ArrayPageViewControllerDataSourceAdapter
         guard packIndex < dataSource.count() - 1 else { return nil }
         return dataSource.create(index: packIndex + 1)
     }
-}
-
-/**
- * This provides the methods to create view controllers from the backing
- * array, and to go back and forth between index <-> view controller.
- */
-public protocol ArrayPageViewControllerDataSource: class {
-    func create(index: Int) -> UIViewController
-    func indexOf(viewController: UIViewController) -> Int
-    func count() -> Int
-    func initialPage() -> Int?
-    func didShowPage(index: Int)
 }
 
 /**

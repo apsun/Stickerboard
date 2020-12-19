@@ -2,6 +2,31 @@ import UIKit
 import Common
 
 /**
+ * This is the public preference change protocol that listeners should
+ * implement.
+ */
+@objc
+protocol PreferenceDelegate: class {
+    /**
+     * Indicates a button preference was clicked.
+     */
+    @objc
+    optional func preferenceView(didClickButton id: String)
+
+    /**
+     * Returns the initial value of the given switch preference.
+     */
+    @objc
+    optional func preferenceView(initialSwitchValue id: String) -> Bool
+
+    /**
+     * Indicates a switch preference was toggled.
+     */
+    @objc
+    optional func preferenceView(didSetSwitchValue id: String, newValue: Bool)
+}
+
+/**
  * Internal delegate for callbacks from the cell to the view controller.
  */
 fileprivate protocol PreferenceCellDelegate: class {
@@ -141,31 +166,6 @@ fileprivate class StickerTextViewCell: PreferenceCell, UITextViewDelegate {
 
         self.delegate?.preferenceCellDidUpdate(self)
     }
-}
-
-/**
- * This is the public preference change protocol that listeners should
- * implement.
- */
-@objc
-protocol PreferenceDelegate: class {
-    /**
-     * Indicates a button preference was clicked.
-     */
-    @objc
-    optional func preferenceView(didClickButton id: String)
-
-    /**
-     * Returns the initial value of the given switch preference.
-     */
-    @objc
-    optional func preferenceView(initialSwitchValue id: String) -> Bool
-
-    /**
-     * Indicates a switch preference was toggled.
-     */
-    @objc
-    optional func preferenceView(didSetSwitchValue id: String, newValue: Bool)
 }
 
 /**

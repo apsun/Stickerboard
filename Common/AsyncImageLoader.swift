@@ -60,6 +60,7 @@ public class AsyncImageLoader {
         // TODO: Maybe this should be invoked asynchronously on the main
         // event loop?
         if let image = self.cache[params] {
+            logger.info("Using cached instance of \(params.debugDescription)")
             callback?(Result.success(image))
             return
         }
@@ -67,12 +68,14 @@ public class AsyncImageLoader {
         // If someone already submitted a request for this image, just
         // piggyback off their request instead of making a new one.
         if var callbacks = self.callbacks[params] {
+            logger.info("Already loading \(params.debugDescription)")
             if let callback = callback {
                 callbacks.append(callback)
             }
             return
         }
 
+        logger.info("Loading new instance of \(params.debugDescription)")
         var callbacks = [Callback]()
         if let callback = callback {
             callbacks.append(callback)

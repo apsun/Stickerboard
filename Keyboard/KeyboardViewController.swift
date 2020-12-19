@@ -23,9 +23,10 @@ class KeyboardViewController
         // to equal the parent height will cause a chicken and egg problem.
         // Thus, we need to set an explicit keyboard height ourselves.
         //
-        // For some reason, translatesAutoresizingMaskIntoConstraints does not
-        // need to be set to false here (and in fact, if we do that, things break
-        // since the keyboard manages its own width).
+        // We don't set translatesAutoresizingMaskIntoConstraints = false here
+        // since we need the system to manage the keyboard's width. Doing it
+        // ourselves results in janky layout issues. Yes, we are intentionally
+        // ignoring constraint conflicts.
         self.view.heightAnchor.constraint(equalToConstant: 261).isActive = true
 
         self.touchableView = TouchableTransparentView()
