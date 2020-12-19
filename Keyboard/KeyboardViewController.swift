@@ -13,8 +13,6 @@ class KeyboardViewController
     private var controlView: UIView!
     private var nextKeyboardButton: KeyboardButton?
     private var stickerPackPageControl: UIPageControl!
-    private var widthConstraint: NSLayoutConstraint?
-    private var heightConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +23,10 @@ class KeyboardViewController
         // to equal the parent height will cause a chicken and egg problem.
         // Thus, we need to set an explicit keyboard height ourselves.
         //
-        // Since we're disabling autoresizing mask constraints, we need to also
-        // set the width to equal the parent, which we won't know in viewDidLoad.
-        // Hence, we delay adding the constraints to viewDidAppear.
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        // For some reason, translatesAutoresizingMaskIntoConstraints does not
+        // need to be set to false here (and in fact, if we do that, things break
+        // since the keyboard manages its own width).
+        self.view.heightAnchor.constraint(equalToConstant: 261).isActive = true
 
         self.touchableView = TouchableTransparentView()
         self.touchableView
@@ -137,31 +135,6 @@ class KeyboardViewController
                 err.localizedDescription
             )
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        let parent = self.view.superview!
-        self.widthConstraint = self.view.widthAnchor.constraint(equalTo: parent.widthAnchor)
-        self.heightConstraint = self.view.heightAnchor.constraint(equalToConstant: 261)
-
-        NSLayoutConstraint.activate([
-            self.widthConstraint!,
-            self.heightConstraint!,
-        ])
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        NSLayoutConstraint.deactivate([
-            self.widthConstraint,
-            self.heightConstraint,
-        ].compactMap { $0 })
-
-        self.widthConstraint = nil
-        self.heightConstraint = nil
-
-        super.viewWillDisappear(animated)
     }
 
     private func loadStickerData(

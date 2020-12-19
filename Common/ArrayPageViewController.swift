@@ -63,6 +63,11 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
      */
     public var viewController: UIViewController? {
         get {
+            // When someone sets the data source to nil, we show a dummy empty
+            // view controller as a workaround for UIPageViewController limitations.
+            // In such conditions, treat it as if there's nothing there.
+            guard self.dataSource != nil else { return nil }
+
             guard let viewControllers = self.inner.viewControllers else { return nil }
             assert(viewControllers.count <= 1)
             return viewControllers.first
@@ -156,8 +161,18 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
 
             self.dataSourceAdapter = nil
             self.inner.dataSource = nil
+
+            // We can't clear the view controller list, but we can at least replace
+            // it with a dummy empty one to clear the existing view.
+            self.inner.setViewControllers(
+                [UIViewController()],
+                direction: .reverse,
+                animated: false,
+                completion: nil
+            )
+
             self.updatePageControl(currentPage: nil, numberOfPages: 0)
-            self.emptyView.isHidden = false
+            self.emptyView.isHidden = (dataSource == nil)
         }
     }
 
@@ -186,7 +201,7 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
 
     /**
      * Some text to show in place of the normal view in case the data source
-     * is empty/nil.
+     * is set, but empty. Note that this is NOT shown if the data source is nil.
      */
     public var emptyText: String? {
         get {
@@ -225,7 +240,7 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
         self.emptyView.lineBreakMode = .byClipping
         self.emptyView.adjustsFontSizeToFitWidth = true
         self.emptyView.textAlignment = .center
-        self.emptyView.isHidden = false
+        self.emptyView.isHidden = true
     }
 
     /**
@@ -250,12 +265,13 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
      * This helps avoid some weird ghosting issues on load.
      */
     private func updatePageControl(currentPage: Int?, numberOfPages: Int?) {
+        guard let pageControl = self.pageControl else { return }
         UIView.setAnimationsEnabled(false)
         if let numberOfPages = numberOfPages {
-            self.pageControl?.numberOfPages = numberOfPages
+            pageControl.numberOfPages = numberOfPages
         }
         if let currentPage = currentPage {
-            self.pageControl?.currentPage = currentPage
+            pageControl.currentPage = currentPage
         }
         UIView.setAnimationsEnabled(true)
     }
