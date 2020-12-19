@@ -19,10 +19,9 @@ it useful.
 ## Usage
 
 0. Please ensure that Stickerboard is enabled and has full access. You can
-check this in the Settings app under General -> Keyboards -> Stickerboard.
-Note that we do not upload any data; there is not a single line of network
-related code in the app. We only need full access to copy the stickers to
-your clipboard.
+check this in the Settings app under Stickerboard > Keyboards. Note that we
+do not upload any data; there is not a single line of network related code
+in the app. We only need full access to copy the stickers to your clipboard.
 
 1. Copy your sticker files to the Stickerboard documents directory. You can
 do this in numerous ways:
