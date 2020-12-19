@@ -122,10 +122,11 @@
 </body>";
 "changelog_html" = "<body>
 <section>
-    <h1>v1.1.0 - Dec 18, 2020</h1>
+    <h1>v1.1.0 - Dec 19, 2020</h1>
     <p>
         Added an option to automatically switch back to the previous keyboard after selecting
-        a sticker. Fixed a memory leak when repeatedly opening the keyboard.
+        a sticker. Fixed a memory leak when repeatedly opening the keyboard. Page dots now align
+        correctly on devices without a home button.
     </p>
 </section>
 <br>
