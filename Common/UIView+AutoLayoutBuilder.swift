@@ -56,6 +56,22 @@ public class AutoLayoutBuilder {
     }
 
     /**
+     * If the given anchor point is not nil, sets it as the minimum left edge for this view.
+     */
+    public func leftAtLeast(_ left: NSLayoutXAxisAnchor?) -> AutoLayoutBuilder {
+        guard let left = left else { return self }
+        return self.constraint(self.view.leadingAnchor.constraint(greaterThanOrEqualTo: left))
+    }
+
+    /**
+     * If the given anchor point is not nil, sets it as the maximum right edge for this view.
+     */
+    public func rightAtMost(_ right: NSLayoutXAxisAnchor?) -> AutoLayoutBuilder {
+        guard let right = right else { return self }
+        return self.constraint(self.view.trailingAnchor.constraint(lessThanOrEqualTo: right))
+    }
+
+    /**
      * Sets a fixed width for this view.
      */
     public func width(_ constant: CGFloat) -> AutoLayoutBuilder {
@@ -72,15 +88,25 @@ public class AutoLayoutBuilder {
     /**
      * Aligns the horizontal center of this view to the given point.
      */
-    public func centerX(_ centerX: NSLayoutXAxisAnchor) -> AutoLayoutBuilder {
-        return self.constraint(self.view.centerXAnchor.constraint(equalTo: centerX))
+    public func centerX(
+        _ centerX: NSLayoutXAxisAnchor,
+        priority: UILayoutPriority = .required
+    ) -> AutoLayoutBuilder {
+        let constraint = self.view.centerXAnchor.constraint(equalTo: centerX)
+        constraint.priority = priority
+        return self.constraint(constraint)
     }
 
     /**
      * Aligns the vertical center of this view to the given point.
      */
-    public func centerY(_ centerY: NSLayoutYAxisAnchor) -> AutoLayoutBuilder {
-        return self.constraint(self.view.centerYAnchor.constraint(equalTo: centerY))
+    public func centerY(
+        _ centerY: NSLayoutYAxisAnchor,
+        priority: UILayoutPriority = .required
+    ) -> AutoLayoutBuilder {
+        let constraint = self.view.centerYAnchor.constraint(equalTo: centerY)
+        constraint.priority = priority
+        return self.constraint(constraint)
     }
 
     /**

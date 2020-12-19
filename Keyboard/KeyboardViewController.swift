@@ -8,11 +8,11 @@ class KeyboardViewController
 {
     private var touchableView: TouchableTransparentView!
     private var bannerViewController: BannerViewController!
-    private var stickerPackPageViewController: ArrayPageViewController!
-    private var stickerPackDataSource: StickerPageViewControllerDataSource?
     private var controlView: UIView!
     private var nextKeyboardButton: KeyboardButton?
     private var stickerPackPageControl: UIPageControl!
+    private var stickerPackPageViewController: ArrayPageViewController!
+    private var stickerPackDataSource: StickerPageViewControllerDataSource?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,21 +54,6 @@ class KeyboardViewController
             top: 4, leading: 4, bottom: 4, trailing: 4
         )
 
-        self.stickerPackPageViewController = ArrayPageViewController()
-        self.addChild(stickerPackPageViewController)
-        self.stickerPackPageViewController.view
-            .autoLayoutInView(self.touchableView)
-            .fillX(self.touchableView.safeAreaLayoutGuide)
-            .top(self.touchableView.safeAreaLayoutGuide.topAnchor)
-            .bottom(self.controlView.topAnchor)
-            .activate()
-        self.stickerPackPageViewController.didMove(toParent: self)
-        self.stickerPackPageViewController.animatePageTransitions = false
-
-        let appearance = UIPageControl.appearance()
-        appearance.pageIndicatorTintColor = UIColor.systemFill
-        appearance.currentPageIndicatorTintColor = UIColor.accent
-
         if self.needsInputModeSwitchKey {
             self.nextKeyboardButton = KeyboardButton(type: .system)
             self.nextKeyboardButton!
@@ -93,19 +78,28 @@ class KeyboardViewController
             )
         }
 
-        // TODO: This could probably be made more elegant... maybe use UIStackView?
-        var leftAnchor = self.controlView.layoutMarginsGuide.leadingAnchor
-        if let nextKeyboardButton = self.nextKeyboardButton {
-            leftAnchor = nextKeyboardButton.trailingAnchor
-        }
-
         self.stickerPackPageControl = UIPageControl()
         self.stickerPackPageControl
             .autoLayoutInView(self.controlView)
-            .left(leftAnchor)
-            .right(self.controlView.layoutMarginsGuide.trailingAnchor)
+            .leftAtLeast(self.controlView.layoutMarginsGuide.leadingAnchor)
+            .leftAtLeast(self.nextKeyboardButton?.trailingAnchor)
+            .rightAtMost(self.controlView.layoutMarginsGuide.trailingAnchor)
+            .centerX(self.controlView.layoutMarginsGuide.centerXAnchor, priority: .defaultHigh)
             .centerY(self.controlView.layoutMarginsGuide.centerYAnchor)
             .activate()
+        self.stickerPackPageControl.pageIndicatorTintColor = .systemFill
+        self.stickerPackPageControl.currentPageIndicatorTintColor = .accent
+
+        self.stickerPackPageViewController = ArrayPageViewController()
+        self.addChild(stickerPackPageViewController)
+        self.stickerPackPageViewController.view
+            .autoLayoutInView(self.touchableView)
+            .fillX(self.touchableView.safeAreaLayoutGuide)
+            .top(self.touchableView.safeAreaLayoutGuide.topAnchor)
+            .bottom(self.controlView.topAnchor)
+            .activate()
+        self.stickerPackPageViewController.didMove(toParent: self)
+        self.stickerPackPageViewController.animatePageTransitions = false
         self.stickerPackPageViewController.pageControl = self.stickerPackPageControl
 
         // Ensure banners display over everything else
