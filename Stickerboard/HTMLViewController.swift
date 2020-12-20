@@ -62,18 +62,15 @@ class HTMLViewController: UIViewController {
                 """
 
             let html = style + self.contentHtml
-
             let attrString = try! NSMutableAttributedString(
                 data: Data(html.utf8),
                 options: [.documentType: NSAttributedString.DocumentType.html],
                 documentAttributes: nil
             )
-            attrString.addAttributes(
-                [.foregroundColor: UIColor.label],
-                range: NSMakeRange(0, attrString.length)
-            )
+
             DispatchQueue.main.async {
                 self.textView.attributedText = attrString
+                self.textView.textColor = .label
             }
         }
     }
