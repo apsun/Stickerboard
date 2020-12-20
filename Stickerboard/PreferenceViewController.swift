@@ -138,6 +138,7 @@ fileprivate class StickerTextViewCell: PreferenceCell, UITextViewDelegate {
         // fit its contents, which in turn lets the cell resize to fit
         // the text view.
         self.textView.isScrollEnabled = false
+        self.textView.textColor = .label
         self.textView.delegate = self
     }
 
@@ -146,7 +147,7 @@ fileprivate class StickerTextViewCell: PreferenceCell, UITextViewDelegate {
         // so they don't take up the whole screen.
         textView.textStorage.enumerateAttribute(
             .attachment,
-            in: NSMakeRange(0, textView.attributedText.length),
+            in: NSMakeRange(0, textView.textStorage.length),
             options: []
         ) { (value, range, stop) in
             // Only consider image attachments
@@ -163,6 +164,10 @@ fileprivate class StickerTextViewCell: PreferenceCell, UITextViewDelegate {
             bounds.size.width = image.size.width * widthScale
             value.bounds = bounds
         }
+
+        // Inserting an image seems to reset the text color to black,
+        // so we manually set it back to the correct color.
+        textView.textColor = .label
 
         self.delegate?.preferenceCellDidUpdate(self)
     }
