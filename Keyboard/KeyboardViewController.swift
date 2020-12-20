@@ -132,6 +132,38 @@ class KeyboardViewController
         }
     }
 
+    func stickerPickerView(
+        _ sender: StickerPickerViewController,
+        didSelect stickerFile: StickerFile,
+        inPack stickerPack: StickerPack,
+        longPress: Bool
+    ) {
+        let feedbackGenerator = UISelectionFeedbackGenerator()
+        feedbackGenerator.selectionChanged()
+
+        // Hack to make the next keyboard button go to the previously selected
+        // keyboard instead of the next one (iOS seems go to the next one only
+        // if you didn't input anything with the keyboard)
+        self.textDocumentProxy.insertText("")
+
+        if !self.hasFullAccess {
+            self.bannerViewController.showBanner(
+                text: L("full_access_required"),
+                style: .error
+            )
+            return
+        }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = Result {
+                try self.loadStickerData(stickerFile: stickerFile, forceOriginal: longPress)
+            }
+            DispatchQueue.main.async {
+                self.didLoadStickerData(stickerFile: stickerFile, result: result)
+            }
+        }
+    }
+
     private func loadStickerData(
         stickerFile: StickerFile,
         forceOriginal: Bool
@@ -194,38 +226,6 @@ class KeyboardViewController
                 text: F("failed_copy_to_clipboard", stickerFile.name),
                 style: .error
             )
-        }
-    }
-
-    func stickerPickerView(
-        _ sender: StickerPickerViewController,
-        didSelect stickerFile: StickerFile,
-        inPack stickerPack: StickerPack,
-        longPress: Bool
-    ) {
-        let feedbackGenerator = UISelectionFeedbackGenerator()
-        feedbackGenerator.selectionChanged()
-
-        // Hack to make the next keyboard button go to the previously selected
-        // keyboard instead of the next one (iOS seems go to the next one only
-        // if you didn't input anything with the keyboard)
-        self.textDocumentProxy.insertText("")
-
-        if !self.hasFullAccess {
-            self.bannerViewController.showBanner(
-                text: L("full_access_required"),
-                style: .error
-            )
-            return
-        }
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            let result = Result {
-                try self.loadStickerData(stickerFile: stickerFile, forceOriginal: longPress)
-            }
-            DispatchQueue.main.async {
-                self.didLoadStickerData(stickerFile: stickerFile, result: result)
-            }
         }
     }
 }

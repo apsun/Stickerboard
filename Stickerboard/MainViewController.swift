@@ -153,6 +153,18 @@ fileprivate class MainViewControllerImpl
         }
     }
 
+    private func importStickers() {
+        // Dismiss the keyboard so it can refresh itself the next time it loads
+        self.view.endEditing(false)
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = Result { try StickerFileManager.main.importFromDocuments() }
+            DispatchQueue.main.async {
+                self.showStickerImportResult(result)
+            }
+        }
+    }
+
     private func showStickerImportResult(_ result: Result<StickerLoadResult, Error>) {
         switch result {
         case .success(let result):
@@ -200,18 +212,6 @@ fileprivate class MainViewControllerImpl
             )
             alert.addAction(UIAlertAction(title: L("ok"), style: .default))
             self.present(alert, animated: true)
-        }
-    }
-
-    private func importStickers() {
-        // Dismiss the keyboard so it can refresh itself the next time it loads
-        self.view.endEditing(false)
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            let result = Result { try StickerFileManager.main.importFromDocuments() }
-            DispatchQueue.main.async {
-                self.showStickerImportResult(result)
-            }
         }
     }
 
