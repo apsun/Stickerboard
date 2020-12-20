@@ -126,7 +126,7 @@
     <p>
         Added an option to automatically switch back to the previous keyboard after selecting
         a sticker. Fixed a memory leak when repeatedly opening the keyboard. Page dots now align
-        correctly on devices without a home button.
+        correctly on devices with a home button.
     </p>
 </section>
 <br>
