@@ -207,7 +207,7 @@ public class StickerFileManager {
     /**
      * Imports all images within the documents directory to the shared
      * app group container to make them visible to the keyboard extension.
-     * Returns the number of stickers imported.
+     * Returns a list of files imported/skipped.
      */
     public func importFromDocuments() throws -> StickerLoadResult {
         let result = try self.recursiveStickerFilesInDirectory(self.documentDirectoryURL())
