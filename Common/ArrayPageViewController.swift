@@ -63,10 +63,10 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
      */
     public var viewController: UIViewController? {
         get {
-            // When someone sets the data source to nil, we show a dummy empty
+            // When someone sets the data source to nil/empty, we show a dummy empty
             // view controller as a workaround for UIPageViewController limitations.
-            // In such conditions, treat it as if there's nothing there.
-            guard self.dataSource != nil else { return nil }
+            // In such cases, treat it as if there's nothing there.
+            guard self.numberOfPages > 0 else { return nil }
 
             guard let viewControllers = self.inner.viewControllers else { return nil }
             assert(viewControllers.count <= 1)
@@ -99,7 +99,8 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
         set {
             assert((newValue == nil) == (self.numberOfPages == 0))
             if let newValue = newValue, let dataSource = self.dataSource {
-                let oldValue = currentPage ?? Int.max
+                assert(newValue >= 0 && newValue < dataSource.count())
+                let oldValue = self.currentPage ?? Int.max
                 let direction: UIPageViewController.NavigationDirection
                 if newValue > oldValue {
                     direction = .forward
@@ -136,7 +137,7 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
      */
     public weak var dataSource: ArrayPageViewControllerDataSource? {
         didSet {
-            if let newValue = dataSource {
+            if let newValue = self.dataSource {
                 // UIPageViewController has a bug where giving it an empty
                 // data source will cause crashes. To avoid this, make the
                 // data source nil if it doesn't contain any elements.
@@ -172,7 +173,7 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
             )
 
             self.updatePageControl(currentPage: nil, numberOfPages: 0)
-            self.emptyView.isHidden = (dataSource == nil)
+            self.emptyView.isHidden = (self.dataSource == nil)
         }
     }
 
@@ -186,7 +187,7 @@ public class ArrayPageViewController: UIViewController, UIPageViewControllerDele
                 action: #selector(self.pageControlSelectionDidChange),
                 for: .valueChanged
             )
-            guard let newValue = pageControl else { return }
+            guard let newValue = self.pageControl else { return }
             newValue.addTarget(
                 self,
                 action: #selector(self.pageControlSelectionDidChange),
