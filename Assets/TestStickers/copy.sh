@@ -19,12 +19,12 @@ get_sticker_files() {
     done
 }
 
-get_booted_simulators | while read sim; do
+get_booted_simulators | while read -r sim; do
     base_dir="$(get_simulator_container_dir "${sim}")/Documents"
     for n in $(seq "${num_packs}"); do
         dir="${base_dir}/pack-${n}"
         mkdir -p "${dir}"
-        get_sticker_files | while read file; do
+        get_sticker_files | while read -r file; do
             cp "${file}" "${dir}/"
         done
     done
