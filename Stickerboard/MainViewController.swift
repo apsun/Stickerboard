@@ -69,6 +69,16 @@ fileprivate class MainViewControllerImpl
                 ]
             ),
             PreferenceSection(
+                header: nil,
+                footer: L("remember_selected_pack_footer"),
+                preferences: [
+                    Preference(
+                        id: PreferenceKey.rememberSelectedPack.rawValue,
+                        type: .switch(label: L("remember_selected_pack"))
+                    )
+                ]
+            ),
+            PreferenceSection(
                 header: L("about"),
                 footer: F("about_footer", self.versionString()),
                 preferences: [
@@ -137,6 +147,8 @@ fileprivate class MainViewControllerImpl
             return PreferenceManager.shared.resizeStickers()
         case PreferenceKey.autoSwitchKeyboard.rawValue:
             return PreferenceManager.shared.autoSwitchKeyboard()
+        case PreferenceKey.rememberSelectedPack.rawValue:
+            return PreferenceManager.shared.rememberSelectedPack()
         default:
             abort()
         }
@@ -147,7 +159,9 @@ fileprivate class MainViewControllerImpl
         case PreferenceKey.resizeStickers.rawValue:
             PreferenceManager.shared.setResizeStickers(newValue)
         case PreferenceKey.autoSwitchKeyboard.rawValue:
-            return PreferenceManager.shared.setAutoSwitchKeyboard(newValue)
+            PreferenceManager.shared.setAutoSwitchKeyboard(newValue)
+        case PreferenceKey.rememberSelectedPack.rawValue:
+            PreferenceManager.shared.setRememberSelectedPack(newValue)
         default:
             abort()
         }

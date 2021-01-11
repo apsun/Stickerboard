@@ -33,6 +33,10 @@ public class StickerPageViewControllerDataSource
     }
 
     public func initialPage() -> Int? {
+        if !PreferenceManager.shared.rememberSelectedPack() {
+            return nil
+        }
+
         guard let pageUrl = PreferenceManager.standard.lastStickerPageUrl() else { return nil }
         return self.stickerPacks.firstIndex {
             $0.url.path == pageUrl
