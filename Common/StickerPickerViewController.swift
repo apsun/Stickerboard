@@ -3,7 +3,7 @@ import UIKit
 /**
  * Provides a callback for when the user selects a sticker.
  */
-public protocol StickerPickerViewDelegate: class {
+public protocol StickerPickerViewDelegate: AnyObject {
     func stickerPickerView(
         _ sender: StickerPickerViewController,
         didSelect stickerFile: StickerFile,

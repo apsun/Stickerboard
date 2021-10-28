@@ -4,7 +4,7 @@ import UIKit
  * This provides the methods to create view controllers from the backing
  * array, and to go back and forth between index <-> view controller.
  */
-public protocol ArrayPageViewControllerDataSource: class {
+public protocol ArrayPageViewControllerDataSource: AnyObject {
     func create(index: Int) -> UIViewController
     func indexOf(viewController: UIViewController) -> Int
     func count() -> Int

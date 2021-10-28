@@ -6,7 +6,7 @@ import Common
  * implement.
  */
 @objc
-protocol PreferenceDelegate: class {
+protocol PreferenceDelegate: AnyObject {
     /**
      * Indicates a button preference was clicked.
      */
@@ -29,7 +29,7 @@ protocol PreferenceDelegate: class {
 /**
  * Internal delegate for callbacks from the cell to the view controller.
  */
-fileprivate protocol PreferenceCellDelegate: class {
+fileprivate protocol PreferenceCellDelegate: AnyObject {
     func preferenceCellDidUpdate(_ sender: PreferenceCell)
 }
 
