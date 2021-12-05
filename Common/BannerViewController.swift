@@ -158,6 +158,11 @@ public class BannerViewController: UIViewController {
                 self.bannerVisibleConstraint.isActive = false
                 self.bannerHiddenConstraint.isActive = true
                 self.view.layoutIfNeeded()
+            },
+            completion: { _ in
+                self.bannerBackgroundView.backgroundColor = .none
+                self.bannerLabel.textColor = .none
+                self.setBannerText("")
             }
         )
     }
