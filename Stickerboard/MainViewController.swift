@@ -12,7 +12,7 @@ fileprivate class MainViewControllerImpl
     , PreferenceDelegate
 {
     private var preferenceViewController: PreferenceViewController!
-    private var bannerViewController: BannerViewController!
+    private var bannerView: BannerView!
 
     private func versionString() -> String {
         let versionString = Bundle.main.object(
@@ -105,13 +105,11 @@ fileprivate class MainViewControllerImpl
         self.preferenceViewController.didMove(toParent: self)
         self.preferenceViewController.delegate = self
 
-        self.bannerViewController = BannerViewController()
-        self.addChild(self.bannerViewController)
-        self.bannerViewController.view
+        self.bannerView = BannerView()
+        self.bannerView
             .autoLayoutInView(self.view, above: self.preferenceViewController.view)
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
-        self.bannerViewController.didMove(toParent: self)
 
         // Dismiss the keyboard when the user scrolls (indicating they
         // need more screen real estate)
@@ -190,7 +188,7 @@ fileprivate class MainViewControllerImpl
             } else {
                 message = F("imported_stickers_banner", result.succeeded.count)
             }
-            self.bannerViewController.showBanner(
+            self.bannerView.show(
                 text: message,
                 style: .normal
             )
@@ -214,7 +212,7 @@ fileprivate class MainViewControllerImpl
             }
         case .failure(let error):
             logger.error("Failed to import stickers: \(error.localizedDescription)")
-            self.bannerViewController.showBanner(
+            self.bannerView.show(
                 text: L("failed_import_banner"),
                 style: .error
             )

@@ -7,7 +7,7 @@ class KeyboardViewController
     , StickerPickerViewDelegate
 {
     private var touchableView: TouchableTransparentView!
-    private var bannerViewController: BannerViewController!
+    private var bannerView: BannerView!
     private var controlView: UIView!
     private var nextKeyboardButton: KeyboardButton?
     private var stickerPackPageControl: UIPageControl!
@@ -35,13 +35,11 @@ class KeyboardViewController
             .fill(self.view.safeAreaLayoutGuide)
             .activate()
 
-        self.bannerViewController = BannerViewController()
-        self.addChild(self.bannerViewController)
-        self.bannerViewController.view
+        self.bannerView = BannerView()
+        self.bannerView
             .autoLayoutInView(self.touchableView)
             .fill(self.touchableView.safeAreaLayoutGuide)
             .activate()
-        self.bannerViewController.didMove(toParent: self)
 
         self.controlView = UIView()
         self.controlView
@@ -103,7 +101,7 @@ class KeyboardViewController
         self.stickerPackPageViewController.pageControl = self.stickerPackPageControl
 
         // Ensure banners display over everything else
-        self.touchableView.bringSubviewToFront(self.bannerViewController.view)
+        self.touchableView.bringSubviewToFront(self.bannerView)
 
         DispatchQueue.global(qos: .userInitiated).async {
             let result = Result { try StickerFileManager.main.stickerPacks() }
@@ -147,7 +145,7 @@ class KeyboardViewController
         self.textDocumentProxy.insertText("")
 
         if !self.hasFullAccess {
-            self.bannerViewController.showBanner(
+            self.bannerView.show(
                 text: L("full_access_required"),
                 style: .error
             )
@@ -213,7 +211,7 @@ class KeyboardViewController
             if PreferenceManager.shared.autoSwitchKeyboard() {
                 self.advanceToNextInputMode()
             } else {
-                self.bannerViewController.showBanner(
+                self.bannerView.show(
                     text: F("copied_to_clipboard", stickerFile.name),
                     style: .normal
                 )
@@ -222,7 +220,7 @@ class KeyboardViewController
             logger.error(
                 "Failed to copy \(stickerFile.name): \(error.localizedDescription)"
             )
-            self.bannerViewController.showBanner(
+            self.bannerView.show(
                 text: F("failed_copy_to_clipboard", stickerFile.name),
                 style: .error
             )
