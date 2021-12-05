@@ -123,6 +123,12 @@ class KeyboardViewController
             self.stickerPackPageViewController.emptyText = L("no_stickers")
         case .failure(let err):
             logger.error("Failed to load stickers: \(err.localizedDescription)")
+            let dataSource = StickerPageViewControllerDataSource(
+                stickerPacks: [],
+                stickerPickerDelegate: self
+            )
+            self.stickerPackDataSource = dataSource
+            self.stickerPackPageViewController.dataSource = dataSource
             self.stickerPackPageViewController.emptyText = F(
                 "failed_load_stickers",
                 err.localizedDescription
