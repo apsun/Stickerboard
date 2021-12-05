@@ -35,7 +35,11 @@ public class BannerView: UIView {
         }
     }
 
-    public override init(frame: CGRect) {
+    required init?(coder: NSCoder) {
+        abort()
+    }
+
+    override init(frame: CGRect) {
         super.init(frame: frame)
 
         self.clipsToBounds = true
@@ -81,10 +85,6 @@ public class BannerView: UIView {
             equalTo: self.topAnchor
         )
         self.hiddenConstraint.isActive = true
-    }
-
-    public required init?(coder: NSCoder) {
-        abort()
     }
 
     /**
