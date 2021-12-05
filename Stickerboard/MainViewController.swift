@@ -2,9 +2,34 @@ import UIKit
 import Common
 
 class MainViewController: UINavigationController {
+    private var bannerView: BannerView!
+
     override func viewDidLoad() {
+        self.navigationBar.prefersLargeTitles = true
         self.navigationBar.scrollEdgeAppearance = self.navigationBar.standardAppearance
+
+        // Create the banner view in the navigation controller directly
+        // rather than in the child view controller. This is because we
+        // need to attach the banner to the bottom of the navigation bar,
+        // and autolayout doesn't let us do that unless the two views
+        // are in the same hierarchy.
+        //
+        // Attaching the banner view to the top of the child view doesn't
+        // work either, because overscroll doesn't affect the safe area
+        // insets for some reason.
+        self.bannerView = BannerView()
+        self.bannerView
+            .autoLayoutInView(self.view)
+            .top(self.navigationBar.bottomAnchor)
+            .bottom(self.view.safeAreaLayoutGuide.bottomAnchor)
+            .fillX(self.view.safeAreaLayoutGuide)
+            .activate()
+
         self.setViewControllers([MainViewControllerImpl()], animated: false)
+    }
+
+    fileprivate func showBanner(text: String, style: BannerView.Style) {
+        self.bannerView.show(text: text, style: style)
     }
 }
 
@@ -13,7 +38,6 @@ fileprivate class MainViewControllerImpl
     , PreferenceDelegate
 {
     private var preferenceViewController: PreferenceViewController!
-    private var bannerView: BannerView!
 
     private func versionString() -> String {
         let versionString = Bundle.main.object(
@@ -106,12 +130,6 @@ fileprivate class MainViewControllerImpl
         self.preferenceViewController.didMove(toParent: self)
         self.preferenceViewController.delegate = self
 
-        self.bannerView = BannerView()
-        self.bannerView
-            .autoLayoutInView(self.view, above: self.preferenceViewController.view)
-            .fill(self.view.safeAreaLayoutGuide)
-            .activate()
-
         // Dismiss the keyboard when the user scrolls (indicating they
         // need more screen real estate)
         self.preferenceViewController.tableView.keyboardDismissMode = .onDrag
@@ -189,7 +207,7 @@ fileprivate class MainViewControllerImpl
             } else {
                 message = F("imported_stickers_banner", result.succeeded.count)
             }
-            self.bannerView.show(
+            self.showBanner(
                 text: message,
                 style: .normal
             )
@@ -213,7 +231,7 @@ fileprivate class MainViewControllerImpl
             }
         case .failure(let error):
             logger.error("Failed to import stickers: \(error.localizedDescription)")
-            self.bannerView.show(
+            self.showBanner(
                 text: L("failed_import_banner"),
                 style: .error
             )
@@ -239,5 +257,10 @@ fileprivate class MainViewControllerImpl
 
     private func showChangelog() {
         self.present(ChangelogViewController(), animated: true, completion: nil)
+    }
+
+    private func showBanner(text: String, style: BannerView.Style) {
+        let parent = self.navigationController as! MainViewController
+        parent.showBanner(text: text, style: style)
     }
 }
