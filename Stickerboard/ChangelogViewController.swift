@@ -3,6 +3,7 @@ import Common
 
 class ChangelogViewController: UINavigationController {
     override func viewDidLoad() {
+        self.navigationBar.scrollEdgeAppearance = self.navigationBar.standardAppearance
         self.setViewControllers([ChangelogViewControllerImpl()], animated: false)
     }
 }

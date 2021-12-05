@@ -3,6 +3,7 @@ import Common
 
 class MainViewController: UINavigationController {
     override func viewDidLoad() {
+        self.navigationBar.scrollEdgeAppearance = self.navigationBar.standardAppearance
         self.setViewControllers([MainViewControllerImpl()], animated: false)
     }
 }

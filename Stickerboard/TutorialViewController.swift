@@ -3,6 +3,7 @@ import Common
 
 class TutorialViewController: UINavigationController {
     override func viewDidLoad() {
+        self.navigationBar.scrollEdgeAppearance = self.navigationBar.standardAppearance
         self.setViewControllers([TutorialViewControllerImpl()], animated: false)
     }
 }
