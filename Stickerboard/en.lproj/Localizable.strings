@@ -29,7 +29,7 @@
 "skipped_stickers_more" = "... (%d more)";
 "failed_import_dialog_title" = "Import failed";
 "failed_import_dialog_body" = "Unfortunately, we were unable to import any stickers. Our best guess at the problem:\n\n%@\n\nIf this looks like a bug, please submit an issue on GitHub and include the message above.";
-"close" = "Close";
+"done" = "Done";
 "tutorial_html" = "<body>
 <section>
     <h1>Welcome to Stickerboard!</h1>

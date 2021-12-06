@@ -7,17 +7,17 @@ import Common
 class HTMLViewController: UIViewController {
     private let contentHtml: String
     private let titleText: String
-    private let backButtonText: String
+    private let doneButtonText: String
     private var textView: UITextView!
 
     required init?(coder: NSCoder) {
         abort()
     }
 
-    init(contentHtml: String, titleText: String, backButtonText: String) {
+    init(contentHtml: String, titleText: String, doneButtonText: String) {
         self.contentHtml = contentHtml
         self.titleText = titleText
-        self.backButtonText = backButtonText
+        self.doneButtonText = doneButtonText
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,8 +27,8 @@ class HTMLViewController: UIViewController {
 
     override func viewDidLoad() {
         self.title = self.titleText
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: self.backButtonText,
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: self.doneButtonText,
             style: .done,
             target: self,
             action: #selector(self.close)

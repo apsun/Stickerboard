@@ -17,7 +17,7 @@ fileprivate class TutorialViewControllerImpl: HTMLViewController {
         super.init(
             contentHtml: L("tutorial_html"),
             titleText: L("tutorial"),
-            backButtonText: L("close")
+            doneButtonText: L("done")
         )
     }
 }
