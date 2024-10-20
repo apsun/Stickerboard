@@ -100,7 +100,7 @@ public class ImageLoader {
         ] as CFDictionary
 
         guard let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) else {
-            throw RuntimeError("CGImageSourceCreateThumbnailAtIndex failed")
+            throw RuntimeError("Failed to load image: CGImageSourceCreateThumbnailAtIndex failed")
         }
         return image
     }
@@ -116,7 +116,7 @@ public class ImageLoader {
         ] as CFDictionary
 
         guard let image = CGImageSourceCreateImageAtIndex(imageSource, 0, options) else {
-            throw RuntimeError("CGImageSourceCreateImageAtIndex failed")
+            throw RuntimeError("Failed to load image: CGImageSourceCreateImageAtIndex failed")
         }
         return image
     }
@@ -135,7 +135,7 @@ public class ImageLoader {
         ] as CFDictionary
 
         guard let imageSource = CGImageSourceCreateWithURL(url as CFURL, options) else {
-            throw RuntimeError("CGImageSourceCreateWithURL failed")
+            throw RuntimeError("Failed to load image: CGImageSourceCreateWithURL failed")
         }
 
         if let resizeParams = resizeParams {
@@ -181,19 +181,19 @@ public class ImageLoader {
             space: CGColorSpace(name: CGColorSpace.sRGB)!,
             bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
         ) else {
-            throw RuntimeError("Failed to create graphics context")
+            throw RuntimeError("Failed to load image: could not create CGContext")
         }
 
         context.interpolationQuality = .high
         let rect = CGRect(origin: .zero, size: CGSize(width: image.width, height: image.height))
         context.draw(image, in: rect)
         guard let destImage = context.makeImage() else {
-            throw RuntimeError("Failed to create destination image")
+            throw RuntimeError("Failed to load image: could not create CGImage from CGContext")
         }
 
         let uiImage = UIImage(cgImage: destImage)
         guard let pngData = uiImage.pngData() else {
-            throw RuntimeError("Failed to convert image to PNG")
+            throw RuntimeError("Failed to load image: could not convert image to PNG")
         }
         return pngData
     }
