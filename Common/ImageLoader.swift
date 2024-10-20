@@ -3,16 +3,6 @@ import UIKit
 import UniformTypeIdentifiers
 
 /**
- * Adds a Hashable implementation for CGSize.
- */
-extension CGSize: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.width)
-        hasher.combine(self.height)
-    }
-}
-
-/**
  * Whether the image should be resized to fill or fit the specified size.
  */
 public enum ImageResizeMode {
