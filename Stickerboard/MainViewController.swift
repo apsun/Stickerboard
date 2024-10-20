@@ -212,21 +212,24 @@ fileprivate class MainViewControllerImpl
                 style: .normal
             )
 
-            if !result.skipped.isEmpty {
-                var skippedPaths = result.skipped.map { $0.url.relativePath }
-                let count = skippedPaths.count
-                let maxLines = 5
-                if count > maxLines {
-                    skippedPaths.removeSubrange(maxLines..<count)
-                    skippedPaths.append(F("skipped_stickers_more", count - maxLines))
+            if !result.errors.isEmpty {
+                let errors = result.errors.map { $0.localizedDescription }
+                let maxLines = 3
+                var truncatedErrors = errors
+                if errors.count > maxLines {
+                    truncatedErrors.removeSubrange(maxLines..<errors.count)
+                    truncatedErrors.append(F("skipped_stickers_more", errors.count - maxLines))
                 }
 
                 let alert = UIAlertController(
                     title: L("skipped_stickers_title"),
-                    message: F("skipped_stickers_body", skippedPaths.joined(separator: "\n")),
+                    message: F("skipped_stickers_body", truncatedErrors.joined(separator: "\n\n")),
                     preferredStyle: .alert
                 )
                 alert.addAction(UIAlertAction(title: L("ok"), style: .default))
+                alert.addAction(UIAlertAction(title: L("copy_error"), style: .default) { (_) in
+                    UIPasteboard.general.string = errors.joined(separator: "\n\n")
+                })
                 self.present(alert, animated: true)
             }
         case .failure(let error):
@@ -242,6 +245,9 @@ fileprivate class MainViewControllerImpl
                 preferredStyle: .alert
             )
             alert.addAction(UIAlertAction(title: L("ok"), style: .default))
+            alert.addAction(UIAlertAction(title: L("copy_error"), style: .default) { (_) in
+                UIPasteboard.general.string = error.localizedDescription
+            })
             self.present(alert, animated: true)
         }
     }

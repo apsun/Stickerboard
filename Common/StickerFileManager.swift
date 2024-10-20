@@ -11,9 +11,9 @@ public struct StickerLoadResult {
     public var succeeded: [StickerFile]
 
     /**
-     * These files were skipped over.
+     * These errors were encountered.
      */
-    public var skipped: [StickerFile]
+    public var errors: [Error]
 }
 
 /**
@@ -91,11 +91,17 @@ public class StickerFileManager {
      * Creates a directory at the given path if it does not already exist.
      */
     private func ensureDirectoryExists(_ url: URL) throws {
-        try self.fileManager.createDirectory(
-            at: url,
-            withIntermediateDirectories: true,
-            attributes: nil
-        )
+        do {
+            try self.fileManager.createDirectory(
+                at: url,
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
+        } catch {
+            throw RuntimeError(
+                "Failed to create directory \(url.absoluteString): \(error.localizedDescription)"
+            )
+        }
     }
 
     /**
@@ -111,7 +117,14 @@ public class StickerFileManager {
      * Copies a sticker file from src to dest.
      */
     private func copySticker(src: URL, dest: URL) throws {
-        try self.fileManager.copyItem(at: src, to: dest)
+        do {
+            try self.fileManager.copyItem(at: src, to: dest)
+        } catch {
+            throw RuntimeError(
+                "Failed to copy sticker file from \(src.path) to \(dest.path): " +
+                "\(error.localizedDescription)"
+            )
+        }
     }
 
     /**
@@ -121,7 +134,11 @@ public class StickerFileManager {
     private func commitStickerDirectory(tempDirURL: URL) throws {
         let stickerDirURL = self.stickerDirectoryURL()
         try self.ensureDirectoryExists(stickerDirURL)
-        _ = try self.fileManager.replaceItemAt(stickerDirURL, withItemAt: tempDirURL)
+        do {
+            _ = try self.fileManager.replaceItemAt(stickerDirURL, withItemAt: tempDirURL)
+        } catch {
+            throw RuntimeError("Failed to commit sticker directory: \(error.localizedDescription)")
+        }
     }
 
     /**
@@ -137,25 +154,36 @@ public class StickerFileManager {
         ]
 
         if !self.fileManager.fileExists(atPath: dirURL.path) {
-            return StickerLoadResult(succeeded: [], skipped: [])
+            return StickerLoadResult(succeeded: [], errors: [])
         }
 
-        var errors = [String]()
+        var result = StickerLoadResult(succeeded: [], errors: [])
         guard let dirEnumerator = self.fileManager.enumerator(
             at: dirURL,
             includingPropertiesForKeys: resourceKeys,
             options: [.skipsHiddenFiles, .producesRelativePathURLs],
             errorHandler: { (url: URL, error: Error) -> Bool in
-                errors.append("Failed to enumerate \(url.path): \(error.localizedDescription)")
+                result.errors.append(RuntimeError(
+                    "Failed to enumerate \(url.relativePath): \(error.localizedDescription)"
+                ))
                 return true
             }
         ) else {
             throw RuntimeError("Failed to create directory enumerator")
         }
 
-        var result = StickerLoadResult(succeeded: [], skipped: [])
         for case let fileURL as URL in dirEnumerator {
-            let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
+            let resourceValues: URLResourceValues
+            do {
+                resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
+            } catch {
+                result.errors.append(RuntimeError(
+                    "Failed to get properties of \(fileURL.relativePath): " +
+                    "\(error.localizedDescription)"
+                ))
+                continue
+            }
+
             guard
                 let isRegularFile = resourceValues.isRegularFile,
                 let utiType = resourceValues.contentType,
@@ -174,18 +202,14 @@ public class StickerFileManager {
             let file = StickerFile(name: String(name), url: fileURL, utiType: utiType)
 
             if !ImageLoader.loadableImageFormats.contains(utiType) {
-                logger.warning(
-                    "Skipping \(fileURL.relativePath) because it has type \(utiType.identifier)"
-                )
-                result.skipped.append(file)
+                result.errors.append(RuntimeError(
+                    "Skipping \(fileURL.relativePath) because it has non-image type: " +
+                    "\(utiType.identifier)"
+                ))
                 continue
             }
 
             result.succeeded.append(file)
-        }
-
-        if !errors.isEmpty {
-            throw RuntimeError(errors.joined(separator: "\n"))
         }
 
         return result
@@ -200,7 +224,11 @@ public class StickerFileManager {
     public func ensureReadmeFileExists(content: String) throws {
         let fileURL = self.readmeFileURL()
         if !self.fileManager.fileExists(atPath: fileURL.path) {
-            try content.write(to: fileURL, atomically: true, encoding: .utf8)
+            do {
+                try content.write(to: fileURL, atomically: true, encoding: .utf8)
+            } catch {
+                throw RuntimeError("Failed to create README file: \(error.localizedDescription)")
+            }
         }
     }
 
