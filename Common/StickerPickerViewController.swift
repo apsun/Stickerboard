@@ -171,7 +171,7 @@ public class StickerPickerViewController
             )
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
-                subitem: item,
+                repeatingSubitem: item,
                 count: columns
             )
 
@@ -187,7 +187,14 @@ public class StickerPickerViewController
             StickerPickerCell.self,
             forCellWithReuseIdentifier: StickerPickerCell.reuseIdentifier
         )
+
         self.collectionView.backgroundColor = .clear
+        if #available(iOS 26.0, *) {
+            self.collectionView.topEdgeEffect.isHidden = true
+            self.collectionView.bottomEdgeEffect.isHidden = true
+            self.collectionView.leftEdgeEffect.isHidden = true
+            self.collectionView.rightEdgeEffect.isHidden = true
+        }
 
         let longPress = UILongPressGestureRecognizer(
             target: self,
